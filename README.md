@@ -1,4 +1,4 @@
-# will
+# eudora
 
 ## 安裝步驟
 
