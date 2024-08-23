@@ -1,4 +1,4 @@
-# chi
+# TechEcho
 
 ## 安裝步驟
 
