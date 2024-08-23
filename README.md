@@ -1,4 +1,4 @@
-# AstroCamp Batch 17th, Group Adora
+# chi
 
 ## 安裝步驟
 
