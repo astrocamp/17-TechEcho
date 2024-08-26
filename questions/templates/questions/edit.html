@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <form action="{% url "questions:show" question.id%}" method="POST">
+        {% csrf_token %}
+
+        {{form}}
+
+        <button>finish this edit</button>
+    </form>
+{% endblock  %}

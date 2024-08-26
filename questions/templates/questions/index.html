@@ -1,0 +1,22 @@
+{% extends 'layouts/base.html' %}
+
+
+
+{% block content %}
+    <h1>Check out the questions</h1>
+    <ul>
+        {% for question in questions %}
+            <li>
+                <a href="{% url "questions:show" question.id%}">
+                    <h3>{{question.title}}</h3>
+                </a>
+                <p>{{question.content}}</p>
+                <p>{{question.user}}</p>
+                {% comment %} upvotes {% endcomment %}
+                {% comment %} answers(count) {% endcomment %}
+                {% comment %} views {% endcomment %}
+                {% comment %} tags {% endcomment %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock  %}

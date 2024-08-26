@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <h1>{{question.title}}</h1>
+    <div>
+        <span>{{question.create_at}}</span>
+        <span>{{question.modified_at}}</span>
+        {% comment %} view counts {% endcomment %}
+    </div>
+
+    <article>
+        {{question.details}}
+        {{question.expectations}}
+    </article>
+
+    {% comment %} tags {% endcomment %}
+
+    <div>
+        {% comment %} <button>share</button> {% endcomment %}
+        <a href="{% url "questions:edit" question.id%}">edit</a>
+        <button>follow</button>
+    </div>
+{% endblock  %}

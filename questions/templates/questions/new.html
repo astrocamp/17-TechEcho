@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <form action="{% url "questions:index" %}" method="POST">
+        {% csrf_token %}
+
+        {{form}}
+
+        <button>post this question</button>
+    </form>
+{% endblock %}
