@@ -16,23 +16,74 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Question',
+            name="Question",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=50)),
-                ('details', models.TextField(validators=[django.core.validators.MinLengthValidator(50, 'the field must contain at least 50 characters')])),
-                ('expectations', models.TextField(validators=[django.core.validators.MinLengthValidator(50, 'the field must contain at least 50 characters')])),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('modified_at', models.DateTimeField(auto_now_add=True)),
-                ('follow', models.ManyToManyField(related_name='follows', to=settings.AUTH_USER_MODEL)),
-                ('like', models.ManyToManyField(related_name='likes', to=settings.AUTH_USER_MODEL)),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=50)),
+                (
+                    "details",
+                    models.TextField(
+                        validators=[
+                            django.core.validators.MinLengthValidator(
+                                50, "the field must contain at least 50 characters"
+                            )
+                        ]
+                    ),
+                ),
+                (
+                    "expectations",
+                    models.TextField(
+                        validators=[
+                            django.core.validators.MinLengthValidator(
+                                50, "the field must contain at least 50 characters"
+                            )
+                        ]
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("modified_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "follow",
+                    models.ManyToManyField(
+                        related_name="follows", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "like",
+                    models.ManyToManyField(
+                        related_name="likes", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]
