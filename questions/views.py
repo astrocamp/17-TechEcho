@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Question
-from .forms import QuestionForm
 from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import QuestionForm
+from .models import Question
+
 # Create your views here.
 
 
@@ -9,6 +11,7 @@ def index(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)
         if form.is_valid():
+            form.save()
             messages.success(request, "question posted")
             return redirect("questions:index")
 
@@ -28,10 +31,13 @@ def show(request, id):
     if request.method == "POST":
         form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
+            form.save()
             messages.success(request, "question edited")
             return redirect("questions:show", id=id)
         messages.error(request, "edit fail, retry")
-        return render(request, "question/edit.html", {"form": form, "question": question})
+        return render(
+            request, "questions/edit.html", {"form": form, "question": question}
+        )
 
     return render(request, "questions/show.html", {"question": question})
 
@@ -39,4 +45,11 @@ def show(request, id):
 def edit(request, id):
     question = get_object_or_404(Question, pk=id)
     form = QuestionForm(instance=question)
-    return render(request, "question/edit.html", {"form": form, "question": question})
+    return render(request, "questions/edit.html", {"form": form, "question": question})
+
+
+def delete(request, id):
+    if request.method == "POST":
+        question = get_object_or_404(Question, pk=id)
+        question.delete()
+        return redirect("questions:index")

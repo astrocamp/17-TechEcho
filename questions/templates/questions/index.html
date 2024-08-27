@@ -3,20 +3,23 @@
 
 
 {% block content %}
-    <h1>Check out the questions</h1>
-    <ul>
-        {% for question in questions %}
-            <li>
-                <a href="{% url "questions:show" question.id%}">
-                    <h3>{{question.title}}</h3>
-                </a>
-                <p>{{question.content}}</p>
-                <p>{{question.user}}</p>
-                {% comment %} upvotes {% endcomment %}
-                {% comment %} answers(count) {% endcomment %}
-                {% comment %} views {% endcomment %}
-                {% comment %} tags {% endcomment %}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="p-2 border-2">
+        <h1>Check out the questions</h1>
+        <a href="{% url "questions:new" %}" class="btn">問一個新的問題</a>
+        <ul>
+            {% for question in questions %}
+                <li class="border-2 shadow p-2">
+                    <a href="{% url "questions:show" question.id%}">
+                        <h3 class="text-xl link">標題： {{question.title}}</h3>
+                    </a>
+                    <p>內文: {{question.details|striptags|truncatechars:20}}</p>
+                    {% comment %} <p>{{question.user}}</p> {% endcomment %}
+                    {% comment %} upvotes {% endcomment %}
+                    {% comment %} answers(count) {% endcomment %}
+                    {% comment %} views {% endcomment %}
+                    {% comment %} tags {% endcomment %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock  %}

@@ -6,6 +6,7 @@
 
         {{form}}
 
-        <button>finish this edit</button>
+        <button class="btn">完成此編輯</button>
     </form>
+    <a href="{% url "questions:show"  question.id%}" class="btn">放棄此編輯</a>
 {% endblock  %}
