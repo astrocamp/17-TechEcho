@@ -1,4 +1,4 @@
-# AstroCamp Batch 17th, Group Adora
+# TechEcho
 
 ## 安裝步驟
 
@@ -15,14 +15,23 @@
 ## 包含套件
 
 1. CSS: tailwind, daisyUI
-2. JS: 尚未
-3. Python: django, django*extensions, pre-commit, commitizen, python-dotenv,django*
+2. JS: alpine
+3. Python: django, django-extensions, pre-commit, commitizen, python-dotenv
 
 ## Git push 步驟
 
 1. make lint
 2. git add
 3. make commit
+4. make commit
+5. git push -u origin <local>:<remote> (git push)
+
+## Line Pay
+
+1. python manage.py runserver
+2. brew install ngrok/ngrok/ngrok 還要加authtoken
+3. 兩個server 一起開 python and ngrok
+
 
 
 ## Line Pay
