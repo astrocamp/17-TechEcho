@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your VIP Plan</title>
+</head>
+<body>
+    <h1>Choose Your VIP Plan</h1>
+
+    <h2>Basic (Free)</h2>
+    <p>Enjoy limited access with no cost.</p>
+    <a href="{% url 'create_payment' %}?plan=basic"><button>Get Basic</button></a>
+
+    <h2>Premium VIP</h2>
+    <p>Enjoy more features for a small fee.</p>
+    <a href="{% url 'create_payment' %}?plan=premium"><button>Get Premium</button></a>
+
+    <h2>Platinum VIP</h2>
+    <p>Unlock all features and priority support.</p>
+    <a href="{% url 'create_payment' %}?plan=platinum"><button>Get Platinum</button></a>
+</body>
+</html>
