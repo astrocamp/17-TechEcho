@@ -15,10 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-# core/urls.py
-
-# core/urls.py
-
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
@@ -27,3 +24,8 @@ urlpatterns = [
     path("payments/", include("payments.urls")),
     path("", include("payments.urls")),  # This will use the payments index view as root
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]

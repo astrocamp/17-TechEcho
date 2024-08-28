@@ -1,7 +1,8 @@
 # payments/urls.py
 
 from django.urls import path
-from .views import index, create_payment, confirm_payment, cancel_payment
+
+from .views import cancel_payment, confirm_payment, create_payment, index
 
 urlpatterns = [
     path("", index, name="index"),  # This is the root of the payments app

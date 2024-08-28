@@ -1,10 +1,12 @@
-from linepay import LinePayApi
-from django.conf import settings
-from django.shortcuts import render, redirect
-from .models import Payment
-from django.urls import reverse
 import uuid
+
+from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from linepay import LinePayApi
+
+from .models import Payment
 
 
 def index(request):

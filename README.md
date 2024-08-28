@@ -23,3 +23,10 @@
 1. make lint
 2. git add
 3. make commit
+
+
+## Line Pay
+
+1. python manage.py runserver
+2. brew install ngrok/ngrok/ngrok 還要加authtoken
+3. 兩個server 一起開 python and ngrok
