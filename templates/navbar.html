@@ -1,40 +1,83 @@
-<nav class="fixed top-0 left-0 w-full p-6 shadow-sm bg-blue-1" x-data="{ open: false }" @resize.window="if (window.innerWidth > 768) open = false">
+<nav
+  class="sticky top-0 left-0 w-full p-6 shadow-sm bg-blue-1"
+  x-data="{ open: false }"
+  @resize.window="if (window.innerWidth > 768) open = false"
+>
   <div class="flex items-center justify-between">
-      <div class="text-4xl font-bold text-green-3 animate-pulse ">
-          <a href="/">TechEcho( )</a>
-      </div>
-      <button @click="open = !open" class="relative text-xl font-bold md:hidden text-green-3">選單</button>
-      <ul class="hidden space-x-4 text-xl font-bold md:flex text-green-3">
-          <li>
-              <a href="#" class="transition duration-300 ease-in-out hover:text-gray-200">首頁</a>
-          </li>
-          <li>
-              <a href="#" class="transition duration-300 ease-in-out hover:text-gray-200">討論</a>
-          </li>
-          <li>
-              <a href="#" class="transition duration-300 ease-in-out hover:text-gray-200">發問</a>
-          </li>
-          <li>
-              <a href="#" class="transition duration-300 ease-in-out hover:text-gray-200">設定</a>
-          </li>
-      </ul>
+    <div class="text-4xl font-bold text-green-3 animate-pulse">
+      <a href="/">TechEcho( )</a>
+    </div>
+    <button
+      @click="open = !open"
+      class="relative text-xl font-bold md:hidden text-green-3"
+    >
+      選單
+    </button>
+    <ul class="hidden space-x-4 text-xl font-bold md:flex text-green-3">
+      <li>
+        <a
+          href="#"
+          class="transition duration-300 ease-in-out hover:text-gray-200"
+          >首頁</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="transition duration-300 ease-in-out hover:text-gray-200"
+          >討論</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="transition duration-300 ease-in-out hover:text-gray-200"
+          >發問</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          class="transition duration-300 ease-in-out hover:text-gray-200"
+          >設定</a
+        >
+      </li>
+    </ul>
   </div>
 
-  <ul class="absolute right-0 z-10 w-48 mt-6 text-lg font-bold shadow-lg bg-vanilla-5"
-      x-show="open"
-      @click.away="open = false"
-      style="display: none;">
-      <li>
-          <a href="#" class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 ">首頁</a>
-      </li>
-      <li>
-          <a href="#" class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">討論</a>
-      </li>
-      <li>
-          <a href="#" class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">發問</a>
-      </li>
-      <li>
-          <a href="#" class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">設定</a>
-      </li>
+  <ul
+    class="absolute right-0 z-10 w-48 mt-6 text-lg font-bold shadow-lg bg-vanilla-5"
+    x-show="open"
+    @click.away="open = false"
+    style="display: none"
+  >
+    <li>
+      <a
+        href="#"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >首頁</a
+      >
+    </li>
+    <li>
+      <a
+        href="#"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >討論</a
+      >
+    </li>
+    <li>
+      <a
+        href="#"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >發問</a
+      >
+    </li>
+    <li>
+      <a
+        href="#"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >設定</a
+      >
+    </li>
   </ul>
 </nav>
