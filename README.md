@@ -11,7 +11,6 @@
 
 1. `npm run dev` 執行 esbuild 和 tailwind 除屑
 2. `make server` 開啟伺服器
-3. `python manage.py collectstatic` 搜集靜態檔案
 
 ## 包含套件
 
