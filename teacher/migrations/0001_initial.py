@@ -17,14 +17,45 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('expertise', models.CharField(max_length=255)),
-                ('resume', models.TextField(validators=[django.core.validators.MinLengthValidator(150), django.core.validators.MaxLengthValidator(500)])),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('rating', models.FloatField(default=0.0, validators=[django.core.validators.MinLengthValidator(1.0), django.core.validators.MaxLengthValidator(5.0)])),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("expertise", models.CharField(max_length=255)),
+                (
+                    "resume",
+                    models.TextField(
+                        validators=[
+                            django.core.validators.MinLengthValidator(150),
+                            django.core.validators.MaxLengthValidator(500),
+                        ]
+                    ),
+                ),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "rating",
+                    models.FloatField(
+                        default=0.0,
+                        validators=[
+                            django.core.validators.MinLengthValidator(1.0),
+                            django.core.validators.MaxLengthValidator(5.0),
+                        ],
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

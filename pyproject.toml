@@ -9,8 +9,11 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "^3.12"
 django = "^5.1"
-psycopg2-binary = "^2.9.9"
-psycopg2 = "^2.9.9"
+psycopg2 = {version = "^2.9.9", extras = ["windows"]}
+
+[tool.poetry.extras]
+mac = ["psycopg2-binary"]
+windows = ["psycopg2"]
 
 
 [tool.poetry.group.dev.dependencies]
