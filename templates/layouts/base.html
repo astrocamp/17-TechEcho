@@ -7,16 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'styles/style.css' %}" rel="stylesheet">
     <script src="{% static 'scripts/app.js' %}" defer></script>
-    <title>Base</title>
+    <title>TechEcho()</title>
 </head>
 <body>
-    <nav class="fixed top-0 left-0 w-full p-6 shadow-sm bg-blue-1" x-data="{ open: false, submenuOpen: false }" @resize.window="if (window.innerWidth > 768) open = false">
+    <nav class="sticky top-0 left-0 w-full p-6 shadow-sm bg-blue-1" x-data="{ open: false, submenuOpen: false, submenuOpen2: false }" @resize.window="if (window.innerWidth > 768) open = false">
         <div class="flex items-center justify-between">
             <div class="text-4xl font-bold text-white animate-pulse ">
                 <a href="/">TechEcho( )</a>
             </div>
             <button @click="open = !open" class="relative text-xl text-white md:hidden">選單</button>
             <ul class="hidden space-x-4 text-xl text-white md:flex">
+                <li class="relative">
+                    <a href="#" @click="submenuOpen2 = !submenuOpen2" class="transition duration-300 ease-in-out hover:text-green-3">找/當專家</a>
+                    <ul x-show="submenuOpen2" @click.away="submenuOpen2 = false" class="absolute left-0 z-20 mt-8 shadow-lg text-green-3 w-60 bg-vanilla-5" style="display: none;">
+                        <li><a href="{% url 'payments:index' %}" class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">線上諮詢</a></li>
+                        <li><a href="{% url 'payments:mentor' %}" class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">成為專家</a></li>
+                    </ul>
+                </li>
                 <li class="relative">
                     <a href="#" @click="submenuOpen = !submenuOpen" class="transition duration-300 ease-in-out hover:text-green-3">討論</a>
                     <ul x-show="submenuOpen" @click.away="submenuOpen = false" class="absolute left-0 z-20 mt-8 shadow-lg text-green-3 w-60 bg-vanilla-5" style="display: none;">

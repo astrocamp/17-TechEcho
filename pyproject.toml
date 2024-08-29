@@ -10,6 +10,7 @@ package-mode = false
 python = "^3.12"
 django = "^5.1"
 psycopg2-binary = "^2.9.9"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 django-extensions = "^3.2.3"
