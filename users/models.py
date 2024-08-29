@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 
 class Users(models.Model):
     name = models.CharField(max_length=100)
@@ -7,6 +8,6 @@ class Users(models.Model):
     is_teacher = models.BooleanField(default=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     third_party = models.URLField(null=True, blank=True)
-    
+
     def __str__(self):
         return self.name
