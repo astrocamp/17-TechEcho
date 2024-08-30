@@ -15,7 +15,7 @@
                 <p>
                     問題描述： {{question.details|linebreaksbr}}
                 </p>
-                <p> 
+                <p>
                     期待目標： {{question.expectations|linebreaksbr}}
                 </p>
             </article>
@@ -27,26 +27,26 @@
             <form action="{% url "questions:upvotes" question.id%}" method="POST">
                 {% csrf_token %}
                 <button>
-                    <i class="fa-solid fa-arrow-up" style="color: #ecd1c9;"></i> 
+                    <i class="fa-solid fa-arrow-up" style="color: #ecd1c9;"></i>
                 </button>
             </form>
 
-            {% comment %} 
+            {% comment %}
                 change color when clicked
                 <i class="fa-solid fa-arrow-up" style="color: #e3582c;"></i>
             {% endcomment %}
-            
+
             {{question.votes_count}}
-            
+
             <form action="{% url "questions:downvotes" question.id%}" method="POST">
                 {% csrf_token %}
                 <button>
                     <i class="fa-solid fa-arrow-down" style="color: #ecd1c9;"></i>
                 </button>
             </form>
-            
-            {% comment %}             
-                <i class="fa-solid fa-arrow-down" style="color: #e3582c;"></i> 
+
+            {% comment %}
+                <i class="fa-solid fa-arrow-down" style="color: #e3582c;"></i>
             {% endcomment %}
         </div>
 

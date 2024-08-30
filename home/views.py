@@ -1,9 +1,6 @@
+# home/views.py
 from django.shortcuts import render
 
 
-def index(req):
-    return render(req, "home/index.html")
-
-
-def nav(req):
-    return render(req, "home/nav.html")
+def index(request):
+    return render(request, "home/index.html")

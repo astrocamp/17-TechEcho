@@ -7,33 +7,37 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('questions', '0003_alter_question_details_alter_question_expectations'),
+        ("questions", "0003_alter_question_details_alter_question_expectations"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='question',
-            name='like',
+            model_name="question",
+            name="like",
         ),
         migrations.AddField(
-            model_name='question',
-            name='answers_count',
+            model_name="question",
+            name="answers_count",
             field=models.IntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='question',
-            name='downvote',
-            field=models.ManyToManyField(related_name='downvotes', to=settings.AUTH_USER_MODEL),
+            model_name="question",
+            name="downvote",
+            field=models.ManyToManyField(
+                related_name="downvotes", to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='question',
-            name='upvote',
-            field=models.ManyToManyField(related_name='upvotes', to=settings.AUTH_USER_MODEL),
+            model_name="question",
+            name="upvote",
+            field=models.ManyToManyField(
+                related_name="upvotes", to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='question',
-            name='votes_count',
+            model_name="question",
+            name="votes_count",
             field=models.IntegerField(default=0),
         ),
     ]

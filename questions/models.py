@@ -20,7 +20,7 @@ class Question(models.Model):
 
     votes_count = models.IntegerField(default=0)
     answers_count = models.IntegerField(default=0)
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now_add=True)
 

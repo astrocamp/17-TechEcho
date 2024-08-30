@@ -1,7 +1,7 @@
 <nav class="sticky top-0 left-0 z-20 w-full p-6 shadow-sm bg-blue-1" x-data="{ open: false, submenuOpen: false, expertOpen: false }" @resize.window="if (window.innerWidth > 768) open = false">
     <div class="flex items-center justify-between">
         <div class="text-4xl font-bold text-white animate-pulse whitespace-nowrap">
-            <a href="{% url 'index' %}">TechEcho( )</a>
+            <a href="{% url 'home_index' %}">TechEcho</a>
         </div>
 
         <button @click="open = !open" class="relative text-xl text-white md:hidden whitespace-nowrap">選單</button>
