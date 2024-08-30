@@ -20,7 +20,7 @@
           <div class="mt-1">
             <input
               id="name"
-              name="name"
+              name="username"
               type="name"
               autocomplete="name"
               required
@@ -91,12 +91,12 @@
             登入
           </button>
           <br />
-          <button
-            type="submit"
+          <a
+            href="{% url 'users:register' %}"
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-2 hover:bg-green-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             註冊
-          </button>
+          </a>
         </div>
       </form>
       <div class="mt-6">
