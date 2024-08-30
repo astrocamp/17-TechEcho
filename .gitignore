@@ -5,3 +5,5 @@ node_modules/
 static/styles/
 static/scripts/
 .env
+.vscode/
+.DS_Store
