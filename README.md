@@ -1,4 +1,4 @@
-# TechEcho
+# AstroCamp Batch 17th, Group Adora
 
 ## 安裝步驟
 
@@ -15,13 +15,11 @@
 ## 包含套件
 
 1. CSS: tailwind, daisyUI
-2. JS: alpine
-3. Python: django, django-extensions, pre-commit, commitizen, python-dotenv
+2. JS: 尚未
+3. Python: django, django*extensions, pre-commit, commitizen, python-dotenv,django*
 
 ## Git push 步驟
 
 1. make lint
-2. git status
-3. git add .........
-4. make commit
-5. git push -u origin <local>:<remote> (git push)
+2. git add
+3. make commit
