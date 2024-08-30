@@ -1,13 +1,17 @@
-{% extends "layouts/base.html" %} {% block content %}
+{% extends "layouts/base.html" %}
+{% block content %}
 
+{% include "layouts/navbar.html" %}
 <div class="outside">
-  <div class="box"></div>
-  <div class="reverse-box">TechEcho</div>
+    <div class="box">
+    </div>
+    <div class="reverse-box">
+      TechEcho
+    </div>
 </div>
 
 <div class="flex items-center justify-center h-screen mt-auto">
     <div class="relative w-full max-w-xl px-2">
-        <!-- Search form -->
         <form method="GET" action="{% url 'search_view' %}" class="flex items-center relative">
             <input
                 type="text"
@@ -16,7 +20,6 @@
                 placeholder="Search..."
                 value="{{ query }}"
             >
-            <!-- Search button (hidden) -->
             <button type="submit" class="absolute text-gray-500 bottom-4 right-5">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -24,6 +27,20 @@
         <span class="tag-blue">JavaScript</span>
         <span class="tag-red">Python</span>
     </div>
+</div>
+
+
+<div class="mt-10">
+    {% if results %}
+        <h2 class="text-xl font-semibold">Search Results for "{{ query }}":</h2>
+        <ul>
+            {% for result in results %}
+                <li>{{ result.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
 </div>
 
 {% endblock content %}

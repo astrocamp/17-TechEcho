@@ -1062,4 +1062,5 @@ windows = ["psycopg2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
+
 content-hash = "ee63c7106c156a492d23b1a47e39214af571d63e8a274bd576f8934e49ddff96"
