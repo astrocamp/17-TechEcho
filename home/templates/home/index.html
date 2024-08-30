@@ -4,7 +4,7 @@
 <div class="flex items-center justify-center min-h-screen">
     <div class="relative w-full max-w-xl px-2">
         <!-- Search form -->
-        <form method="GET" action="{% url 'search' %}">
+        <form method="GET" action="{% url 'search_view' %}"> <!-- Ensure 'search_view' matches your view's URL name -->
             <input
                 type="text"
                 name="q"
@@ -19,6 +19,5 @@
         </form>
     </div>
 </div>
-
 {% endblock content %}
 

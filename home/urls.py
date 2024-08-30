@@ -1,8 +1,7 @@
-from django.urls import path
-
-from .views import index, search_view
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
-    path("", index, name="index"),
-    path("search/", search_view, name="search"),
+    path("admin/", admin.site.urls),
+    path("search/", include("search.urls")),
 ]

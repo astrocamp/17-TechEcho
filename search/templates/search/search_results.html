@@ -1,0 +1,6 @@
+from django.shortcuts import render
+
+def search_view(request):
+    query = request.GET.get('q')
+    results = []  # Your logic to fetch search results based on query
+    return render(request, 'search/search_results.html', {'results': results})
