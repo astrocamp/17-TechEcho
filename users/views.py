@@ -39,6 +39,7 @@ def log_in(request, id=None):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+        email = request.POST.get("email")
 
         user = authenticate(request, username=username, password=password)
         if user is not None:

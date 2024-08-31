@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "home",
     "teacher",
     "questions",
+    "users",
 ]
 
 if is_dev():
