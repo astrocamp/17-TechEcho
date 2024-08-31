@@ -61,7 +61,7 @@ def upvotes(request, id):
         question.votes_count += 1
         question.save()
         return redirect("questions:show", id=id)
-       
+
 
 def downvotes(request, id):
     if request.method == "POST":
