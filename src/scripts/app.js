@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (input) {
         console.log("Input element found", input);
         new Tagify(input, {
-            whitelist: ["JavaScript", "Python", "Ruby", "Java", "C++"],
+            whitelist: ["JavaScript", "Python", "Ruby"],
             maxTags: 10,
             dropdown: {
                 maxItems: 20,

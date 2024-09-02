@@ -8,6 +8,9 @@
     <link href="{% static 'styles/style.css' %}" rel="stylesheet">
     <link href="{% static 'animation/ammi.css' %}" rel="stylesheet">
     <script src="{% static 'scripts/app.js' %}" defer></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <title>Base</title>
     <style>
         .tagify {
@@ -15,26 +18,29 @@
             max-width: 500px;
             background: white;
         }
-
+        .tags-look {
+            border: transparent;
+        }
         .tags-look .tagify__dropdown__item {
             display: inline-block;
-            border-radius: 3px;
+            border-radius: 10px;
+            overflow: hidden;
             padding: .3em .5em;
-            border: 1px solid #CCC;
-            background: #F3F3F3;
+            border: 1px solid white;
+            background: #025959;
             margin: .2em;
             font-size: .85em;
-            color: black;
+            color: white;
             transition: 0s;
         }
 
         .tags-look .tagify__dropdown__item--active {
-            color: black;
+            color: white;
         }
 
         .tags-look .tagify__dropdown__item:hover {
-            background: lightyellow;
-            border-color: gold;
+            background: gold;
+            border-color: lightyellow;
         }
     </style>
 </head>
