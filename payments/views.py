@@ -5,34 +5,34 @@ from .ecpay.ecpay_create_order import main
 
 
 # Create your views here.
-def vip(req):
+def vip(request):
     pass
 
 
-def new(req):
+def new(request):
     pass
 
 
-def index(req):
-    return render(req, "payments/index.html")
+def index(request):
+    return render(request, "payments/index.html")
 
 
-def mentor(req):
-    return render(req, "payments/mentor.html")
+def mentor(request):
+    return render(request, "payments/mentor.html")
 
 
-def payment_option(req):
-    return render(req, "payments/payment_option.html")
+def payment_option(request):
+    return render(request, "payments/payment_option.html")
 
 
-def ecpay(req):
+def ecpay(request):
     return HttpResponse(main())
 
 
-def linepay(req):
+def linepay(request):
     pass
 
 
 @csrf_exempt
-def after_pay(req):
-    return render(req, "payments/after_pay.html")
+def after_pay(request):
+    return render(request, "payments/after_pay.html")
