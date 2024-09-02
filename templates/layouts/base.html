@@ -1,58 +1,64 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'styles/style.css' %}" rel="stylesheet">
-    <link href="{% static 'animation/ammi.css' %}" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{% static 'styles/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'animation/ammi.css' %}" rel="stylesheet" />
     <script src="{% static 'scripts/app.js' %}" defer></script>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <title>Base</title>
     <style>
-        .tagify {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-        }
-        .tags-look {
-            border: transparent;
-        }
-        .tags-look .tagify__dropdown__item {
-            display: inline-block;
-            border-radius: 10px;
-            overflow: hidden;
-            padding: .3em .5em;
-            border: 1px solid white;
-            background: #025959;
-            margin: .2em;
-            font-size: .85em;
-            color: white;
-            transition: 0s;
-        }
+      .tagify {
+        width: 100%;
+        max-width: 500px;
+        background: white;
+      }
+      .tags-look {
+        border: transparent;
+      }
+      .tags-look .tagify__dropdown__item {
+        display: inline-block;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 0.3em 0.5em;
+        border: 1px solid white;
+        background: #025959;
+        margin: 0.2em;
+        font-size: 0.85em;
+        color: white;
+        transition: 0s;
+      }
 
-        .tags-look .tagify__dropdown__item--active {
-            color: white;
-        }
+      .tags-look .tagify__dropdown__item--active {
+        color: white;
+      }
 
-        .tags-look .tagify__dropdown__item:hover {
-            background: gold;
-            border-color: lightyellow;
-        }
+      .tags-look .tagify__dropdown__item:hover {
+        background: gold;
+        border-color: lightyellow;
+      }
     </style>
-</head>
-<body class="flex flex-col min-h-screen">
-    <div class="flex-grow">
-        {% block content %}
-        {% endblock %}
-    </div>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    {% include 'layouts/navbar.html' %}
+    <div class="flex-grow">{% block content %} {% endblock %}</div>
     <footer class="w-full p-4 text-center text-white bg-blue-1">
-        <a href="#" class="transition duration-300 ease-in-out hover:text-green-3">📞 &ensp;聯絡我們</a> |
-        <a href="#" class="transition duration-300 ease-in-out hover:text-green-3">🔐 &ensp;隱私政策</a> |
-        <a href="#" class="transition duration-300 ease-in-out hover:text-green-3">📝 &ensp;服務條款</a>
+      <a href="#" class="transition duration-300 ease-in-out hover:text-green-3"
+        >📞 &ensp;聯絡我們</a
+      >
+      |
+      <a href="#" class="transition duration-300 ease-in-out hover:text-green-3"
+        >🔐 &ensp;隱私政策</a
+      >
+      |
+      <a href="#" class="transition duration-300 ease-in-out hover:text-green-3"
+        >📝 &ensp;服務條款</a
+      >
     </footer>
-</body>
+  </body>
 </html>

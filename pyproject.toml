@@ -11,6 +11,8 @@ python = "^3.12"
 django = "^5.1"
 psycopg2-binary = {version = "^2.9.9", extras = ["mac"]}
 psycopg2 = {version = "^2.9.9", extras = ["windows"]}
+social-auth-app-django = "^5.4.2"
+social-auth-core = "^4.5.4"
 
 [tool.poetry.extras]
 mac = ["psycopg2-binary"]

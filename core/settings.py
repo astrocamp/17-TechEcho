@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "users",
 ]
 
+
 if is_dev():
     INSTALLED_APPS += [
         "django_extensions",
@@ -82,6 +83,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -148,3 +151,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+AUTHENTICATION_BACKENDS = [
+    "users.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]

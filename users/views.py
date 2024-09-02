@@ -42,11 +42,16 @@ def log_in(request, id=None):
         email = request.POST.get("email")
 
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            login(request, user)
-            return redirect("pages")
+
+            if user.email == email:
+                login(request, user)
+                return redirect("pages")
+            else:
+                messages.error(request, "登入失敗：電子郵件地址不匹配")
         else:
-            messages.error(request, "登入失敗")
+            messages.error(request, "登入失敗：用戶名或密碼不正確")
 
     return render(request, "login.html", {"existing_user": existing_user})
 
