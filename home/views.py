@@ -5,5 +5,5 @@ def index(req):
     return render(req, "home/index.html")
 
 
-def nav(req):
-    return render(req, "home/nav.html")
+# def nav(req):
+#     return render(req, "home/nav.html") 開發用
