@@ -36,7 +36,7 @@ SECRET_KEY = os.getenv("APP_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = is_dev()
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "users",
     "search",
+    "payments",
 ]
 
 

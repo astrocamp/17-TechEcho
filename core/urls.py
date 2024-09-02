@@ -27,4 +27,5 @@ urlpatterns = [
     path("auth/", include("social_django.urls", namespace="social")),
     path("questions/<int:id>/answers/", include("answers.urls")),
     path("search/", include("search.urls")),
+    path("payments/", include("payments.urls")),
 ]

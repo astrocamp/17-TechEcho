@@ -1,0 +1,19 @@
+{% extends "layouts/base.html" %}
+
+
+{% block content %}
+
+<h1 class="text-2xl font-bold text-gray-900 mb-4">解鎖向領域專家 或 編程大神 直接交流的道路! </h1>
+        <h2 class="text-gray-700 mb-6">
+            付費升級為Premium用戶即可發起線上指導的申請，讓您的學習之路更上一層樓。
+            <br>
+            我們深知編程學習在非即時性文字交流時的局限性，透過TechEcho的線上互動工具、您可與技術專家即時(文字/語音)通訊來進行高效率的溝通交流，並透過線上白板、共編程式碼等介面釐清相關問題與知識觀念。
+        </h2>
+        <h2 class="text-gray-700 mb-6">
+            無論您想提升職場技能、學術成就還是個人興趣，讓TechEcho 與 技術社群的各方專家給予您學習、解決問題道路上更多的互動成長機會，打開成功的大門！
+        </h2>
+
+        <a href="{% url 'payments:payment_option' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">立即開啟高速學習的大門</a>
+    </div>
+
+{% endblock  %}
