@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 
-from search.models import Question
+from questions.models import Question
 
 
 def home_index(request):
@@ -19,7 +19,7 @@ def search_view(request):
     results = []
     if query:
         results = Question.objects.filter(
-            Q(title__icontains=query) | Q(content__icontains=query)
+            Q(title__icontains=query) | Q(details__icontains=query)
         )
 
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
