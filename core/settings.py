@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "home",
     "teachers",
     "questions",
+    "taggit",
     "answers",
     "ckeditor",
     "users",
@@ -157,6 +158,10 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# for Taggit, allows labels to be case insensitive
+TAGGIT_CASE_INSENSITIVE = True
 
 AUTHENTICATION_BACKENDS = [
     "users.backends.EmailBackend",

@@ -22,6 +22,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@yaireo/tagify": "^4.31.3",
     "alpinejs": "^3.14.1",
+    "htmx.org": "^2.0.2",
     "sweetalert2": "^11.12.4"
   }
 }

@@ -1,7 +1,8 @@
-import "./fontawesome";
+import "./fontawesome"
+import "./components"
+import 'htmx.org';
 import Alpine from 'alpinejs';
 import Tagify from '@yaireo/tagify';
-import '@yaireo/tagify/dist/tagify.css';
 
 document.addEventListener('DOMContentLoaded', function () {
     var input = document.querySelector('#tags');

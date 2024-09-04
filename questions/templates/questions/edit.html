@@ -4,9 +4,17 @@
     <form action="{% url "questions:show" question.id%}" method="POST">
         {% csrf_token %}
 
-        {{form}}
+        {% for field in form %}
+            <div class="form-control">
+                <label class="label">{{ field.label }}</label>
+                {{ field }}
+                <span class="text-red-500">{{ field.errors }}</span>
+            </div>
+        {% endfor %}
+
+        {% include "questions/_labels.html" with question=question only %}
 
         <button class="btn">完成此編輯</button>
+        <a href="{% url "questions:show"  question.id%}" class="btn">放棄此編輯</a>
     </form>
-    <a href="{% url "questions:show"  question.id%}" class="btn">放棄此編輯</a>
 {% endblock  %}

@@ -1,0 +1,20 @@
+{% load question_labels %}
+<div class="my-2">
+    <label for="label
+    s">標籤</label>
+    <input
+        required
+        x-data="label_input"
+        type="text"
+        name="labels"
+        class="input input-bordered w-full p-1"
+        placeholder="至少要填一個標籤"
+        {% if question %}
+            value="
+                {% for label in question|question_labels %}
+                    {{label}},
+                {% endfor %}
+            "
+        {% endif %}
+    />
+</div>

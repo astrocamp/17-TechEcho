@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -13,14 +15,24 @@ from .models import Question
 def index(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "question posted")
+        labels = request.POST.get("labels")
+
+        # we require at least one label
+        if labels and form.is_valid():
+            instance = form.save()
+            labels = [label["value"] for label in json.loads(labels)]
+
+            instance.labels.set(labels)
+            instance.save()
+            messages.success(request, "成功提問")
             return redirect("questions:index")
 
-        messages.error(request, "submission fail, retry")
+        messages.error(request, "輸入資料錯誤，請再嘗試")
         return render(request, "questions/new.html", {"form": form})
-    questions = Question.objects.order_by("-id")
+
+    # requires validation
+    order_by = request.GET.get("order_by")
+    questions = Question.objects.order_by(order_by or "-id")
     return render(request, "questions/index.html", {"questions": questions})
 
 
@@ -33,11 +45,19 @@ def show(request, id):
     question = get_object_or_404(Question, pk=id)
     if request.method == "POST":
         form = QuestionForm(request.POST, instance=question)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "question edited")
+        labels = request.POST.get("labels")
+        # we require at least one label
+        if labels and form.is_valid():
+            instance = form.save(commit=False)
+            labels = [label["value"] for label in json.loads(labels)]
+            instance.labels.set(labels)
+            instance.save()
+            form.save_m2m()
+
+            messages.success(request, "編輯成功")
             return redirect("questions:show", id=id)
-        messages.error(request, "edit fail, retry")
+
+        messages.error(request, "編輯失敗")
         return render(
             request, "questions/edit.html", {"form": form, "question": question}
         )
@@ -46,14 +66,23 @@ def show(request, id):
     return render(
         request,
         "questions/show.html",
-        {"question": question, "answers": answers, "form": form},
+        {
+            "question": question,
+            "answers": answers,
+            "form": form,
+            "labels": question.labels.all(),
+        },
     )
 
 
 def edit(request, id):
     question = get_object_or_404(Question, pk=id)
     form = QuestionForm(instance=question)
-    return render(request, "questions/edit.html", {"form": form, "question": question})
+    return render(
+        request,
+        "questions/edit.html",
+        {"form": form, "question": question, "labels": question.labels.all()},
+    )
 
 
 def delete(request, id):
@@ -63,17 +92,17 @@ def delete(request, id):
         return redirect("questions:index")
 
 
-def upvotes(request, id):
+def votes(request, id):
     if request.method == "POST":
         question = get_object_or_404(Question, pk=id)
-        question.votes_count += 1
-        question.save()
+        votes_change = request.POST.get("votes_change")
+        # only predefined change in value is allowed
+        if votes_change in ("1", "-1"):
+            question.votes_count += int(votes_change)
+            question.save()
+
         return redirect("questions:show", id=id)
 
 
-def downvotes(request, id):
-    if request.method == "POST":
-        question = get_object_or_404(Question, pk=id)
-        question.votes_count -= 1
-        question.save()
-        return redirect("questions:show", id=id)
+def bookmark(request, id):
+    pass

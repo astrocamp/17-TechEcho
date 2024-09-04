@@ -1,12 +1,25 @@
 {% extends 'layouts/base.html' %}
 
+{% comment %}
+    textarea, textarea-bordered
+{% endcomment %}
+
 {% block content %}
-    <form action="{% url "questions:index" %}" method="POST">
+    <form class="p-6 max-w-4xl mx-auto relative" action="{% url "questions:index" %}" method="POST">
         {% csrf_token %}
 
-        {{form}}
+        {% for field in form %}
+            <div class="form-control">
+                <label class="label">{{ field.label }}</label>
+                {{ field }}
+                <span class="text-red-500">{{ field.errors }}</span>
+            </div>
+        {% endfor %}
+
+        {% include "questions/_labels.html" %}
 
         <button class="btn">完成此新增</button>
+        <a href="{% url "questions:index" %}" class="btn">回到問題列表</a>
     </form>
-    <a href="{% url "questions:index" %}" class="btn">回到首頁</a>
+
 {% endblock %}
