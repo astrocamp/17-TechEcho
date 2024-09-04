@@ -54,9 +54,9 @@
                 </button>
             </form>
         {% else %}
-            <span class="text-gray-500">
-                {{ answer.votes_count }}123
-            </span>
+            <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
+            <span class="text-gray-500">{{ answer.votes_count }}</span>
+            <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
         {% endif %}
     </div>
 </section>
