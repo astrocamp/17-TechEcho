@@ -36,8 +36,7 @@
         </form>
     </div>
 
-    {% comment %} 投票功能 {% endcomment %}
-    {% comment %} <div class="p-2 flex gap-2">
+    <div class="p-2 flex gap-2">
         {% if user.is_authenticated %}
             <form hx-post="{% url 'answers:vote' answer.id 'upvote' %}" hx-target="#votes-count-{{ answer.id }}" hx-swap="innerHTML">
                 {% csrf_token %}
@@ -59,5 +58,5 @@
                 {{ answer.votes_count }}123
             </span>
         {% endif %}
-    </div> {% endcomment %}
+    </div>
 </section>
