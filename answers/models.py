@@ -17,3 +17,14 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class Vote(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    vote_type = models.CharField(
+        max_length=10, choices=[("upvote", "Upvote"), ("downvote", "downvote")]
+    )
+
+    class Meta:
+        unique_together = ("user", "answer")  # 會員對每個答案只能投票一次
