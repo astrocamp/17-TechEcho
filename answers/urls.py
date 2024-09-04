@@ -7,6 +7,5 @@ app_name = "answers"
 urlpatterns = [
     path("", views.index, name="index"),
     path("delete/", views.delete, name="delete"),
-    path("upvote/", views.upvote, name="upvote"),
-    path("downvote/", views.downvote, name="downvote"),
+    path("update/", views.update, name="update"),
 ]

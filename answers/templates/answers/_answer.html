@@ -1,4 +1,4 @@
-<section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
+<section x-data="{ update: false, content: '{{ answer.content|safe }}' }" class="container mx-auto border px-6 py-4 my-4 rounded-lg">
     <div class="flex justify-between">
         <div class="flex items-center mb-4">
             <img src="https://via.placeholder.com/40" alt="photo" class="w-12 h-12 rounded-full mr-4">
@@ -7,34 +7,58 @@
                 <div class="text-gray-500">{{ answer.created_at|date:'Y/m/d H:i' }}</div>
             </div>
         </div>
-        <div class="flex items-center">
-            <form action="{% url 'answers:delete' answer.id%}" method="POST">
+
+        {% if user.is_authenticated and user == answer.user %}
+            <div class="flex items-center">
+                <button @click="update = !update" class="btn btn-sm bg-blue-600 text-white">编辑</button>
+                <form action="{% url 'answers:delete' answer.id%}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-sm bg-red-600 text-white">刪除</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <div x-show="!update" id="answer-content" class="text-lg leading-relaxed mb-4">
+        <p x-text="content"></p>
+    </div>
+
+    <div x-show="update" id="update-form">
+        <form
+            hx-post="{% url 'answers:update' answer.id %}"
+            hx-target="#answer-content"
+            hx-swap="innerHTML"
+            @submit.prevent="update = false"
+        >
+            {% csrf_token %}
+            <textarea x-model="content" name="content" rows="4" class="w-full p-2 border rounded" required></textarea>
+            <button type="submit" class="btn btn-sm bg-green-600 text-white mt-4">保存</button>
+        </form>
+    </div>
+
+
+    {% comment %} 投票功能 {% endcomment %}
+    {% comment %} <div class="p-2 flex gap-2">
+        {% if user.is_authenticated %}
+            <form hx-post="{% url 'answers:vote' answer.id 'upvote' %}" hx-target="#votes-count-{{ answer.id }}" hx-swap="innerHTML">
                 {% csrf_token %}
-                <button class="btn btn-sm bg-red-600 text-white">刪除</button>
+                <button type="submit">
+                    <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
+                </button>
             </form>
-        </div>
-    </div>
 
-    <div class="text-lg leading-relaxed mb-4">
-        {{ answer.content|safe }}
-    </div>
+            <span id="votes-count-{{ answer.id }}">{{ answer.votes_count }}</span>
 
-    <div class="p-2 flex gap-2">
-        <form action="{% url 'answers:upvote' answer.id %}" method="POST">
-            {% csrf_token %}
-            <button>
-                <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
-            </button>
-        </form>
-
-        {{ answer.votes_count }}
-
-        <form action="{% url 'answers:downvote' answer.id %}" method="POST">
-            {% csrf_token %}
-            <button>
-                <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
-            </button>
-        </form>
-    </div>
-
+            <form hx-post="{% url 'answers:vote' answer.id 'downvote' %}" hx-target="#votes-count-{{ answer.id }}" hx-swap="innerHTML">
+                {% csrf_token %}
+                <button>
+                    <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
+                </button>
+            </form>
+        {% else %}
+            <span class="text-gray-500">
+                {{ answer.votes_count }}123
+            </span>
+        {% endif %}
+    </div> {% endcomment %}
 </section>
