@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
@@ -5,75 +7,39 @@ from answers.models import Answer
 from questions.models import Question
 
 
+@login_required
 def index(request, id):
     if request.method == "POST":
         question = get_object_or_404(Question, pk=id)
-        answer = question.answer_set.create(content=request.POST["content"])
+        answer = question.answer_set.create(
+            content=request.POST["content"], user=request.user
+        )
         return redirect("questions:show", id=id)
+    question = get_object_or_404(Question, pk=id)
+    answers = question.answer_set.all()
+    return render(
+        request,
+        "answers/index.html",
+        {"question": question, "answers": answers, "user": request.user},
+    )
 
 
 @csrf_exempt
-def delete_answer(request, id):
+@login_required
+def delete(request, id):
     if request.method == "POST":
         answer = get_object_or_404(Answer, pk=id)
-        answer.delete()
+        if answer.user == request.user:
+            answer.delete()
         return redirect("questions:show", id=answer.question.id)
 
 
-@csrf_exempt
-def upvote_answer(request, id):
+@login_required
+def update(request, id):
     if request.method == "POST":
         answer = get_object_or_404(Answer, pk=id)
-        answer.votes_count += 1
-        answer.save()
-        return redirect("questions:show", id=answer.question.id)
-
-
-@csrf_exempt
-def downvote_answer(request, id):
-    if request.method == "POST":
-        answer = get_object_or_404(Answer, pk=id)
-        answer.votes_count -= 1
-        answer.save()
-        return redirect("questions:show", id=answer.question.id)
-
-
-# def upvote_answer(request, id):
-#     if request.method == "POST":
-#         answer = get_object_or_404(Answer, id=id)
-#         user_vote = Vote.objects.filter(user=request.user, answer=answer).first()
-
-#         if user_vote:
-#             if user_vote.vote_type == "downvote":
-#                 answer.votes += 2
-#                 user_vote.vote_type = "upvote"
-#                 user_vote.save()
-#             else:
-#                 return redirect("questions:show", id=answer.question.id)
-#         else:
-#             answer.votes += 1
-#             Vote.objects.create(user=request.user, answer=answer, vote_type="upvote")
-
-#         answer.total_votes = answer.votes
-#         answer.save()
-#         return redirect("questions:show", id=id)
-
-# def downvote_answer(request, answer_id):
-#     if request.method == "POST":
-#         answer = get_object_or_404(Answer, id=answer_id)
-#         user_vote = Vote.objects.filter(user=request.user, answer=answer).first()
-
-#         if user_vote:
-#             if user_vote.vote_type == "upvote":
-#                 answer.votes -= 2
-#                 user_vote.vote_type = "downvote"
-#                 user_vote.save()
-#             else:
-#                 return redirect("questions:show", id=answer.question.id)
-#         else:
-#             answer.votes -= 1
-#             Vote.objects.create(user=request.user, answer=answer, vote_type="downvote")
-
-#         answer.total_votes = answer.votes
-#         answer.save()
-#         return redirect("questions:show", id=id)
+        if answer.user == request.user:
+            answer.content = request.POST["content"]
+            answer.save()
+            return render(request, "answers/_answer_content.html", {"answer": answer})
+    return JsonResponse({"success": False}, status=400)
