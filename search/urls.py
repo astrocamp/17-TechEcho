@@ -1,7 +1,13 @@
 from django.urls import path
 
-from .views import search_view
+from . import views
 
 urlpatterns = [
-    path("", search_view, name="search_view"),
+    path("", views.search_form_index, name="search_form_index"),
+    path("search/", views.search_view, name="search_view"),
+    path(
+        "question/<int:question_id>/",
+        views.question_detail_view,
+        name="question_detail",
+    ),
 ]

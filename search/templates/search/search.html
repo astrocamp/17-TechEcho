@@ -2,6 +2,7 @@
 {% block content %}
 
 {% include "layouts/navbar.html" %}
+
 <div class="outside">
     <div class="box">
     </div>
@@ -10,6 +11,7 @@
     </div>
 </div>
 
+<!-- Search Form -->
 <div class="flex items-center justify-center h-screen mt-auto">
     <div class="relative w-full max-w-xl px-2">
         <form method="GET" action="{% url 'search_view' %}" class="flex items-center relative">
@@ -29,15 +31,36 @@
     </div>
 </div>
 
-
+<!-- Search Results Section -->
 <div class="mt-10">
-    {% if results %}
+    {% if question_results or answer_results %}
         <h2 class="text-xl font-semibold">Search Results for "{{ query }}":</h2>
-        <ul>
-            {% for result in results %}
-                <li>{{ result.title }}</li>
-            {% endfor %}
-        </ul>
+
+        <!-- Questions Results -->
+        {% if question_results %}
+            <h3 class="mt-5 text-lg font-medium">Questions:</h3>
+            <ul>
+                {% for question in question_results %}
+                    <li>
+                        <a href="{% url 'question_detail' question_id=question.id %}">{{ question.title }}</a>
+                        <p>{{ question.details|striptags|truncatewords:10 }}</p> <!-- Display a preview of the question details -->
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Answers Results -->
+        {% if answer_results %}
+            <h3 class="mt-5 text-lg font-medium">Answers:</h3>
+            <ul>
+                {% for answer in answer_results %}
+                    <li>
+                        <p>{{ answer.content|striptags|truncatewords:10 }} (Related Question:
+                        <a href="{% url 'question_detail' question_id=answer.question.id %}">{{ answer.question.title }}</a>)</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% else %}
         <p>No results found.</p>
     {% endif %}

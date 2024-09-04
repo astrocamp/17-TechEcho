@@ -2,17 +2,30 @@
 
 {% block content %}
 <div class="search-container">
-    <form method="GET" action="{% url 'search_view' %}">
-        <input type="text" name="q" placeholder="Search..." value="{{ query }}">
-        <button type="submit">Search</button>
-    </form>
+    {% if question_results or answer_results %}
+        {% if question_results %}
+            <h3>Questions:</h3>
+            <ul>
+                {% for question in question_results %}
+                    <li class="border-2 shadow p-2 mb-1 text-wrap break-all">
+                        <a href="{% url 'question_detail' question_id=question.id %}">{{ question.title }}</a>
+                        <p>{{ question.details|striptags|truncatewords:10 }}</p> <!-- Display a preview of the question details -->
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    {% if results %}
-        <ul>
-            {% for result in results %}
-                <li>{{ result.title }}</li>
-            {% endfor %}
-        </ul>
+        {% if answer_results %}
+            <h3>Answers:</h3>
+            <ul>
+                {% for answer in answer_results %}
+                    <li class="border-2 shadow p-2 mb-1 text-wrap break-all">
+                        <p>{{ answer.content|striptags|truncatewords:10 }} (Related Question:
+                        <a href="{% url 'question_detail' question_id=answer.question.id %}">{{ answer.question.title }}</a>)</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% else %}
         <p>No results found.</p>
     {% endif %}
