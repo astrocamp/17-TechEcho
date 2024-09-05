@@ -4,7 +4,8 @@
             <img src="https://via.placeholder.com/40" alt="photo" class="w-12 h-12 rounded-full mr-4">
             <div>
                 <div class="text-lg font-medium text-gray-800">{{ answer.user }}</div>
-                <div class="text-gray-500">{{ answer.created_at|date:'Y/m/d H:i' }}</div>
+                <div class="text-gray-500">建立時間: {{ answer.created_at|date:'Y/m/d H:i' }}</div>
+                <div class="text-gray-500">更新時間: {{ answer.updated_at|date:'Y/m/d H:i' }}</div>
             </div>
         </div>
 
@@ -35,6 +36,7 @@
             <button type="submit" class="btn btn-sm bg-green-600 text-white mt-4">保存</button>
         </form>
     </div>
+
 
     <div class="p-2 flex gap-2">
         {% if user.is_authenticated %}
