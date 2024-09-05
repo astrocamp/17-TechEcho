@@ -1,5 +1,8 @@
-<nav class="sticky top-0 left-0 z-20 w-full p-6 bg-blue-1" x-data="{ open: false, submenuOpen: false, expertOpen: false }" @resize.window="if (window.innerWidth > 768) open = false">
-
+<nav
+  class="sticky top-0 left-0 z-20 w-full p-6 bg-blue-1"
+  x-data="{ open: false, submenuOpen: false, expertOpen: false }"
+  @resize.window="if (window.innerWidth > 768) open = false"
+>
   <div class="flex items-center justify-between">
     <div class="text-4xl font-bold text-white animate-pulse whitespace-nowrap">
       <a href="{% url 'index' %}">TechEcho( )</a>
@@ -37,33 +40,60 @@
 
     <ul class="hidden space-x-4 text-xl text-white md:flex">
       <li class="relative tooltip tooltip-bottom" data-tip="問看看？">
-        <a href="#" @click="submenuOpen = !submenuOpen"
-           class="transition duration-300 ease-in-out hover:text-green-3">討論</a>
-        <ul x-show="submenuOpen" @click.away="submenuOpen = false"
-            class="absolute left-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5" style="display: none">
+        <a
+          href="#"
+          @click="submenuOpen = !submenuOpen"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+          >討論</a
+        >
+        <ul
+          x-show="submenuOpen"
+          @click.away="submenuOpen = false"
+          class="absolute left-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5"
+          style="display: none"
+        >
           <li>
-            <a href="{% url 'questions:new' %}"
-               class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">發問題</a>
+            <a
+              href="{% url 'questions:new' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4"
+              >發問題</a
+            >
           </li>
           <li>
-            <a href="{% url 'questions:index' %}"
-               class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">看問題</a>
+            <a
+              href="{% url 'questions:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4"
+              >看問題</a
+            >
           </li>
         </ul>
       </li>
       <li class="relative tooltip tooltip-bottom" data-tip="找專家？">
-        <a href="#" @click="expertOpen = !expertOpen"
-            class="transition duration-300 ease-in-out hover:text-green-3">專家</a>
-        <ul x-show="expertOpen" @click.away="expertOpen = false"
-            class="absolute left-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5" style="display: none">
+        <a
+          href="#"
+          @click="expertOpen = !expertOpen"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+          >專家</a
+        >
+        <ul
+          x-show="expertOpen"
+          @click.away="expertOpen = false"
+          class="absolute left-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5"
+          style="display: none"
+        >
           <li>
-            <a href="{% url 'teachers:new' %}"
-               class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">當專家</a>
+            <a
+              href="{% url 'teachers:new' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4"
+              >當專家</a
+            >
           </li>
           <li>
-            <a href="{% url 'teachers:index' %}"
-               class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">問專家</a>
-
+            <a
+              href="{% url 'teachers:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4"
+              >問專家</a
+            >
           </li>
         </ul>
       </li>
@@ -74,21 +104,41 @@
           >教學</a
         >
       </li>
-      <li>
-        <a
-          href="{% url 'users:login'%}"
-          class="transition duration-300 ease-in-out hover:text-green-3"
-          >登入</a
-        >
-      </li>
-      <li class="relative tooltip tooltip-bottom" data-tip="沒有帳號？">
-        <a href="{% url 'users:register' %}" class="transition duration-300 ease-in-out hover:text-green-3">註冊</a>
-      </li>
-    </ul>
-  </div>
-  <ul class="absolute right-0 z-10 w-full mt-6 text-lg bg-vanilla-5" x-show="open" @click.away="open = false"
-      style="display: none">
 
+      {% if user.is_authenticated %}
+    </li>
+
+    <li>
+      <a
+        href="{% url 'users:logout'%}"
+        class="transition duration-300 ease-in-out hover:text-green-3"
+        >登出</a
+      >
+    </li>
+    {% else %}
+    <li>
+      <a
+        href="{% url 'users:login'%}?next={{ request.path }}"
+        class="transition duration-300 ease-in-out hover:text-green-3"
+        >登入</a
+      >
+    </li>
+    <li class="relative tooltip tooltip-bottom" data-tip="沒有帳號？">
+      <a
+        href="{% url 'users:register' %}"
+        class="transition duration-300 ease-in-out hover:text-green-3"
+        >註冊</a
+      >
+    </li>
+    {% endif %}
+  </ul>
+  </div>
+  <ul
+    class="absolute right-0 z-10 w-full mt-6 text-lg bg-vanilla-5"
+    x-show="open"
+    @click.away="open = false"
+    style="display: none"
+  >
     <li @click="submenuOpen = !submenuOpen">
       <a
         href="#"
@@ -97,12 +147,18 @@
       >
       <ul x-show="submenuOpen" class="mt-2 ml-4">
         <li>
-          <a href="{% url 'questions:new' %}"
-             class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">發問題</a>
+          <a
+            href="{% url 'questions:new' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+            >發問題</a
+          >
         </li>
         <li>
-          <a href="{% url 'questions:index' %}"
-             class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">看問題</a>
+          <a
+            href="{% url 'questions:index' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+            >看問題</a
+          >
         </li>
       </ul>
     </li>
@@ -114,13 +170,18 @@
       >
       <ul x-show="expertOpen" class="mt-2 ml-4">
         <li>
-          <a href="{% url 'teachers:new' %}"
-             class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">當專家</a>
+          <a
+            href="{% url 'teachers:new' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+            >當專家</a
+          >
         </li>
         <li>
-          <a href="{% url 'teachers:index' %}"
-             class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">問專家</a>
-
+          <a
+            href="{% url 'teachers:index' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+            >問專家</a
+          >
         </li>
       </ul>
     </li>
@@ -132,13 +193,18 @@
       >
     </li>
     <li>
-      <a href="{% url 'users:login'%}"
-         class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">登入</a>
+      <a
+        href="{% url 'users:login'%}"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >登入</a
+      >
     </li>
     <li>
-      <a href="{% url 'users:register' %}"
-         class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4">註冊</a>
-
+      <a
+        href="{% url 'users:register' %}"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >註冊</a
+      >
     </li>
   </ul>
 </nav>

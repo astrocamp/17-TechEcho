@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .models import User
 
@@ -17,21 +18,23 @@ def register(request, id=None):
         password = request.POST.get("password")
         email = request.POST.get("email")
 
-        if not username or not password:
-            messages.error(request, "必須填寫帳號跟密碼")
-        elif User.objects.filter(username=username).exists():
-            messages.error(request, "此用戶名已存在")
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "用戶名已存在")
+            return render(
+                request,
+                "register.html",
+            )
         else:
             user = User.objects.create_user(
                 username=username, password=password, email=email, name=username
             )
-            messages.success(request, "註冊成功")
             return redirect("users:login")
 
-    return render(request, "register.html", {"existing_user": existing_user})
+    return render(request, "register.html")
 
 
 def log_in(request, id=None):
+    next_url = request.GET.get("next")
     if id:
         existing_user = get_object_or_404(User, pk=id)
     else:
@@ -45,18 +48,19 @@ def log_in(request, id=None):
 
         if user is not None:
             login(request, user)
-            return redirect("pages")
+            messages.success(request, "登入成功！")  # 設置成功消息
+            if next_url and url_has_allowed_host_and_scheme(
+                next_url, allowed_hosts={request.get_host()}
+            ):
+                return redirect(next_url)
+            return redirect("index")  # 或其他頁面
         else:
             messages.error(request, "登入失敗：用戶名或密碼不正確")
 
     return render(request, "login.html", {"existing_user": existing_user})
 
 
-def profile(request, id):
-    return render(request, "users/profile.html")
-
-
 def log_out(request):
-    logout(request)
     messages.success(request, "登出成功")
+    logout(request)
     return redirect("index")
