@@ -48,12 +48,12 @@ def log_in(request, id=None):
 
         if user is not None:
             login(request, user)
-            messages.success(request, "登入成功！")  # 設置成功消息
+            messages.success(request, "登入成功！")
             if next_url and url_has_allowed_host_and_scheme(
                 next_url, allowed_hosts={request.get_host()}
             ):
                 return redirect(next_url)
-            return redirect("index")  # 或其他頁面
+            return redirect("index")
         else:
             messages.error(request, "登入失敗：用戶名或密碼不正確")
 
