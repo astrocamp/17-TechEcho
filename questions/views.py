@@ -4,12 +4,9 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from answers.forms import AnswerForm
-from answers.models import Answer
 
 from .forms import QuestionForm
 from .models import Question
-
-# Create your views here.
 
 
 def index(request):
@@ -30,7 +27,6 @@ def index(request):
         messages.error(request, "輸入資料錯誤，請再嘗試")
         return render(request, "questions/new.html", {"form": form})
 
-    # requires validation
     order_by = request.GET.get("order_by")
     questions = Question.objects.order_by(order_by or "-id")
     return render(request, "questions/index.html", {"questions": questions})
@@ -102,7 +98,3 @@ def votes(request, id):
             question.save()
 
         return redirect("questions:show", id=id)
-
-
-def bookmark(request, id):
-    pass

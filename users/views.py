@@ -6,12 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .models import User
 
 
-def register(request, id=None):
-    if id:
-        existing_user = get_object_or_404(User, pk=id)
-    else:
-        existing_user = None
-
+def register(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -22,21 +17,16 @@ def register(request, id=None):
         elif User.objects.filter(username=username).exists():
             messages.error(request, "此用戶名已存在")
         else:
-            user = User.objects.create_user(
+            User.objects.create_user(
                 username=username, password=password, email=email, name=username
             )
             messages.success(request, "註冊成功")
             return redirect("users:login")
 
-    return render(request, "register.html", {"existing_user": existing_user})
+    return render(request, "register.html")
 
 
-def log_in(request, id=None):
-    if id:
-        existing_user = get_object_or_404(User, pk=id)
-    else:
-        existing_user = None
-
+def log_in(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -45,15 +35,12 @@ def log_in(request, id=None):
 
         if user is not None:
             login(request, user)
-            return redirect("pages")
+            messages.success(request, "登入成功")
+            return redirect("index")
         else:
             messages.error(request, "登入失敗：用戶名或密碼不正確")
 
-    return render(request, "login.html", {"existing_user": existing_user})
-
-
-def profile(request, id):
-    return render(request, "users/profile.html")
+    return render(request, "login.html")
 
 
 def log_out(request):

@@ -4,7 +4,7 @@
 import os
 from datetime import datetime
 
-from .ecpay_payment_sdk import ECPayPaymentSdk
+from .payment_sdk import ECPayPaymentSdk
 
 
 def ecpay_api(user):

@@ -1,8 +1,0 @@
-{% extends "layouts/base.html" %}
-
-{% block content %}
-
-    {% csrf_token %}
-
-    <a href="{% url 'users:log_out' %}"> 登出 </a>
-{% endblock content %}

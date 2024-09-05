@@ -1,1 +1,1 @@
-from .teacher_form import TeacherInfoForm
+from .teachers_form import TeacherInfoForm

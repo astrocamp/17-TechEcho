@@ -9,7 +9,7 @@
 
 ## 執行檔案
 
-1. `npm run dev` 執行 esbuild 和 tailwind 除屑
+1. `npm run dev` 執行 esbuild 和 tailwind 編譯
 2. `make server` 開啟伺服器
 
 ## 包含套件
@@ -17,11 +17,3 @@
 1. CSS: tailwind, daisyUI
 2. JS: alpine
 3. Python: django, django-extensions, pre-commit, commitizen, python-dotenv
-
-## Git push 步驟
-
-1. make lint
-2. git status
-3. git add .........
-4. make commit
-5. git push -u origin <local>:<remote> (git push)

@@ -4,7 +4,6 @@
     <div class="p-6 max-w-4xl mx-auto relative">
         <div class="flex gap-2 items-center">
             <h1 class="text-2xl">標題：{{question.title}}</h1>
-            {% comment %} need user function to follow or not {% endcomment %}
             <p>
                 追蹤
             </p>
@@ -21,14 +20,13 @@
         <div class="flex gap-2">
             <span>初始日期：{{question.created_at}}</span>
             <span>最後修改日期：{{question.modified_at}}</span>
-            {% comment %} view counts {% endcomment %}
         </div>
 
         <h3 class="mb-2">問題內容：</h3>
         <div class="p-2 border-2">
             <article class="text-wrap break-all">
                 <p>
-                    問題描述： {{question.details|linebreaksbr}}
+                    問題描述： {{question.details|linebreaks}}
                 </p>
             </article>
         </div>
@@ -49,13 +47,11 @@
 
 
         <div class="flex gap-2">
-            {% comment %} <button>share</button> {% endcomment %}
             <a href="{% url "questions:edit" question.id%}" class="btn">編輯此問題</a>
             <form action="{% url "questions:delete"  question.id%}" method="POST" onSubmit="return confirm('確定要刪除此問題嗎？')">
                 {% csrf_token %}
                 <button class="btn">刪除此問題</button>
             </form>
-            {% comment %} <button class="btn">follow</button> {% endcomment %}
             <a href="{% url "questions:index" %}" class="btn">回到首頁</a>
         </div>
     </div>

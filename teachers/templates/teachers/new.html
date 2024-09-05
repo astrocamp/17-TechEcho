@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="p-8 max-w-xl mx-auto bg-white shadow-lg rounded-lg">
-    <h1 class="text-4xl font-extrabold mb-8 text-gray-900">新增老師</h1>
+    <h1 class="text-4xl font-extrabold mb-8 text-gray-900">成為專家</h1>
 
     <section class="flex justify-center">
         <form action="{% url 'teachers:index' %}" method="POST" autocomplete="off" class="space-y-6">
@@ -10,12 +10,11 @@
             <div class="grid gap-4">
                 {{ form.as_p }}
             </div>
-            <button type="submit"
-                class="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">新增資料</button>
+            <button type="submit" class="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">新增資料</button>
         </form>
     </section>
 
     <a href="{% url 'teachers:index' %}"
-        class="btn btn-neutral mt-8 text-gray-600 hover:text-gray-300 text-center">返回老師列表</a>
+        class="btn btn-neutral mt-8 text-gray-600 hover:text-gray-300 text-center">返回專家列表</a>
 </div>
 {% endblock %}

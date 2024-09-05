@@ -10,11 +10,10 @@ from linepay import LinePayApi
 
 from users.models import User
 
-from .ecpay.ecpay_create_order import ecpay_api
+from .ecpay.create_order import ecpay_api
 from .models import Payment
 
 
-# ECPay
 def index(request):
     return render(request, "payments/index.html")
 
@@ -82,7 +81,6 @@ def disable_premium(request):
     User.objects.filter(username=user_id).update(is_student="False")
 
 
-# LinePay
 def linepay_create_payment(request):
     plan = request.GET.get("plan", "basic")
 

@@ -33,10 +33,6 @@
                         {% endfor %}
                     </div>
                     <p>內文: {{question.details|striptags|truncatechars:20}}</p>
-                    {% comment %} <p>{{question.user}}</p> {% endcomment %}
-                    {% comment %} upvotes {% endcomment %}
-                    {% comment %} answers(count) {% endcomment %}
-                    {% comment %} views {% endcomment %}
                 </li>
             {% endfor %}
         </ul>

@@ -8,11 +8,10 @@
         <form action="{% url 'teachers:show' teacher.id %}" method="POST" autocomplete="off" class="space-y-4">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit"
-                class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors">編輯資料</button>
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors">編輯資料</button>
         </form>
     </section>
 
-    <a href="{% url 'teachers:index' %}" class="block mt-6 text-blue-500 hover:text-blue-700 underline">返回老師列表</a>
+    <a href="{% url 'teachers:index' %}" class="block mt-6 text-blue-500 hover:text-blue-700 underline">返回專家列表</a>
 </div>
 {% endblock %}
