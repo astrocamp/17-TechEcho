@@ -13,9 +13,8 @@
             <p>選擇排序依據：</p>
             <form action="{% url "questions:index" %}">
                 <button class="link" name="order_by" value="-votes_count">讚數</button>
-            </form>
-            <form action="{% url "questions:index" %}">
                 <button class="link" name="order_by" value="-follows_count">追蹤數</button>
+                <button class="link" name="order_by" value="-id">發表時間</button>
             </form>
         </div>
 
@@ -29,17 +28,14 @@
                     <div>
                         <span>標籤：</span>
                         {% for label in question|question_labels %}
-                            <span>{{label}} </span>
+                            <span>{{label}},</span>
                         {% endfor %}
                     </div>
                     <p>內文: {{question.details|striptags|truncatechars:20}}</p>
-                    {% comment %} <p>{{question.user}}</p> {% endcomment %}
-                    {% comment %} upvotes {% endcomment %}
-                    {% comment %} answers(count) {% endcomment %}
-                    {% comment %} views {% endcomment %}
                 </li>
             {% endfor %}
         </ul>
 
+         {% include "shared/pagination.html" with pages=questions only %}
     </div>
 {% endblock  %}

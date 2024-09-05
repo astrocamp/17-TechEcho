@@ -3,7 +3,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from taggit.managers import TaggableManager
 
-from lib.models import SoftDeleteModel
+from lib.models.soft_delete import SoftDeleteModel
 
 # Create your models here.
 
@@ -11,13 +11,10 @@ from lib.models import SoftDeleteModel
 class Question(SoftDeleteModel):
     title = models.CharField(max_length=50)
     details = models.TextField(
-        validators=[
-            MinLengthValidator(20, "the field must contain at least 20 characters")
-        ]
+        validators=[MinLengthValidator(20, "問題描述至少要二十個字")]
     )
 
     votes_count = models.IntegerField(default=0)
-
     answers_count = models.PositiveIntegerField(default=0)
     follows_count = models.PositiveIntegerField(default=0)
 

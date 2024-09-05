@@ -1,0 +1,46 @@
+<ul class="join flex justify-center gap-2">
+    {% if pages.has_previous %}
+        <li>
+            <a class="join-item btn"href="?page={{pages.previous_page_number}}">
+                &laquo 上一頁
+            </a>
+        </li>
+    {% endif %}
+
+    {% if pages.number|add:'-2' > 1 %}
+        <li>
+            <a class="join-item btn btn-disabled">&hellip;</a>
+        </li>
+    {% endif %}
+
+    {% for i in pages.paginator.page_range %}
+        {% if pages.number == i %}
+            <li>
+                <a class="join-item btn bg-blue-2" href="?page={{i}}">
+                    {{i}}
+                </a>
+            </li>
+        {% elif i >= pages.number|add:'-2' and i <= pages.number|add:'2' %}
+            <li>
+                <a class="join-item btn" href="?page={{i}}">
+                    {{i}}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {% if pages.paginator.num_pages > pages.number|add:'2' %}
+        <li>
+            <a class="join-item btn btn-disabled">&hellip;</a>
+        </li>
+    {% endif %}
+
+
+    {% if pages.has_next %}
+        <li>
+            <a class="join-item btn" href="?page={{pages.next_page_number}}">
+                下一頁 &raquo
+            </a>
+        </li>
+    {% endif %}
+</ul>

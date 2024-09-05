@@ -1,16 +1,19 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-    <div class="p-6 max-w-4xl mx-auto relative">
-        <div class="flex gap-2 items-center">
-            <h1 class="text-2xl">標題：{{question.title}}</h1>
-            {% comment %} need user function to follow or not {% endcomment %}
-            <p>
-                追蹤
-            </p>
+    <div class="p-6 max-w-4xl mx-auto relative mb-2">
+        <div class="flex justify-between items-center mb-2">
+            <div class="flex gap-4 items-center">
+                <h1 class="text-2xl">問題：{{question.title}}</h1>
+                {% comment %} need user function to follow or not {% endcomment %}
+                <p class="link">
+                    追蹤
+                </p>
+            </div>
+            <a href="{% url "questions:index" %}" class="btn">回到問題列表</a>
         </div>
 
-        <div class="p-2 border-2">
+        <div class="p-2 border-2 mb-2">
             <p> 標籤：
                 {% for label in labels %}
                     <span>{{label}} </span>
@@ -18,22 +21,27 @@
             </p>
         </div>
 
-        <div class="flex gap-2">
-            <span>初始日期：{{question.created_at}}</span>
-            <span>最後修改日期：{{question.modified_at}}</span>
+        <div class="flex gap-2 mb-2">
+            <span>提問者：{{question.user}}</span>
+            <span>｜初始日期：{{question.created_at}}</span>
+            <span>｜最後修改日期：
+                {% if question.updated_at %}
+                    {{question.updated_at}}
+                {% else %}
+                    {{question.created_at}}
+                {% endif %}
+            </span>
             {% comment %} view counts {% endcomment %}
         </div>
 
-        <h3 class="mb-2">問題內容：</h3>
-        <div class="p-2 border-2">
-            <article class="text-wrap break-all">
-                <p>
-                    問題描述： {{question.details|linebreaksbr}}
-                </p>
-            </article>
-        </div>
+        <article  class="p-2 border-2 mb-2">
+            <h3 class="mb-2">問題內容：</h3>
+            <p class="text-wrap break-all">
+                {{question.details|linebreaksbr}}
+            </p>
+        </article>
 
-        <form action="{% url "questions:votes" question.id %}" method="POST" class="p-2 flex gap-2">
+        <form action="{% url "questions:votes" question.id %}" method="POST" class="p-2 flex gap-2 mb-2">
             {% csrf_token %}
 
             <button name="votes_change" value="1">
@@ -47,17 +55,18 @@
             </button>
         </form>
 
+        {% if user.is_authenticated and user == question.user %}
+            <div class="flex gap-2">
+                {% comment %} <button>share</button> {% endcomment %}
+                <a href="{% url "questions:edit" question.id%}" class="btn">編輯此問題</a>
+                <form action="{% url "questions:delete"  question.id%}" method="POST" onSubmit="return confirm('確定要刪除此問題嗎？')">
+                    {% csrf_token %}
+                    <button class="btn">刪除此問題</button>
+                </form>
+                {% comment %} <button class="btn">follow</button> {% endcomment %}
+            </div>
+        {% endif %}
 
-        <div class="flex gap-2">
-            {% comment %} <button>share</button> {% endcomment %}
-            <a href="{% url "questions:edit" question.id%}" class="btn">編輯此問題</a>
-            <form action="{% url "questions:delete"  question.id%}" method="POST" onSubmit="return confirm('確定要刪除此問題嗎？')">
-                {% csrf_token %}
-                <button class="btn">刪除此問題</button>
-            </form>
-            {% comment %} <button class="btn">follow</button> {% endcomment %}
-            <a href="{% url "questions:index" %}" class="btn">回到首頁</a>
-        </div>
     </div>
     {% include "answers/index.html" with answers=answers form=form %}
 {% endblock  %}

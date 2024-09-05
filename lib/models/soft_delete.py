@@ -37,3 +37,7 @@ class SoftDeleteModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+def get_soft_delete_model(baseModel=models.Model):
+    return SoftDeleteModel(baseModel)

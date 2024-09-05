@@ -1,9 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% comment %}
-    textarea, textarea-bordered
-{% endcomment %}
-
 {% block content %}
     <form class="p-6 max-w-4xl mx-auto relative" action="{% url "questions:index" %}" method="POST">
         {% csrf_token %}
@@ -18,7 +14,12 @@
 
         {% include "questions/_labels.html" %}
 
-        <button class="btn">完成此新增</button>
+        {% if user.is_authenticated %}
+            <button class="btn">新增此問題</button>
+        {% else %}
+            <p class="btn btn-disabled">須先註冊才能問問題</p>
+        {% endif %}
+
         <a href="{% url "questions:index" %}" class="btn">回到問題列表</a>
     </form>
 
