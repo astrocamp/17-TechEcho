@@ -19,7 +19,7 @@ def search_form_index(request):
 
 def search_view(request):
     query = request.GET.get("q", "")
-    results = []
+    question_results = []
     search_terms = []
     if query:
         try:
@@ -37,18 +37,28 @@ def search_view(request):
         except json.JSONDecodeError:
             search_terms = [query]
 
+        # Construct the search query
         q_objects = Q()
         for term in search_terms:
             q_objects |= Q(title__icontains=term) | Q(details__icontains=term)
 
-        results = Question.objects.filter(q_objects).distinct()
+        # Filter questions based on search terms
+        question_results = Question.objects.filter(q_objects).distinct()
 
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
-        html = render_to_string("search/search_results.html", {"results": results})
-        return JsonResponse({"html": html})
-    else:
+    # If it's an HTMX request, return the partial template
+    if request.headers.get("HX-Request"):
         return render(
             request,
-            "search/search_form.html",
-            {"results": results, "query": ", ".join(search_terms)},
+            "search/search_results.html",
+            {"question_results": question_results},
         )
+
+    # Render the full page for normal requests
+    return render(
+        request,
+        "search/search_form.html",
+        {
+            "question_results": question_results,
+            "query": ", ".join(search_terms),
+        },
+    )
