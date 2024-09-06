@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="flex items-center">
-            <form action="{% url 'answers:delete_answer' answer.id%}" method="POST">
+            <form action="{% url 'answers:delete' answer.id%}" method="POST">
                 {% csrf_token %}
                 <button class="btn btn-sm bg-red-600 text-white">刪除</button>
             </form>
@@ -18,22 +18,9 @@
     <div class="text-lg leading-relaxed mb-4">
         {{ answer.content|safe }}
     </div>
-    {% comment %} <div class="flex justify-between items-center">
-        <div x-data="{ count: 0 }" class="text-xl font-bold ">
-            <button x-on:click="count++" class="p-2 border rounded-full text-gray-500 text-lg font-bold">
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
-
-            <span x-text="count" class="p-3"></span>
-
-            <button x-on:click="count--" class="p-2 border rounded-full text-gray-500 text-lg font-bold">
-                <i class="fa-solid fa-arrow-down"></i>
-            </button>
-        </div>
-    </div> {% endcomment %}
 
     <div class="p-2 flex gap-2">
-        <form action="{% url 'answers:upvote_answer' answer.id %}" method="POST">
+        <form action="{% url 'answers:upvote' answer.id %}" method="POST">
             {% csrf_token %}
             <button>
                 <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
@@ -42,7 +29,7 @@
 
         {{ answer.votes_count }}
 
-        <form action="{% url 'answers:downvote_answer' answer.id %}" method="POST">
+        <form action="{% url 'answers:downvote' answer.id %}" method="POST">
             {% csrf_token %}
             <button>
                 <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
