@@ -76,6 +76,7 @@
 
 
       {% if user.is_authenticated %}
+        {% include "shared/notification.html" with user=user only%}
         <div class="relative" x-data="{ userMenuOpen: false }">
           <img
               src="{% if user.profile.picture %}{{ user.profile.picture.url }}{% else %}/static/default-avatar.png{% endif %}"
@@ -110,8 +111,8 @@
       {% endif %}
     </ul>
 
-
   </div>
+
   <ul class="absolute right-0 z-10 w-full mt-6 text-lg bg-vanilla-5" x-show="open" @click.away="open = false"
       style="display: none">
 
