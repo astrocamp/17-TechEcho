@@ -6,7 +6,7 @@
 
     {% if request.path != '/' %}
       <form
-        action="{% url 'search_view' %}"
+        action="{% url 'search' %}"
         method="GET"
         class="relative flex-grow max-w-lg mx-4"
         id="search-form"
@@ -39,7 +39,7 @@
         <a href="#" @click="submenuOpen = !submenuOpen"
            class="transition duration-300 ease-in-out hover:text-green-3">討論</a>
         <ul x-show="submenuOpen" @click.away="submenuOpen = false"
-            class="absolute left-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5" style="display: none">
+            class="absolute left-0 z-20 mt-9 text-green-3 w-60 bg-vanilla-5" style="display: none">
           <li>
             <a href="{% url 'questions:new' %}"
                class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">發問題</a>
@@ -54,7 +54,7 @@
         <a href="#" @click="expertOpen = !expertOpen"
             class="transition duration-300 ease-in-out hover:text-green-3">專家</a>
         <ul x-show="expertOpen" @click.away="expertOpen = false"
-            class="absolute left-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5" style="display: none">
+            class="absolute left-0 z-20 mt-9 text-green-3 w-60 bg-vanilla-5" style="display: none">
           <li>
             <a href="{% url 'teachers:new' %}"
                class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">當專家</a>
@@ -76,15 +76,17 @@
 
 
       {% if user.is_authenticated %}
+
         {% include "shared/notification.html" with user=user only%}
-        <div class="relative" x-data="{ userMenuOpen: false }">
+        <div class="relative">
+
           <img
               src="{% if user.profile.picture %}{{ user.profile.picture.url }}{% else %}/static/default-avatar.png{% endif %}"
               alt="User Avatar"
               class="w-8 h-8 rounded-full cursor-pointer"
               @click="userMenuOpen = !userMenuOpen"
           >
-          <ul x-show="userMenuOpen" @click.away="userMenuOpen = false" class="absolute right-0 mt-7 shadow-lg bg-vanilla-5 text-green-3">
+          <ul x-show="userMenuOpen" @click.away="userMenuOpen = false" class="absolute right-0 mt-8 shadow-lg bg-vanilla-5 text-green-3">
             <li>
               <p class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4">ID:{{ user.username }}</p>
             </li>

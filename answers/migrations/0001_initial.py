@@ -11,23 +11,54 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('questions', '0004_remove_questionuservotes_vote_value_and_more'),
+        ("questions", "0004_remove_questionuservotes_vote_value_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Answer',
+            name="Answer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', ckeditor.fields.RichTextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('deleted_at', models.DateTimeField(default=None, null=True)),
-                ('votes_count', models.IntegerField(default=0)),
-                ('downvote', models.ManyToManyField(related_name='downvote', to=settings.AUTH_USER_MODEL)),
-                ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='questions.question')),
-                ('upvote', models.ManyToManyField(related_name='upvote', to=settings.AUTH_USER_MODEL)),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("content", ckeditor.fields.RichTextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("deleted_at", models.DateTimeField(default=None, null=True)),
+                ("votes_count", models.IntegerField(default=0)),
+                (
+                    "downvote",
+                    models.ManyToManyField(
+                        related_name="downvote", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "question",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="questions.question",
+                    ),
+                ),
+                (
+                    "upvote",
+                    models.ManyToManyField(
+                        related_name="upvote", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

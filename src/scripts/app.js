@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
             tagify.addTags(JSON.parse(savedTagsElement.value));
         }
 
-        document.querySelector('#search-form').addEventListener('submit', () => {
-            input.value = tagify.value[0]?.value || "";
+        document.querySelector('#search-form').addEventListener('submit', (event) => {
+            const selectedTag = tagify.value[0]?.value || " ";
+            input.value = selectedTag.trim();
         });
     }
 });

@@ -1,16 +1,16 @@
 {% extends "layouts/base.html" %} {% block content %}
 
 <div
-  class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8"
+  class="flex flex-col justify-center min-h-screen py-12 bg-gray-100 sm:px-6 lg:px-8"
 >
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      Welcome to TechEcho
+    <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 animate-bounce">
+      註冊帳號
     </h2>
   </div>
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
 
       {% comment %} user login form {% endcomment %}
       <form class="space-y-6" action="#" method="POST">
@@ -26,7 +26,7 @@
               type="name"
               autocomplete="name"
               required
-              class="appearance-none rounded-md w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              class="w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="請輸入您的帳號"
             />
           </div>
@@ -42,7 +42,7 @@
               type="email"
               autocomplete="email"
               required
-              class="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="請輸入您的信箱"
             />
           </div>
@@ -59,7 +59,7 @@
               type="password"
               autocomplete="current-password"
               required
-              class="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="請輸入您的密碼"
             />
           </div>
@@ -68,7 +68,7 @@
         <div>
           <button
             type="submit"
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-2 hover:bg-green-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-blue-2 hover:bg-green-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             註冊
           </button>
@@ -81,20 +81,20 @@
             <div class="w-full border-t border-gray-300"></div>
           </div>
           <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-gray-100 text-gray-500">
+            <span class="px-2 text-gray-500 bg-gray-100">
               或者用以下方式登入
             </span>
           </div>
         </div>
 
-        <div class="mt-6 grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-3 mt-6">
           <div>
             <a
               href="#"
-              class="w-full flex items-center justify-center px-8 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+              class="flex items-center justify-center w-full px-8 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
             >
               <img
-                class="h-6 w-6"
+                class="w-6 h-6"
                 src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
                 alt=""
               />
@@ -104,10 +104,10 @@
             <div>
               <a
                 href="#"
-                class="w-full flex items-center justify-center px-8 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                class="flex items-center justify-center w-full px-8 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
               >
                 <img
-                  class="h-6 w-6"
+                  class="w-6 h-6"
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"
                   alt=""
                 />

@@ -6,8 +6,7 @@
 
 <div class="flex items-center justify-center h-screen mt-auto">
     <div class="relative w-full max-w-xl px-2">
-        <!-- Search form -->
-        <form method="GET" action="{% url 'search_view' %}" class="relative flex items-center">
+        <form method="GET" action="{% url 'search' %}" class="relative flex items-center">
             <input
                 type="text"
                 name="q"
@@ -15,11 +14,11 @@
                 placeholder="Search..."
                 value="{{ query }}"
             >
-            <!-- Search button (hidden) -->
             <button type="submit" class="absolute text-gray-500 bottom-4 right-5">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>
+
         <span class="tag-blue">JavaScript</span>
         <span class="tag-red">Python</span>
     </div>

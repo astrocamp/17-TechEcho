@@ -1,38 +1,38 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-<div class="p-6 max-w-4xl mx-auto relative">
-    <div class="flex gap-2 items-center mb-4">
+<div class="relative max-w-4xl p-6 mx-auto">
+    <div class="flex items-center gap-2 mb-4">
     </div>
 
     <div id="loading-indicator" class="mt-2 text-gray-500" style="display:none;">Loading...</div>
 
-    <div id="search-results">
+    <div id="search">
         {% if questions %}
             <ul>
                 {% for question in questions %}
                     <li class="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm">
 
-                        <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center justify-between mb-2">
                             <h1 class="text-xl font-semibold">
                                <a href="{% url 'questions:show' id=question.id %}" class="text-black border-b-2 border-black hover:underline">標題：{{  question.title }}</a>
                             </h1>
                         </div>
-                        <div class="p-2 border-b border-gray-200 mb-2">
+                        <div class="p-2 mb-2 border-b border-gray-300">
                             <p>標籤：
                                 {% for label in question.labels.all %}
-                                    <span class="text-sm text-gray-600">{{ label }}</span>
+                                    <span class="text-sm">{{ label }}</span>
                                 {% endfor %}
                             </p>
                         </div>
                         <div>
-                            <p class="text-gray-700">內文: {{ question.details|striptags|truncatewords:10 }}</p>
+                            <p>內文: {{ question.details|striptags|truncatewords:10 }}</p>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p class="text-gray-500">No results found.</p>
+            <p>No results found.</p>
         {% endif %}
     </div>
 </div>
