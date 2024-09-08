@@ -2,49 +2,40 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from answers.models import Answer, Vote
 from questions.models import Question
 
 
 @login_required
+@require_POST
 def index(request, id):
-    if request.method == "POST":
-        question = get_object_or_404(Question, pk=id)
-        answer = question.answer_set.create(
-            content=request.POST["content"], user=request.user
-        )
-        messages.success(request, "新增成功")
-        return redirect("questions:show", id=id)
     question = get_object_or_404(Question, pk=id)
-    answers = question.answer_set.all()
-    return render(
-        request,
-        "answers/index.html",
-        {"question": question, "answers": answers, "user": request.user},
+    answer = question.answer_set.create(
+        content=request.POST["content"], user=request.user
     )
+    messages.success(request, "新增成功")
+    return redirect("questions:show", id=id)
 
 
-@csrf_exempt
 @login_required
+@require_POST
 def delete(request, id):
-    if request.method == "POST":
-        answer = get_object_or_404(Answer, pk=id)
-        if answer.user == request.user:
-            answer.delete()
-        return redirect("questions:show", id=answer.question.id)
+    answer = get_object_or_404(Answer, pk=id, user=request.user)
+    answer.delete()
+    messages.success(request, "刪除成功")
+    return redirect("questions:show", id=answer.question.id)
 
 
 @login_required
-def update(request, id):
-    if request.method == "POST":
-        answer = get_object_or_404(Answer, pk=id)
-        if answer.user == request.user:
-            answer.content = request.POST["content"]
-            answer.save()
-            return render(request, "answers/_answer_content.html", {"answer": answer})
-    return JsonResponse({"success": False}, status=400)
+@require_POST
+def edit(request, id):
+    answer = get_object_or_404(Answer, pk=id, user=request.user)
+    answer.content = request.POST["content"]
+    answer.save()
+    messages.success(request, "編輯成功")
+    return render(request, "answers/_answer_content.html", {"answer": answer})
 
 
 @login_required

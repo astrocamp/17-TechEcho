@@ -1,15 +1,18 @@
 from django.conf import settings
+from django.core.validators import MinLengthValidator
 from django.db import models
 
+from lib.models import SoftDeleteModel
 from questions.models import Question
 
 
-class Answer(models.Model):
+class Answer(SoftDeleteModel):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(
+        validators=[MinLengthValidator(1, "問題描述至少要一個字")]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(default=None, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL
     )
