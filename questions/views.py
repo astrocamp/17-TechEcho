@@ -89,7 +89,8 @@ def show(request, id):
     question = get_object_or_404(Question, pk=id)
     vote = upvoted_or_downvoted_or_neither(request, question)
 
-    answers = question.answer_set.order_by("-id")
+    answers = question.answer_set.order_by("-votes_count", "-id")
+    answers = paginate(request, answers, items_count=10)
     form = AnswerForm()
     return render(
         request,
