@@ -1,59 +1,121 @@
+import uuid
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render, reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 
-from .models import User
+from .forms import UsersForm
+from .helper import send_forget_password_mail
+from .models import Profile, User
 
 
 def register(request):
-    account_exists = False
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        email = request.POST.get("email")
-
-        if not username or not password:
-            messages.error(request, "必須填寫帳號跟密碼")
-        elif User.objects.filter(username=username).exists():
-            messages.error(request, "此用戶名已存在")
-            account_exists = True
+        form = UsersForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            request.session["new_user"] = True
+            messages.success(request, "註冊成功並已自動登入！")
+            return redirect("index")
         else:
-            User.objects.create_user(
-                username=username, password=password, email=email, name=username
-            )
-            messages.success(request, "註冊成功")
-            return redirect("users:login")
-
-        return render(request, "register.html", {"account_exists": account_exists})
-
-    return render(request, "register.html", {"account_exists": account_exists})
+            if "username" in form.errors:
+                for error in form.errors["username"]:
+                    messages.error(request, "帳號錯誤")
+            if "email" in form.errors:
+                for error in form.errors["email"]:
+                    messages.error(request, "信箱已註冊過，或格式不正確")
+            if "password1" in form.errors:
+                for error in form.errors["password1"]:
+                    messages.error(request, "密碼錯誤")
+            if "password2" in form.errors:
+                for error in form.errors["password2"]:
+                    messages.error(request, "密碼不一致")
+    else:
+        form = UsersForm()
+    return render(request, "layouts/register.html", {"form": form})
 
 
 def log_in(request):
-    next_url = request.GET.get("next")
+    next_url = request.POST.get("next") or request.GET.get("next") or reverse("index")
+    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts=None):
+        next_url = reverse("index")
+
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
             messages.success(request, "登入成功")
-            if next_url and url_has_allowed_host_and_scheme(
-                next_url, allowed_hosts={request.get_host()}
-            ):
-                return redirect(next_url)
-            return redirect("index")
+            return redirect(next_url)
         else:
-            messages.error(request, "登入失敗：用戶名或密碼不正確")
+            messages.error(request, "登入失敗，帳號或密碼錯誤")
+    else:
+        form = AuthenticationForm()
 
-    return render(request, "login.html")
+    return render(request, "layouts/login.html", {"form": form, "next": next_url})
 
 
 def log_out(request):
     logout(request)
     messages.success(request, "登出成功")
     return redirect("index")
+
+
+def forget_password(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        user = User.objects.filter(username=username).first()
+
+        if not user:
+            messages.error(request, "找不到此帳號。")
+            return redirect("users:forget_password")
+
+        profile, created = Profile.objects.get_or_create(user=user)
+        profile.forget_password_token = uuid.uuid4()
+        profile.save()
+
+        send_forget_password_mail(user.email, profile.forget_password_token)
+        messages.success(request, "重設密碼的郵件已發送。")
+        return redirect("users:forget_password")
+
+    return render(request, "layouts/forget_password.html")
+
+
+def change_password(request, token):
+    print(f"Received token: {token}")
+    profile = Profile.objects.filter(forget_password_token=token).first()
+    context = {"token": token}
+
+    if not profile:
+        messages.error(request, "無效的密碼")
+        return redirect("users:login")
+
+    context["user_id"] = profile.user.id
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("reconfirm_password")
+        user_id = request.POST.get("user_id")
+
+        if not user_id:
+            messages.error(request, "未找到帳號。")
+            return redirect("users:change_password", token=token)
+
+        if new_password != confirm_password:
+            messages.error(request, "兩次輸入的密碼不一致。")
+            return redirect("users:change_password", token=token)
+
+        user = User.objects.get(id=user_id)
+        user.set_password(new_password)
+        user.save()
+
+        profile.forget_password_token = uuid.uuid4()
+        profile.save()
+
+        messages.success(request, "密碼已成功更改。請使用新密碼登錄。")
+        return redirect("users:login")
+
+    return render(request, "layouts/change_password.html", context)

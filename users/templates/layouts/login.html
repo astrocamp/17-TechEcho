@@ -2,44 +2,53 @@
 {% load socialaccount %}
 {% block content %}
 
-<div
-  class="flex flex-col justify-center min-h-screen py-12 bg-gray-100 sm:px-6 lg:px-8"
->
+<div class="flex flex-col justify-center min-h-screen py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 animate-bounce">
+    <h2
+      class="mt-6 text-3xl font-extrabold text-center text-gray-900 animate-bounce"
+    >
       歡迎登入
     </h2>
   </div>
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-      <form class="space-y-6" action="{% url 'users:login' %}" method="POST">
+    <div class="px-4 py-8 bg-gray-100 shadow sm:rounded-lg sm:px-10">
+      <form class="space-y-6" method="POST">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">
+          <label
+            for="{{ form.username.id_for_label }}"
+            class="block text-sm font-medium text-gray-700"
+          >
             帳號
           </label>
           <div class="mt-1">
             <input
-              id="name"
-              name="username"
-              type="name"
-              autocomplete="name"
+              id="{{ form.username.id_for_label }}"
+              name="{{ form.username.name }}"
+              type="text"
+              autocomplete="username"
               required
               class="w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="請輸入您的帳號"
             />
           </div>
+          {% if form.username.errors %} {% for error in form.username.errors %}
+          <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+          {% endfor %} {% endif %}
         </div>
-
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">
+          <label
+            for="{{ form.password.id_for_label }}"
+            class="block text-sm font-medium text-gray-700"
+          >
             密碼
           </label>
           <div class="mt-1">
             <input
-              id="password"
-              name="password"
+              id="{{ form.password.id_for_label }}"
+              name="{{ form.password.name }}"
               type="password"
               autocomplete="current-password"
               required
@@ -47,8 +56,10 @@
               placeholder="請輸入您的密碼"
             />
           </div>
+          {% if form.password.errors %} {% for error in form.password.errors %}
+          <p class="mt-2 text-sm text-red-600">{{ error }}</p>
+          {% endfor %} {% endif %}
         </div>
-
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <input
@@ -63,12 +74,14 @@
           </div>
 
           <div class="text-sm">
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+            <a
+              href="{% url 'users:forget_password' %}"
+              class="font-medium text-blue-600 hover:text-blue-500"
+            >
               忘記密碼？
             </a>
           </div>
         </div>
-
         <div>
           <button
             type="submit"
@@ -76,13 +89,17 @@
           >
             登入
           </button>
-          <br />
-          <a
-            href="{% url 'users:register' %}"
-            class="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-blue-2 hover:bg-green-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            註冊，建立帳戶
-          </a>
+        </div>
+        <div class="flex justify-center">
+          <p>
+            還沒有帳號？
+            <a
+              href="{% url 'users:register' %}"
+              class="font-medium text-blue-600 hover:text-blue-500"
+            >
+              註冊
+            </a>
+          </p>
         </div>
       </form>
       <div class="mt-6">
@@ -92,7 +109,7 @@
           </div>
           <div class="relative flex justify-center text-sm">
             <span class="px-2 text-gray-500 bg-gray-100">
-              或者用以下登入方式
+              或者用以下方式登入
             </span>
           </div>
         </div>
@@ -124,5 +141,5 @@
       </div>
     </div>
   </div>
-  {% endblock content %}
 </div>
+{% endblock content %}
