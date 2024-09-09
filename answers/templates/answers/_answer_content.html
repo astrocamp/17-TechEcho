@@ -1,3 +1,3 @@
-<div x-show="!edit" id="answer-content" class="text-lg leading-relaxed mb-4">
-    <p x-text="content"></p>
+<div x-show="!edit" x-model="content" id="answer-content" class="text-lg leading-relaxed mb-4">
+    {{ answer.content|linebreaksbr }}
 </div>
