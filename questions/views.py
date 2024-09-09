@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from answers.forms import AnswerForm
 from answers.models import Answer
+from answers.utils.answers_sort import get_ordered_answers
 from lib.utils.pagination import paginate
 
 from .forms import QuestionForm
@@ -88,9 +89,9 @@ def show(request, id):
 
     question = get_object_or_404(Question, pk=id)
     vote = upvoted_or_downvoted_or_neither(request, question)
-
-    answers = question.answer_set.order_by("-votes_count", "-id")
-    answers = paginate(request, answers, items_count=10)
+    order_type = request.GET.get("order")
+    answers, order = get_ordered_answers(question, order_type)
+    answers = paginate(request, answers, items_count=6)
     form = AnswerForm()
     return render(
         request,
