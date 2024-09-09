@@ -8,39 +8,64 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('answers', '0001_initial'),
+        ("answers", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='answer',
-            name='downvote',
+            model_name="answer",
+            name="downvote",
         ),
         migrations.RemoveField(
-            model_name='answer',
-            name='upvote',
+            model_name="answer",
+            name="upvote",
         ),
         migrations.AddField(
-            model_name='answer',
-            name='updated_at',
+            model_name="answer",
+            name="updated_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
-            model_name='answer',
-            name='content',
+            model_name="answer",
+            name="content",
             field=models.TextField(),
         ),
         migrations.CreateModel(
-            name='Vote',
+            name="Vote",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('vote_type', models.CharField(choices=[('upvote', 'Upvote'), ('downvote', 'downvote')], max_length=10)),
-                ('answer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='answers.answer')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "vote_type",
+                    models.CharField(
+                        choices=[("upvote", "Upvote"), ("downvote", "downvote")],
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "answer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="answers.answer"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('user', 'answer')},
+                "unique_together": {("user", "answer")},
             },
         ),
     ]
