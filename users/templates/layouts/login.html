@@ -34,9 +34,6 @@
               placeholder="請輸入您的帳號"
             />
           </div>
-          {% if form.username.errors %} {% for error in form.username.errors %}
-          <p class="mt-2 text-sm text-red-600">{{ error }}</p>
-          {% endfor %} {% endif %}
         </div>
         <div>
           <label
@@ -56,9 +53,6 @@
               placeholder="請輸入您的密碼"
             />
           </div>
-          {% if form.password.errors %} {% for error in form.password.errors %}
-          <p class="mt-2 text-sm text-red-600">{{ error }}</p>
-          {% endfor %} {% endif %}
         </div>
         <div class="flex items-center justify-between">
           <div class="flex items-center">

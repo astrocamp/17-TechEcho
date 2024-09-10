@@ -1,4 +1,3 @@
-import logging
 import uuid
 
 from django.contrib import messages
@@ -10,8 +9,6 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsersForm
 from .helper import send_forget_password_mail
 from .models import Profile, User
-
-logger = logging.getLogger(__name__)
 
 
 def register(request):
@@ -57,7 +54,6 @@ def log_in(request):
             messages.error(request, "登入失敗，帳號或密碼錯誤")
     else:
         form = AuthenticationForm()
-
     return render(request, "layouts/login.html", {"form": form, "next": next_url})
 
 
@@ -90,17 +86,11 @@ def forget_password(request):
     return render(request, "layouts/forget_password.html")
 
 
-logger = logging.getLogger(__name__)
-
-
 def change_password(request, token):
-    logger.debug(f"Received change password request with token: {token}")
-
     try:
         profile = Profile.objects.get(forget_password_token=token)
     except Profile.DoesNotExist:
-        logger.error(f"No profile found for token: {token}")
-        messages.error(request, "無效的密碼重置令牌")
+        messages.error(request, "無效")
         return redirect("users:login")
 
     user = profile.user
