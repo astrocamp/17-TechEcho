@@ -30,16 +30,20 @@ def index(request):
     return render(request, "payments/index.html")
 
 
+def check_premium_status(user):
+    payment_user = get_object_or_404(User, username=user.username)
+    if payment_user.is_student:
+        return True
+    else:
+        return False
+
+
 @login_required
 def payment_option(request):
-    username = request.user.username
-    payment_user = get_object_or_404(User, username=username)
-    if payment_user.is_student:
-        print(f"{payment_user} 已是付費學生")
-        return render(request, "payments/after_pay.html", {"username": username})
-    else:
-        print(f"{payment_user} 還不是付費學生")
-        return render(request, "payments/payment_option.html")
+    if check_premium_status(request.user):
+        return render(request, "payments/after_pay.html")
+
+    return render(request, "payments/payment_option.html")
 
 
 ###  EC-pay use only
@@ -63,7 +67,7 @@ def ecpay_create_payment(request):
         "TotalAmount": order.amount,
         "TradeDesc": "TechEcho Premium",
         "ItemName": "升級成TechEcho Premium月訂閱用戶",
-        "ReturnURL": "https://techecho.tonytests.com/payments/ecpay_return/",
+        "ReturnURL": "https://techecho.tonytests2.com/payments/ecpay_return/",
         "ChoosePayment": "Credit",
         "ClientBackURL": "https://techecho.tonytests.com/payments/ecpay_after_pay/",
         "OrderResultURL": "https://techecho.tonytests.com/payments/ecpay_after_pay/",
@@ -120,15 +124,9 @@ def ecpay_return(request):
 @csrf_exempt
 def ecpay_after_pay(request):
     if request.method == "POST":
-        user_id = request.POST.get("CustomField1")
-        payment_user = get_object_or_404(User, id=user_id)
-        if payment_user.is_student:
-            return redirect("payments:ecpay_after_pay")
-        else:
-            return response("payment fail")
+        return redirect("payments:ecpay_after_pay")
     else:
-        request_user = request.user.username
-        return render(request, "payments/after_pay.html", {"username": request_user})
+        return render(request, "payments/after_pay.html")
 
 
 ###  Line-pay use only
@@ -255,12 +253,12 @@ def linepay_confirm_payment(request):
         order.status = "paid"
         order.save()
         User.objects.filter(id=order.user_id).update(is_student="True")
-        username = request.user.username
-        return render(request, "payments/after_pay.html", {"username": username})
     else:
         order.status = "failed"
         order.save()
-        return HttpResponse("Line Payment confirmation failed.")
+        print("Line Payment confirmation failed.")
+
+    return render(request, "payments/after_pay.html")
 
 
 def linepay_cancel_payment(request):

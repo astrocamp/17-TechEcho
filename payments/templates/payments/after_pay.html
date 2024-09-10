@@ -1,6 +1,19 @@
 {% extends "layouts/base.html" %} {% block content %}
 {% csrf_token %}
-    <h1 class="heading-1">您(帳號名稱: {{ username }}  )已是TechEcho Premium會員 </h1>
-    <h1 class="heading-1">現在可向平台導師用戶<a href="{% url 'teachers:index' %}" class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600">發起線上諮詢邀請</a>～～</h1>
+  {% if user.is_authenticated %}
+         {% if user.is_student %}
+            <h1 class="heading-1">您(帳號名稱: {{ user.username }}  )已是TechEcho Premium會員 </h1>
+            <h1 class="heading-1">現在可向平台導師用戶<a href="{% url 'teachers:index' %}" class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600">發起線上諮詢邀請</a>～～</h1>
+        {% else %}
+            <h1 class="heading-1">您(帳號名稱: {{ user.username }}  )尚未付款成功、尚未成為TechEcho Premium會員</h1>
+            <h1 class="heading-1">請向我們聯繫、確認可能原因 </h1>
+
+        {% endif %}
+  {% else %}
+        <h1 class="heading-1">用戶您好、請您先<a href="{% url 'users:login' %}" class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600">登入</a>以便使用升級Premium功能</h1>
+
+  {% endif %}
+
+
 
 {% endblock %}
