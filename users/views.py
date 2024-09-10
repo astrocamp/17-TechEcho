@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 from django.contrib import messages
@@ -9,6 +10,8 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsersForm
 from .helper import send_forget_password_mail
 from .models import Profile, User
+
+logger = logging.getLogger(__name__)
 
 
 def register(request):
@@ -79,43 +82,49 @@ def forget_password(request):
 
         send_forget_password_mail(user.email, profile.forget_password_token)
         messages.success(request, "重設密碼的郵件已發送。")
+    else:
+        messages.error(request, "找不到此帳號。")
+
         return redirect("users:forget_password")
 
     return render(request, "layouts/forget_password.html")
 
 
-def change_password(request, token):
-    print(f"Received token: {token}")
-    profile = Profile.objects.filter(forget_password_token=token).first()
-    context = {"token": token}
+logger = logging.getLogger(__name__)
 
-    if not profile:
-        messages.error(request, "無效的密碼")
+
+def change_password(request, token):
+    logger.debug(f"Received change password request with token: {token}")
+
+    try:
+        profile = Profile.objects.get(forget_password_token=token)
+    except Profile.DoesNotExist:
+        logger.error(f"No profile found for token: {token}")
+        messages.error(request, "無效的密碼重置令牌")
         return redirect("users:login")
 
-    context["user_id"] = profile.user.id
+    user = profile.user
 
     if request.method == "POST":
         new_password = request.POST.get("new_password")
-        confirm_password = request.POST.get("reconfirm_password")
-        user_id = request.POST.get("user_id")
+        confirm_password = request.POST.get("confirm_password")
 
-        if not user_id:
-            messages.error(request, "未找到帳號。")
+        if new_password and new_password == confirm_password:
+            user.set_password(new_password)
+            user.save()
+
+            profile.forget_password_token = None
+            profile.save()
+
+            messages.success(request, "密碼已成功更改，請使用新密碼登入。")
+            return redirect("users:login")
+        else:
+            messages.error(request, "密碼不匹配或為空。")
             return redirect("users:change_password", token=token)
 
-        if new_password != confirm_password:
-            messages.error(request, "兩次輸入的密碼不一致。")
-            return redirect("users:change_password", token=token)
-
-        user = User.objects.get(id=user_id)
-        user.set_password(new_password)
-        user.save()
-
-        profile.forget_password_token = uuid.uuid4()
-        profile.save()
-
-        messages.success(request, "密碼已成功更改。請使用新密碼登錄。")
-        return redirect("users:login")
-
+    context = {"token": token, "user_id": user.id}
     return render(request, "layouts/change_password.html", context)
+
+
+def profile(request):
+    return render(request, "layouts/profile.html")
