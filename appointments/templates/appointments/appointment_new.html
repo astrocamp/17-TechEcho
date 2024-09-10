@@ -13,7 +13,7 @@
             <form method="POST" action="{% url 'appointments:appointment_new' schedule.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-md bg-green-600 text-md text-white mt-4">確認預約</button>
-            </form> 
+            </form>
         </div>
     </section>
 {% endblock %}

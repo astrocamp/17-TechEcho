@@ -9,7 +9,7 @@
         <ul>
             {% for appointment in appointments %}
                 <li class="p-2 rounded-lg flex justify-between">
-                    <div class="flex items-center gap-1"> 
+                    <div class="flex items-center gap-1">
                         <p class="font-bold">已預約<span class="text-blue-600 px-2 py-1">{{ appointment.schedule.teacher.name }}</span>專家時間：</p>
                         <p>{{ appointment.schedule.start_time|date:'Y/m/d H:i' }} - {{ appointment.schedule.end_time|date:'Y/m/d H:i' }}</p>
                     </div>
