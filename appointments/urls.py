@@ -10,7 +10,6 @@ urlpatterns = [
     path("teacher/new/", views.schedule_new, name="schedule_new"),
     path("teacher/<int:id>/edit/", views.schedule_edit, name="schedule_edit"),
     path("teacher/<int:id>/delete/", views.schedule_delete, name="schedule_delete"),
-    path("teacher/status/", views.schedule_status, name="schedule_status"),
     # for student
     path("teacher/available/", views.schedule_available, name="schedule_available"),
     path("student/", views.appointment, name="appointment"),

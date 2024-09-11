@@ -13,7 +13,9 @@ from .models import Appointment, Schedule
 @login_required
 @teacher_required
 def schedule(request):
-    schedules = Schedule.objects.filter(teacher=request.user)
+    schedules = Schedule.objects.filter(teacher=request.user).prefetch_related(
+        "appointment_set"
+    )
     return render(request, "appointments/schedule.html", {"schedules": schedules})
 
 
@@ -51,17 +53,6 @@ def schedule_delete(request, id):
     schedule.delete()
     messages.success(request, "刪除成功")
     return redirect("appointments:schedule")
-
-
-@login_required
-@teacher_required
-def schedule_status(request):
-    schedules = Schedule.objects.filter(teacher=request.user).prefetch_related(
-        "appointment_set"
-    )
-    return render(
-        request, "appointments/schedule_status.html", {"schedules": schedules}
-    )
 
 
 # for student to make appointments

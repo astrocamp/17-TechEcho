@@ -5,7 +5,6 @@
     <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
         <div class="flex justify-between items-center p-1">
             <a href="{% url 'appointments:schedule_new' %}" class="btn">新增時間</a>
-            <a href="{% url 'appointments:schedule_status' %}" class="btn">授課時間預約狀況</a>
         </div>
         <ul>
             {% for schedule in schedules %}
@@ -13,6 +12,15 @@
                     <div class="flex items-center">
                         {{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}
                     </div>
+                    <ul>
+                        {% if schedule.appointment_set.exists %}
+                            {% for appointment in schedule.appointment_set.all %}
+                                <li>已被{{ appointment.student.name }}學生預約</li>
+                            {% endfor %}
+                        {% else %}
+                            <li>尚未有學生預約</li>
+                        {% endif %}
+                    </ul>
                     <div class="flex items-center gap-1">
                         <a href="{% url 'appointments:schedule_edit' schedule.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
                         <form method="POST" action="{% url 'appointments:schedule_delete' schedule.id %}" onsubmit="return confirm('確定要刪除嗎？')">
@@ -21,6 +29,8 @@
                         </form>
                     </div>
                 </li>
+            {% empty %}
+                <li>您尚未開放授課時間～</li>
             {% endfor %}
         </ul>
     </section>
