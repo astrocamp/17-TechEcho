@@ -37,6 +37,9 @@ def schedule_new(request):
 @teacher_required
 def schedule_edit(request, id):
     schedule = get_object_or_404(Schedule, id=id)
+    if schedule.appointment_set.exists():
+        messages.error(request, "此時間已被預約，無法編輯")
+        return redirect("appointments:schedule")
     if request.method == "POST":
         schedule.start_time = request.POST["start_time"]
         schedule.end_time = request.POST["end_time"]
@@ -50,6 +53,9 @@ def schedule_edit(request, id):
 @teacher_required
 def schedule_delete(request, id):
     schedule = get_object_or_404(Schedule, id=id)
+    if schedule.appointment_set.exists():
+        messages.error(request, "此時間已被預約，無法刪除")
+        return redirect("appointments:schedule")
     schedule.delete()
     messages.success(request, "刪除成功")
     return redirect("appointments:schedule")
@@ -70,9 +76,6 @@ def appointment(request):
 def appointment_new(request, id):
     schedule = get_object_or_404(Schedule, id=id)
     if request.method == "POST":
-        if Appointment.objects.filter(schedule=schedule).exists():
-            messages.error(request, "此時間已被預約")
-            return redirect("appointments:schedule_available")
         appointment = Appointment.objects.create(
             schedule=schedule, student=request.user
         )
@@ -85,17 +88,13 @@ def appointment_new(request, id):
 @student_required
 def appointment_edit(request, id):
     appointment = get_object_or_404(Appointment, id=id)
-    schedule_available = Schedule.objects.exclude(appointment__isnull=False).exclude(
+    schedule_available = Schedule.objects.filter(appointment__isnull=True).exclude(
         id=appointment.schedule.id
     )
+
     if request.method == "POST":
         new_schedule_id = request.POST.get("schedule_id")
         new_schedule = get_object_or_404(Schedule, id=new_schedule_id)
-
-        if Appointment.objects.filter(schedule=new_schedule).exists():
-            messages.error(request, "此時間已被預約")
-            return redirect("appointments:schedule_available")
-
         appointment.schedule = new_schedule
         appointment.save()
         messages.success(request, "預約更新成功")

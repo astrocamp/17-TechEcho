@@ -16,23 +16,21 @@
             </li>
         </div>
         <h2 class="text-2xl font-bold mt-6 mb-6 text-gray-900 text-center">選擇新的專家時間</h2>
-
-
-            <form method="POST" action="{% url 'appointments:appointment_edit' appointment.id %}">
-                {% csrf_token %}
-                <label for="schedule_id">可預約的專家時間：</label>
-                <select name="schedule_id" required>
-                    {% for schedule in schedule_available %}
-                        <option value="{{ schedule.id }}">
+        <form method="POST" action="{% url 'appointments:appointment_edit' appointment.id %}">
+            {% csrf_token %}
+            <ul class="list-disc">
+                {% for schedule in schedule_available %}
+                    <li class="p-2 rounded-lg flex justify-between border mb-2">
+                        <div class="flex flex-col">
                             <p>專家：{{ schedule.teacher.name }}</p>
                             <p>時間：{{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}</p>
-                        </option>
-                    {% empty %}
-                        <option value="">目前沒有可預約的時間</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-sm bg-green-600 text-white">更新預約</button>
-            </form>
-        </div>
+                        </div>
+                        <button type="submit" name="schedule_id" value="{{ schedule.id }}" class="btn btn-sm bg-green-600 text-white">更新預約</button>
+                    </li>
+                {% empty %}
+                    <li class="text-center text-xl text-gray-500 py-4">目前沒有可預約的時間</li>
+                {% endfor %}
+            </ul>
+        </form>
     </section>
 {% endblock %}

@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('answers', '0002_remove_answer_downvote_remove_answer_upvote_and_more'),
+        ("answers", "0002_remove_answer_downvote_remove_answer_upvote_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='answer',
-            name='content',
-            field=models.TextField(validators=[django.core.validators.MinLengthValidator(1, '問題描述至少要一個字')]),
+            model_name="answer",
+            name="content",
+            field=models.TextField(
+                validators=[
+                    django.core.validators.MinLengthValidator(1, "問題描述至少要一個字")
+                ]
+            ),
         ),
     ]

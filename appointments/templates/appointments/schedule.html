@@ -15,10 +15,10 @@
                     <ul>
                         {% if schedule.appointment_set.exists %}
                             {% for appointment in schedule.appointment_set.all %}
-                                <li>已被{{ appointment.student.name }}學生預約</li>
+                                <li class="font-bold">已被<span class="text-green-600 px-2 py-1">{{ appointment.student.name }}</span>學生預約</li>
                             {% endfor %}
                         {% else %}
-                            <li>尚未有學生預約</li>
+                            <li class="text-gray-500">尚未被學生預約</li>
                         {% endif %}
                     </ul>
                     <div class="flex items-center gap-1">
@@ -30,7 +30,7 @@
                     </div>
                 </li>
             {% empty %}
-                <li>您尚未開放授課時間～</li>
+                <li class="text-center text-xl text-gray-500 py-4">您目前尚未開放授課時間</li>
             {% endfor %}
         </ul>
     </section>
