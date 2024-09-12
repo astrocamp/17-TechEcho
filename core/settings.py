@@ -15,9 +15,9 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
-from lib.utils.env import is_dev
+from lib.utils.env import is_dev, is_prod
 
-if is_dev():
+if is_dev() or is_prod():
     from dotenv import load_dotenv
 
     load_dotenv()
@@ -162,7 +162,6 @@ LOGIN_URL = reverse_lazy("users:login")
 
 AUTH_USER_MODEL = "users.User"
 
-
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": ["profile", "email"],
@@ -173,6 +172,11 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {
             "access_type": "online",
         },
+        "REDIRECT_URI": (
+            "http://techecho.tonytests.com/accounts/google/login/callback/"
+            if is_prod()
+            else "http://127.0.0.1:8000/accounts/google/login/callback/"
+        ),
     },
     "github": {
         "SCOPE": ["user", "repo", "read:org"],
