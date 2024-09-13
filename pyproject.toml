@@ -11,7 +11,7 @@ python = "^3.12"
 django = "^5.1"
 line-pay = "^0.2.0"
 psycopg2-binary = {version = "^2.9.9", extras = ["mac"]}
-psycopg2 = {version = "^2.9.9", extras = ["windows"]}
+
 django-taggit = "^6.0.0"
 django-htmx = "^1.19.0"
 channels = {extras = ["daphne"], version = "^4.1.0"}

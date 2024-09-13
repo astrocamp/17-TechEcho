@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "chat",
     "appointments",
     "notifications",
+    "blogs",
+    "markdownx",
 ]
 
 
