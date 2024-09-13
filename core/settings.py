@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     "chat",
     "appointments",
     "notifications",
+    "blogs",
+    "markdownx",
 ]
 
 
@@ -161,7 +163,6 @@ TAGGIT_CASE_INSENSITIVE = True
 LOGIN_URL = reverse_lazy("users:login")
 
 AUTH_USER_MODEL = "users.User"
-
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

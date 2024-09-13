@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="p-6 max-w-4xl mx-auto relative">
+        <div class="flex justify-between items-center p-1">
+        <h1 class="text-4xl">文章列表</h1>
+        <a href="{% url 'blogs:new' %}">增新文章</a>
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <a href="{% url 'blogs:show' article.pk %}">{{ article.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+</div>
+{% endblock %}
