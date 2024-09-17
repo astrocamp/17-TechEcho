@@ -23,6 +23,7 @@
     "@yaireo/tagify": "^4.31.3",
     "alpinejs": "^3.14.1",
     "animate.css": "^4.1.1",
+    "flatpickr": "^4.6.13",
     "htmx.org": "^2.0.2",
     "js-cookie": "^3.0.5",
     "monaco-editor": "^0.51.0",

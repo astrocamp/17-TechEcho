@@ -6,6 +6,7 @@ from lib.utils.student_required import student_required
 from lib.utils.teacher_required import teacher_required
 from teachers.models import Teacher
 
+from .forms import TeacherScheduleForm
 from .models import StudentReservation, TeacherSchedule
 
 
@@ -13,26 +14,30 @@ from .models import StudentReservation, TeacherSchedule
 @login_required
 @teacher_required
 def teacher_index(request):
+    if request.method == "POST":
+        form = TeacherScheduleForm(request.POST)
+        if form.is_valid():
+            schedule = form.save(commit=False)
+            schedule.teacher = request.user
+            schedule.save()
+            messages.success(request, "新增成功")
+            return redirect("reservations:teacher_index")
+        return render(request, "reservations/teacher/teacher_new.html", {"form": form})
     schedules = (
         TeacherSchedule.objects.filter(teacher=request.user)
         .prefetch_related("studentreservation_set")
         .order_by("start_time")
     )
-    return render(request, "reservations/teacher/teacher_index.html", {"schedules": schedules})
+    return render(
+        request, "reservations/teacher/teacher_index.html", {"schedules": schedules}
+    )
 
 
 @login_required
 @teacher_required
 def teacher_new(request):
-    if request.method == "POST":
-        start_time = request.POST["start_time"]
-        end_time = request.POST["end_time"]
-        TeacherSchedule.objects.create(
-            teacher=request.user, start_time=start_time, end_time=end_time
-        )
-        messages.success(request, "新增成功")
-        return redirect("reservations:teacher_index")
-    return render(request, "reservations/teacher/teacher_new.html")
+    form = TeacherScheduleForm()
+    return render(request, "reservations/teacher/teacher_new.html", {"form": form})
 
 
 @login_required
@@ -43,12 +48,18 @@ def teacher_edit(request, id):
         messages.error(request, "此時間已被預約，無法編輯")
         return redirect("reservations:teacher_index")
     if request.method == "POST":
-        schedule.start_time = request.POST["start_time"]
-        schedule.end_time = request.POST["end_time"]
-        schedule.save()
-        messages.success(request, "編輯成功")
-        return redirect("reservations:teacher_index")
-    return render(request, "reservations/teacher/teacher_edit.html", {"schedule": schedule})
+        form = TeacherScheduleForm(request.POST, instance=schedule)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "編輯成功")
+            return redirect("reservations:teacher_index")
+        return render(request, "reservations/teacher/teacher_edit.html", {"form": form})
+    form = TeacherScheduleForm(instance=schedule)
+    return render(
+        request,
+        "reservations/teacher/teacher_edit.html",
+        {"schedule": schedule, "form": form},
+    )
 
 
 @login_required
@@ -71,7 +82,9 @@ def student_index(request):
         "schedule__teacher", "schedule__start_time"
     )
     return render(
-        request, "reservations/student/student_index.html", {"reservations": reservations}
+        request,
+        "reservations/student/student_index.html",
+        {"reservations": reservations},
     )
 
 
@@ -83,15 +96,19 @@ def student_new(request, id):
         StudentReservation.objects.create(schedule=schedule, student=request.user)
         messages.success(request, "預約成功")
         return redirect("reservations:student_index")
-    return render(request, "reservations/student/student_new.html", {"schedule": schedule})
+    return render(
+        request, "reservations/student/student_new.html", {"schedule": schedule}
+    )
 
 
 @login_required
 @student_required
 def student_edit(request, id):
     reservation = get_object_or_404(StudentReservation, id=id)
-    teacher_available = TeacherSchedule.objects.filter(studentreservation__isnull=True).exclude(
-        id=reservation.schedule.id
+    teacher_available = (
+        TeacherSchedule.objects.filter(studentreservation__isnull=True)
+        .exclude(id=reservation.schedule.id)
+        .order_by("teacher", "start_time")
     )
 
     if request.method == "POST":
@@ -122,9 +139,9 @@ def student_delete(request, id):
 
 
 def teacher_available(request):
-    schedules = TeacherSchedule.objects.exclude(studentreservation__isnull=False).order_by(
-        "teacher", "start_time"
-    )
+    schedules = TeacherSchedule.objects.exclude(
+        studentreservation__isnull=False
+    ).order_by("teacher", "start_time")
     return render(
         request, "reservations/teacher/teacher_available.html", {"schedules": schedules}
     )

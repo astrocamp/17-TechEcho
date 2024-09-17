@@ -3,19 +3,41 @@
 {% block content %}
     <h1 class="text-4xl font-bold mt-6 mb-6 text-gray-900 text-center">編輯授課時間</h1>
     <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
-        <div class="text-center text-lg mb-4">
-            <form method="POST" action="{% url 'reservations:teacher_edit' schedule.id %}">
+        <div class="text-center text-lg mb-4 flex flex-col items-center gap-4">
+            <form method="POST" action="{% url 'reservations:teacher_edit' schedule.id %}" >
                 {% csrf_token %}
-                <div>
-                    <label for="start_time">開始時間：</label>
-                    <input type="datetime-local" step="1800" name="start_time" min="2024-09-01T08:30" max="2024-12-31T22:00" value="{{ schedule.start_time|date:'Y-m-d H:i' }}" required>
-                </div>
-                <div>
-                    <label for="end_time">結束時間：</label>
-                    <input type="datetime-local" step="1800" name="end_time" min="2024-09-01T08:30" max="2024-12-31T22:00" value="{{ schedule.end_time|date:'Y-m-d H:i' }}" required>
-                </div>
+                {{ form }}
                 <button class="btn btn-md bg-green-600 text-lg text-white mt-4">保存</button>
             </form>
         </div>
     </section>
+
+    <script>
+        function adjustToNextHour(date) {
+            if (date.getMinutes() !== 0) {
+                date.setHours(date.getHours() + 1);
+                date.setMinutes(0);
+            }
+            return date;
+        }
+
+        const currentTime = new Date();
+        const adjustedTime = adjustToNextHour(currentTime);
+
+        flatpickr(".flatpickr", {
+            enableTime: true,
+            inline: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: adjustedTime, // 如果目前時間不是整點，時間會自動跳到下一個整點
+            maxDate: new Date().fp_incr(90), // 設定最大可選日期為90天內
+            minuteIncrement: 60, // 分鐘按鈕每次增加60分鐘
+            enable: [
+                function(date) {
+                    return [0].includes(date.getMinutes()); // 只能整點
+                }
+            ],
+            locale: "zh",
+            allowInput: false,
+        });
+    </script>
 {% endblock %}
