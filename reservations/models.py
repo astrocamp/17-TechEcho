@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 
 
-class Schedule(models.Model):
+class TeacherSchedule(models.Model):
     teacher = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -15,8 +15,8 @@ class Schedule(models.Model):
         return f"{self.teacher} - {self.start_time} to {self.end_time}"
 
 
-class Appointment(models.Model):
-    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
+class StudentReservation(models.Model):
+    schedule = models.ForeignKey(TeacherSchedule, on_delete=models.CASCADE)
     student = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

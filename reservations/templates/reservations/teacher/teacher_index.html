@@ -4,7 +4,7 @@
     <h1 class="text-4xl font-bold mt-6 mb-6 text-gray-900 text-center">我的授課時間</h1>
     <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
         <div class="flex justify-between items-center p-1">
-            <a href="{% url 'appointments:schedule_new' %}" class="btn">新增時間</a>
+            <a href="{% url 'reservations:teacher_new' %}" class="btn">新增時間</a>
         </div>
         <ul>
             {% for schedule in schedules %}
@@ -14,21 +14,21 @@
                             {{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}
                         </div>
                         <ul>
-                            {% if schedule.appointment_set.exists %}
-                                {% for appointment in schedule.appointment_set.all %}
-                                    <li class="font-bold">已被<span class="text-green-600 px-2 py-1">{{ appointment.student.username }}</span>學生預約</li>
+                            {% if schedule.studentreservation_set.exists %}
+                                {% for reservation in schedule.studentreservation_set.all %}
+                                    <li class="font-bold">已被<span class="text-green-600 px-2 py-1">{{ reservation.student.get_display_name }}</span>學生預約</li>
                                 {% endfor %}
                             {% else %}
                                 <li class="text-gray-500">尚未被學生預約</li>
                             {% endif %}
                         </ul>
                     </div>
-                    {% if not schedule.appointment_set.exists %}
+                    {% if not schedule.studentreservation_set.exists %}
                         <div class="flex items-center gap-1">
-                            <a href="{% url 'appointments:schedule_edit' schedule.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
-                            <form method="POST" action="{% url 'appointments:schedule_delete' schedule.id %}" onsubmit="return confirm('確定要刪除嗎？')">
+                            <a href="{% url 'reservations:teacher_edit' schedule.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
+                            <form method="POST" action="{% url 'reservations:teacher_delete' schedule.id %}" onsubmit="return confirm('確定要刪除嗎？')">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-sm bg-red-600 text-white">刪除</button>
+                                <button class="btn btn-sm bg-red-600 text-white">刪除</button>
                             </form>
                         </div>
                     {% endif %}

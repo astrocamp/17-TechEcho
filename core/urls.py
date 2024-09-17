@@ -11,7 +11,7 @@ urlpatterns = [
     path("payments/", include("payments.urls")),
     path("accounts/", include("allauth.urls")),
     path("chat/", include("chat.urls")),
-    path("appointments/", include("appointments.urls")),
+    path("reservations/", include("reservations.urls")),
     path("blogs/", include("blogs.urls")),
     path("editors/", include("editors.urls")),
 ]

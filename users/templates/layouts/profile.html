@@ -32,12 +32,22 @@
               通知總覽
             </a>
           </li>
-          <li>
-            <a href="#" class="flex items-center"
-              ><i class="fas fa-bell mr-2"></i>
-              我的預約
-            </a>
-          </li>
+          {% if user.is_student %}
+            <li>
+              <a href="{% url 'reservations:student_index' %}" class="flex items-center"
+                ><i class="fas fa-bell mr-2"></i>
+                我的預約
+              </a>
+            </li>
+          {% endif %}
+          {% if user.is_teacher %}
+            <li>
+              <a href="{% url 'reservations:teacher_index' %}" class="flex items-center"
+                ><i class="fas fa-calendar-alt mr-2"></i>
+                我的授課時間
+              </a>
+            </li>
+          {% endif %}
           <li>
             <a href="#" class="flex items-center"
               ><i class="fas fa-ticket-alt mr-2"></i>

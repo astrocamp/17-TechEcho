@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                     "schedule",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="appointments.schedule",
+                        to="reservations.schedule",
                     ),
                 ),
             ],

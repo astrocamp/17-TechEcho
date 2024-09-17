@@ -3,19 +3,16 @@
 {% block content %}
     <h1 class="mt-6 mb-6 text-4xl font-bold text-center text-gray-900">可預約的專家</h1>
     <section class="container px-6 py-4 mx-auto my-4 border rounded-lg">
-        <div class="flex items-center justify-between p-1">
-            <a href="{% url 'appointments:appointment' %}" class="btn">前往我的預約</a>
-        </div>
         <ul>
             {% if schedules %}
                 {% for schedule in schedules %}
                     <li class="flex justify-between p-2 rounded-lg">
                         <div class="flex items-center gap-1">
-                            <p class="font-bold"><span class="px-2 py-1 text-blue-600">{{ schedule.teacher.username }}</span>專家可預約時間：</p>
+                            <p class="font-bold"><span class="px-2 py-1 text-blue-600">{{ schedule.teacher.get_display_name }}</span>專家可預約時間：</p>
                             <p>{{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}</p>
                         </div>
                         <div class="flex items-center gap-1">
-                            <a href="{% url 'appointments:appointment_new' schedule.id %}" class="text-white bg-blue-600 btn btn-sm">預約</a>
+                            <a href="{% url 'reservations:student_new' schedule.id %}" class="text-white bg-blue-600 btn btn-sm">預約</a>
                         </div>
                     </li>
                 {% empty %}
