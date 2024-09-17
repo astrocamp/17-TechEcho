@@ -4,6 +4,13 @@
     <h1 class="text-4xl font-bold mt-6 mb-6 text-gray-900 text-center">編輯授課時間</h1>
     <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
         <div class="text-center text-lg mb-4 flex flex-col items-center gap-4">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-error">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <form method="POST" action="{% url 'reservations:teacher_edit' schedule.id %}" >
                 {% csrf_token %}
                 {{ form }}
