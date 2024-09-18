@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponse
 from django.shortcuts import redirect, render, reverse
+from django.template.loader import render_to_string
 from django.utils.http import url_has_allowed_host_and_scheme
 
 from users.forms import UserPhotoForm, UserProfileForm, UsersForm
@@ -80,9 +82,13 @@ def forget_password(request):
         password_reset.forget_password_token = uuid.uuid4()
         password_reset.save()
 
-        send_forget_password_mail(user.email, password_reset.forget_password_token)
+        send_forget_password_mail(user.email, profile.forget_password_token)
         messages.success(request, "重設密碼的郵件已發送。")
+    else:
+        messages.error(request, "找不到此帳號。")
+
         return redirect("users:forget_password")
+
     return render(request, "layouts/forget_password.html")
 
 
@@ -118,15 +124,7 @@ def change_password(request, token):
 
 @login_required
 def profile(request):
-    if request.method == "POST":
-        photo_form = UserPhotoForm(request.POST, request.FILES, instance=request.user)
-        if photo_form.is_valid():
-            photo_form.save()
-            return redirect("users:profile")
-    else:
-        photo_form = UserPhotoForm(instance=request.user)
-
-    context = {"photo_form": photo_form, "user": request.user}
+    context = {"user": request.user}
     return render(request, "layouts/profile.html", context)
 
 
@@ -134,13 +132,30 @@ def profile(request):
 def profile_edit(request):
     if request.method == "POST":
         form = UserProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
+        photo_form = UserPhotoForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid() and photo_form.is_valid():
             form.save()
-            messages.success(request, "您的個人資料已成功更新。")
-            return redirect("users:profile")
+            photo_form.save()
+            if "HX-Request" in request.headers:
+                response = HttpResponse()
+                response["HX-Redirect"] = reverse("users:profile")
+                return response
+            else:
+                return redirect("users:profile")
         else:
-            messages.error(request, "請更正以下錯誤。")
+            if "HX-Request" in request.headers:
+                html = render_to_string(
+                    "layouts/profile_edit.html",
+                    {"form": form, "photo_form": photo_form},
+                    request,
+                )
+                return HttpResponse(html)
+            else:
+                messages.error(request, "請更正以下錯誤。")
     else:
         form = UserProfileForm(instance=request.user)
+        photo_form = UserPhotoForm(instance=request.user)
 
-    return render(request, "layouts/profile_edit.html", {"form": form})
+    return render(
+        request, "layouts/profile_edit.html", {"form": form, "photo_form": photo_form}
+    )

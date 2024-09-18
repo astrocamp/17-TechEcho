@@ -1,6 +1,6 @@
 <nav
   class="sticky top-0 left-0 z-20 w-full p-6 bg-blue-1"
-  x-data="{ open: false, submenuOpen: false, expertOpen: false, userMenuOpen: false, teacherOpen: false}"
+  x-data="{ open: false, articleOpen: false,submenuOpen: false, expertOpen: false, userMenuOpen: false, teacherOpen: false}"
   @resize.window="if (window.innerWidth > 768) open = false"
 >
   <div class="flex items-center justify-between">
@@ -35,6 +35,30 @@
     </button>
 
     <ul class="hidden space-x-4 text-xl text-white md:flex whitespace-nowrap">
+      <li class="relative tooltip tooltip-bottom" data-tip="發表嗎？">
+        <a
+          href="#"
+          @click="articleOpen = !articleOpen"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+        >
+          文章
+        </a>
+        <ul
+          x-show="articleOpen"
+          @click.away="articleOpen = false"
+          class="absolute left-0 z-20 mt-9 w-60 text-green-3 bg-vanilla-5"
+          style="display: none"
+        >
+          <li>
+            <a
+              href="{% url 'blogs:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4"
+            >
+              分享
+            </a>
+          </li>
+        </ul>
+      </li>
       <li class="relative tooltip tooltip-bottom" data-tip="問看看？">
         <a
           href="#"
@@ -132,12 +156,19 @@
           class="pr-3 transition duration-300 ease-in-out hover:text-green-3 no-underline hover:underline"
           >{{ user }}
         </span>
+        {% if user.profile_picture %}
+        <img
+          src="{{ user.profile_picture.url }}"
+          alt="Profile Picture"
+          class="rounded-full cursor-pointer w-7 h-7"
+        />
+        {% else %}
         <img
           src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar"
           alt="User Avatar"
           class="rounded-full cursor-pointer w-7 h-7"
         />
-
+        {% endif %}
         <ul
           x-show="userMenuOpen"
           @click.away="userMenuOpen = false"

@@ -1,39 +1,104 @@
 {% extends 'layouts/base.html' %} {% block content %}
-<div class="font-bold mb-4">
-  <h1 class="text-2xl text-center">個人檔案</h1>
-</div>
-<div class="container mx-auto px-4">
+<div
+  class="container mx-auto px-4"
+  x-data="{
+  currentView: localStorage.getItem('currentView') || 'profile',
+  showSubMenu: false,
+  setView(view) {
+    this.currentView = view;
+    localStorage.setItem('currentView', view);
+  }
+}"
+>
   <div class="flex items-start gap-8">
     <aside class="w-64 flex-shrink-0">
       <div class="mb-6">
+        {% if user.profile_picture %}
+        <img
+          src="{{ user.profile_picture.url }}"
+          alt="Profile Picture"
+          class="w-32 h-32 rounded-full mb-4"
+        />
+        {% else %}
         <img
           src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar"
           alt="User Avatar"
-          class="w-16 h-16 rounded-full mb-2"
+          class="w-32 h-32 rounded-full mb-4"
         />
-        <h2 class="text-lg font-semibold">{{ user }}</h2>
-        <a href="#" class="text-sm text-gray-600">編輯個人簡介</a>
+        {% endif %}
+        <h2 class="text-lg font-semibold pl-8">{{ user }}</h2>
       </div>
       <nav>
         <ul class="space-y-2">
           <li>
-            <a href="#" class="flex items-center"
-              ><i class="fas fa-user mr-2"></i>我的個人資料</a
+            <a
+              href="#"
+              class="flex items-center"
+              @click.prevent="setView('profile')"
+              ><i class="fa-solid fa-user mr-2"></i>我的個人資料</a
             >
           </li>
           <li>
-            <a href="#" class="flex items-center"
-              ><i class="fas fa-clipboard-list mr-2"></i>通知總覽</a
+            <a
+              href="#"
+              class="flex items-center"
+              @click.prevent="setView('notifications')"
+              ><i class="fas fa-bell mr-2"></i>通知總覽</a
             >
           </li>
           <li>
-            <a href="#" class="flex items-center"
-              ><i class="fas fa-bell mr-2"></i>我的預約</a
+            <a
+              href="#"
+              class="flex items-center"
+              @click.prevent="setView('appointments')"
+              ><i class="fa-solid fa-calendar-check mr-2"></i>我的預約</a
             >
           </li>
           <li>
-            <a href="#" class="flex items-center"
-              ><i class="fas fa-ticket-alt mr-2"></i>我的足跡</a
+            <a
+              href="#"
+              class="flex items-center"
+              @click.prevent="showSubMenu = !showSubMenu"
+            >
+              <i class="fa-solid fa-clock-rotate-left mr-2"></i>我的足跡
+            </a>
+            <ul x-show="showSubMenu" class="pl-6 mt-2 space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-gray-700"
+                  @click.prevent="setView('answeredQuestions')"
+                >
+                  我回答過的問題
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-gray-700"
+                  @click.prevent="setView('myQuestions')"
+                >
+                  我的問題
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-gray-700"
+                  @click.prevent="setView('Myblogs')"
+                >
+                  我發過的文章
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <a
+              href="#"
+              class="flex items-center"
+              @click.prevent="setView('drafts')"
+              ><i class="fa-solid fa-pen mr-2"></i>我的草稿</a
             >
           </li>
         </ul>
@@ -44,10 +109,11 @@
       class="flex-grow"
       action="{% url 'users:profile_edit' %}"
       method="POST"
+      enctype="multipart/form-data"
     >
       {% csrf_token %}
       <div class="bg-white shadow rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-2">我的檔案</h1>
+        <h1 class="text-2xl font-bold mb-2">我的個人資料</h1>
         <div class="flex flex-col md:flex-row">
           <div class="flex-grow pr-0 md:pr-8">
             <div class="mb-4">
@@ -75,30 +141,39 @@
               <input
                 type="text"
                 name="nickname"
-                value="{{ user.get_display_name }}"
+                value="{{ user.get_display_name}}"
                 class="w-full p-2 border rounded"
               />
             </div>
-            <button class="btn btn-sm bg-green-600 text-white">更新</button>
+            <div class="flex justify-center mt-4">
+              <button class="btn btn-sm bg-green-600 text-white">更新</button>
+            </div>
           </div>
           <div class="mt-6 md:mt-0 md:w-1/3 flex flex-col items-center">
+            {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" />
+            {% else %}
             <img
               src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar"
               alt="User Avatar"
               class="w-32 h-32 rounded-full mb-4"
             />
-            <button
-              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2"
-            >
-              選擇圖片
-            </button>
-            <p class="text-sm text-gray-600">檔案大小:最大1MB</p>
-            <p class="text-sm text-gray-600">檔案限制: JPEG, PNG</p>
+            {% endif %}
+            <div>
+              <label for="uploadBtn" class="btn btn-sm bg-blue-600 text-white"
+                >選擇照片</label
+              >
+              <input
+                type="file"
+                name="profile_picture"
+                id="uploadBtn"
+                class="hidden"
+              />
+            </div>
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
-
 {% endblock %}
