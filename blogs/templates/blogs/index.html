@@ -4,27 +4,34 @@
 <div class="p-6 max-w-4xl mx-auto">
     <div class="flex justify-between items-center p-1">
         <h1 class="text-4xl">文章列表</h1>
-        <a href="{% url 'blogs:new' %}">新增文章</a>
+        <a href="{% url 'blogs:new' %}" class="bg-blue-500 text-white px-4 py-2 rounded">新增文章</a>
     </div>
 
     <ul>
         {% for blog in blogs %}
-            <li class="p-4 border-b border-gray-200">
+            <li class="p-4 border-b border-gray-200 hover:bg-gray-100 transition">
                 <div class="flex justify-between items-center">
                     <div>
+<<<<<<< issue/#185
                         <a href="{% url 'blogs:show' blog.pk %}" class="text-2xl font-bold">{{ blog.title }}</a>
                         <p>Category: {{ blog.category.name }}</p>
                         <p>Published on: {{ blog.created_at|date:"Y-m-d H:i" }}</p>
                         <p>Author: {{ blog.author }}</p>
+=======
+                        <a href="{% url 'blogs:show' blog.pk %}" class="text-2xl font-bold hover:underline">{{ blog.title }}</a>
+                        <p class="text-sm text-gray-600">標籤: {{ blog.category.name }}</p>
+                        <p class="text-sm text-gray-600">發佈時間: {{ blog.created_at|date:"Y-m-d H:i" }}</p>
+                        <p class="text-sm text-gray-600">作者: {{ blog.author_display_name }}</p>
+>>>>>>> dev
                     </div>
-                    <div>
-                        <p>Views: {{ blog.views }}</p>
-                        <p>Comments: {{ blog.comments_count }}</p>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-600">遊覽: {{ blog.views }}</p>
+                        <p class="text-sm text-gray-600">留言: {{ blog.comments_count }}</p>
                     </div>
                 </div>
             </li>
         {% endfor %}
     </ul>
+    {% include 'shared/pagination.html' with pages=blogs default_message="No posts available" %}
 </div>
 {% endblock %}
-

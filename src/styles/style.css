@@ -1,6 +1,7 @@
 @import "./tag.css";
 @import "./animations.css";
 @import "./animate.min.css";
+@import "./github-markdown.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -77,6 +78,7 @@
   border: 0;
 }
 
+
 .dot {
   @apply rounded-full p-1.5;
 }
@@ -92,3 +94,4 @@
 .graylight-dot {
   @apply bg-green-300;
 }
+

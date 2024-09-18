@@ -1,24 +1,59 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto bg-white p-6 mt-8 rounded-md shadow-md">
-    <h1 class="text-2xl font-bold mb-4 text-gray-800">
-        新增文章
-    </h1>
-    <form method="post" class="space-y-4">
-        {% csrf_token %}
-        {{ form.as_p }}
+<div class="flex flex-col md:flex-row max-w-6xl mx-auto bg-white p-6 mt-8 rounded-md shadow-md">
 
-        <!-- Buttons for different actions -->
-        <button type="submit" name="action" value="save_draft" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
-            儲存草稿
-        </button>
-        <button type="submit" name="action" value="preview" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md">
-            預覽
-        </button>
-        <button type="submit" name="action" value="publish" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
-            發佈
-        </button>
-    </form>
+    <div class="w-full md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">新增文章</h1>
+        <form method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+
+
+            <div class="mb-4">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.content.label_tag }}
+                {{ form.content }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.category.label_tag }}
+                {{ form.category }}
+            </div>
+
+
+            <div class="mb-4">
+                <label for="id_is_draft">{{ form.is_draft.label }}</label>
+                {{ form.is_draft }}
+            </div>
+
+
+            <button type="submit" name="action" value="preview" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
+                預覽文章
+            </button>
+
+            <button type="submit" name="action" value="publish" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
+                發佈文章
+            </button>
+
+            <button type="submit" name="action" value="save_draft" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md">
+                儲存草稿
+            </button>
+        </form>
+        <a href="{% url 'blogs:index' %}" class="text-blue-500 hover:underline">取消</a>
+    </div>
+
+
+    <div class="w-full md:w-1/2 pl-0 md:pl-4">
+        {% if content_html %}
+        <h2 class="text-xl font-bold mb-4 text-gray-800">預覽</h2>
+        <div class="prose max-w-full break-words overflow-hidden">
+            {{ content_html|safe }}
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

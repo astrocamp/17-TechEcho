@@ -25,5 +25,6 @@
             <li>目前沒有草稿。</li>
         {% endfor %}
     </ul>
+    {% include 'shared/pagination.html' with pages=blogs default_message="No posts available" %}
 </div>
 {% endblock %}

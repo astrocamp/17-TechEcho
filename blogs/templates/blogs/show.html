@@ -2,20 +2,15 @@
 
 {% block content %}
 <div class="max-w-2xl mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
-    <div class="flex items-center mb-6">
-        <img src="{{ blog.author.profile_image.url }}" alt="{{ blog.author }}" class="w-12 h-12 rounded-full mr-4">
-        <div>
-            <p class="text-lg font-semibold">{{ blog.author }}</p>
-            <p class="text-sm text-gray-500">{{ blog.created_at|date:"Y-m-d H:i:s" }}</p>
-            <p class="text-sm text-gray-500">{{ blog.views }} 瀏覽</p>
-        </div>
-    </div>
-
     <div class="mb-6">
-        <h1 class="text-2xl font-bold mb-4">{{ blog.title }}</h1>
-        <!-- Updated content div with text wrapping -->
-        <div class="max-w-full whitespace-pre-wrap break-words">{{ blog.content }}</div>
-
+        <h1 class="text-2xl font-bold mb-4 break-words">{{ blog.title }}</h1>
+        <p class="text-sm text-gray-600 mb-2">
+            作者: {{ author_display_name }} |
+            發表時間: {{ blog.created_at|date:"Y-m-d H:i" }}
+        </p>
+        <div class="markdown-body max-w-full overflow-x-auto break-all p-5">
+            {{ content_html|safe }}
+        </div>
     </div>
 
     {% if blog.image %}
@@ -25,11 +20,12 @@
     {% endif %}
 
     <div class="flex justify-between items-center">
-        <a href="{% url 'blogs:edit' blog.pk %}" class="text-blue-500 hover:text-blue-700">編輯文章</a>
+        <a href="{% url 'blogs:edit' blog.pk %}" class="text-blue-500 hover:text-blue-700">編輯</a>
         <form action="{% url 'blogs:delete' blog.pk %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="text-red-500 hover:text-red-700">刪除文章</button>
+            <button type="submit" class="text-red-500 hover:text-red-700">刪除</button>
         </form>
     </div>
+
 </div>
 {% endblock %}

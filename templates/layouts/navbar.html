@@ -1,6 +1,8 @@
 <nav
   class="sticky top-0 left-0 z-20 w-full p-6 bg-blue-1"
+
   x-data="{ open: false, articleOpen: false,submenuOpen: false, expertOpen: false, userMenuOpen: false, teacherOpen: false}"
+
   @resize.window="if (window.innerWidth > 768) open = false"
 >
   <div class="flex items-center justify-between">
@@ -216,6 +218,22 @@
     @click.away="open = false"
     style="display: none"
   >
+
+    <li @click="articleOpen = !articleOpen">
+      <a
+        href="#"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+        >文章
+      </a>
+      <ul x-show="articleOpen" class="mt-2 ml-4">
+        <li>
+          <a
+            href="{% url 'blogs:index' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4"
+          >
+            分享
+          </a>
+        </li>
     <li @click="submenuOpen = !submenuOpen">
       <a
         href="#"
