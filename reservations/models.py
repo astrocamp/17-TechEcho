@@ -43,4 +43,4 @@ class StudentReservation(models.Model):
         ordering = ["schedule__teacher", "schedule__start_time"]
 
     def __str__(self):
-        return f"Reservation for {self.student.username} - {self.schedule}"
+        return f"Reservation for {self.student} - {self.schedule}"

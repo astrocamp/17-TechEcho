@@ -28,6 +28,9 @@ class User(AbstractUser):
             self.slug = f"{base_slug}-{get_random_string(10)}"
         super().save(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return self.get_display_name()
+
 
 class PasswordReset(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

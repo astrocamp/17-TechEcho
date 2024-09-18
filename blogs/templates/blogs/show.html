@@ -3,9 +3,9 @@
 {% block content %}
 <div class="max-w-2xl mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
     <div class="flex items-center mb-6">
-        <img src="{{ blog.author.profile_image.url }}" alt="{{ blog.author.username }}" class="w-12 h-12 rounded-full mr-4">
+        <img src="{{ blog.author.profile_image.url }}" alt="{{ blog.author }}" class="w-12 h-12 rounded-full mr-4">
         <div>
-            <p class="text-lg font-semibold">{{ blog.author.username }}</p>
+            <p class="text-lg font-semibold">{{ blog.author }}</p>
             <p class="text-sm text-gray-500">{{ blog.created_at|date:"Y-m-d H:i:s" }}</p>
             <p class="text-sm text-gray-500">{{ blog.views }} 瀏覽</p>
         </div>

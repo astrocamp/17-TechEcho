@@ -11,7 +11,7 @@
         {% csrf_token %}
         <div class="grid gap-4">
             <p class="text-xl text-lg text-white">使用者:</p>
-            <p class="text-white text-lg">{{ request.user.username }}</p>
+            <p class="text-white text-lg">{{ request.user }}</p>
             <label for="nickname" class="text-cyan-400">可以自訂暱稱</label>
             <input required type="text" name="nickname" value="{{ user.get_display_name }}">
             {{ form.user.errors }}

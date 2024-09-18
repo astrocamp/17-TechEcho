@@ -45,4 +45,4 @@ class QuestionUserVotes(models.Model):
     vote_status = models.CharField(max_length=10, default="neither")
 
     def __str__(self) -> str:
-        return f"question:{self.question.title} was voted {self.vote_status} by user:{self.user.username}"
+        return f"question:{self.question.title} was voted {self.vote_status} by user:{self.user}"

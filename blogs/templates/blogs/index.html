@@ -15,7 +15,7 @@
                         <a href="{% url 'blogs:show' blog.pk %}" class="text-2xl font-bold">{{ blog.title }}</a>
                         <p>Category: {{ blog.category.name }}</p>
                         <p>Published on: {{ blog.created_at|date:"Y-m-d H:i" }}</p>
-                        <p>Author: {{ blog.author.username }}</p>
+                        <p>Author: {{ blog.author }}</p>
                     </div>
                     <div>
                         <p>Views: {{ blog.views }}</p>

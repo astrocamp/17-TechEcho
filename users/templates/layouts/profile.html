@@ -15,7 +15,7 @@
                   class="w-32 h-32 rounded-full mb-4"
                 />
         {% endif %}
-        <h2 class="text-lg font-semibold">{{ user.username }}</h2>
+        <h2 class="text-lg font-semibold">{{ user }}</h2>
         <a href="#" class="text-sm text-gray-600">編輯個人簡介</a>
       </div>
       <nav>
@@ -68,7 +68,7 @@
               <label class="block text-gray-700 mb-2">使用者帳號</label>
               <input
                 type="text"
-                value="{{user.username}}"
+                value="{{user}}"
                 class="w-full p-2 border rounded bg-gray-100"
                 readonly
               />
