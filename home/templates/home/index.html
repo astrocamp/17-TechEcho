@@ -1,44 +1,49 @@
-{% extends "layouts/base.html" %}
-{% block content %}
+{% extends "layouts/base.html" %} {% block content %}
 <div class="relative w-full h-screen overflow-hidden">
-    <div id="container">
-        <div id="code1" class="code">Python</div>
-        <div id="code2" class="code">JavaScript</div>
-        <div id="code3" class="code">Ruby</div>
-    </div>
-    <div class="outside">
-        <div class="box">
-        </div>
-        <div class="reverse-box">TechEcho</div>
-    </div>
+  <div id="container">
+    <div id="code1" class="code">Python</div>
+    <div id="code2" class="code">JavaScript</div>
+    <div id="code3" class="code">Ruby</div>
+  </div>
+  <h1 class="mt-32 text-3xl font-bold text-center text-green-3">
+    技術問題、尋找答案、深入諮詢、熱情分享，軟工的技術交流平台
+  </h1>
 
-    <div class="relative z-10 flex items-center justify-center h-full mt-40">
-        <div class="relative w-full max-w-xl px-2">
-            <form method="GET" action="{% url 'search' %}" class="relative flex items-center">
-                <input
-                    type="text"
-                    name="q"
-                    class="w-full p-2 pr-10 border border-gray-300 h-14 rounded-3xl"
-                    placeholder="Search..."
-                    value="{{ query }}"
-                >
-                <button type="submit" class="absolute text-gray-500 bottom-4 right-5">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+  <div class="relative z-10 flex items-center justify-center h-full mt-10">
+    <div class="relative w-full max-w-xl px-2">
+      <form
+        method="GET"
+        action="{% url 'search' %}"
+        class="relative flex items-center"
+      >
+        <input
+          type="text"
+          name="q"
+          class="w-full p-2 pr-10 border border-gray-300 h-14 rounded-3xl"
+          placeholder="Search..."
+          value="{{ query }}"
+        />
+        <button type="submit" class="absolute text-gray-500 bottom-4 right-5">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
 
-            <div class="flex flex-wrap mt-6">
-                <a href="{% url 'search' %}?q=javascript" class="tag tag-yellow">JavaScript</a>
-                <a href="{% url 'search' %}?q=python" class="tag tag-blue">Python</a>
-                <a href="{% url 'search' %}?q=ruby" class="tag tag-red">Ruby</a>
-                <a href="{% url 'search' %}?q=java" class="tag tag-green">Java</a>
-                <a href="{% url 'search' %}?q=csharp" class="tag tag-purple">C#</a>
-                <a href="{% url 'search' %}?q=php" class="tag tag-pink">PHP</a>
-                <a href="{% url 'search' %}?q=swift" class="tag tag-teal">Swift</a>
-                <a href="{% url 'search' %}?q=go" class="tag tag-orange">Go</a>
-                <a href="{% url 'search' %}?q=typescript" class="tag tag-amber">TypeScript</a>
-            </div>
-        </div>
+      <div class="flex flex-wrap mt-6">
+        <a href="{% url 'search' %}?q=javascript" class="tag tag-yellow"
+          >JavaScript</a
+        >
+        <a href="{% url 'search' %}?q=python" class="tag tag-blue">Python</a>
+        <a href="{% url 'search' %}?q=ruby" class="tag tag-red">Ruby</a>
+        <a href="{% url 'search' %}?q=java" class="tag tag-green">Java</a>
+        <a href="{% url 'search' %}?q=csharp" class="tag tag-purple">C#</a>
+        <a href="{% url 'search' %}?q=php" class="tag tag-pink">PHP</a>
+        <a href="{% url 'search' %}?q=swift" class="tag tag-teal">Swift</a>
+        <a href="{% url 'search' %}?q=go" class="tag tag-orange">Go</a>
+        <a href="{% url 'search' %}?q=typescript" class="tag tag-amber"
+          >TypeScript</a
+        >
+      </div>
     </div>
+  </div>
 </div>
 {% endblock content %}
