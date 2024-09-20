@@ -13,6 +13,7 @@
     "concurrently": "^8.2.2",
     "daisyui": "^4.12.10",
     "esbuild": "^0.23.0",
+    "nodemon": "^3.1.6",
     "tailwindcss": "^3.4.7"
   },
   "description": "",
@@ -27,7 +28,6 @@
     "flatpickr": "^4.6.13",
     "htmx.org": "^2.0.2",
     "monaco-editor": "^0.51.0",
-    "nodemon": "^3.1.6",
     "sweetalert2": "^11.12.4",
     "y-monaco": "^0.1.6",
     "y-websocket": "^2.0.4",
