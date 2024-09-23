@@ -19,6 +19,12 @@ class User(AbstractUser):
         null=True,
         storage=S3Boto3Storage,
     )
+    about = models.TextField(null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    time = models.CharField(max_length=255, null=True, blank=True)
+    introduce = models.TextField(null=True, blank=True)
+    skill = models.CharField(max_length=255, null=True, blank=True)
+    github_link = models.URLField(max_length=200, blank=True, null=True)
 
     def get_display_name(self):
         return self.nickname or self.username

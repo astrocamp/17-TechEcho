@@ -35,12 +35,6 @@ class UsersForm(UserCreationForm):
             raise ValidationError("帳號不能超過15個字")
         return username
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if User.objects.filter(email=email).exists():
-            raise ValidationError("該信箱已被註冊")
-        return email
-
     def clean_password1(self):
         password1 = self.cleaned_data.get("password1")
         if password1:
@@ -83,6 +77,14 @@ class UserPhotoForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["profile_picture"]
+
+
+class UserPublicProfileForm(forms.ModelForm):
+    github_link = forms.URLField(required=False)
+
+    class Meta:
+        model = User
+        fields = ["about", "title", "time", "introduce", "skill", "github_link"]
 
 
 class ForgotPasswordForm(forms.Form):

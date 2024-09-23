@@ -5,6 +5,7 @@
     currentView: localStorage.getItem('currentView') || 'profile',
     showSubMenu: false,
     showSubMenu1: false,
+    showSubMenu2: false,
     setView(view) {
     this.currentView = view;
     localStorage.setItem('currentView', view);
@@ -26,11 +27,30 @@
         <ul class="space-y-2">
           <li>
             <a
-              href="#"
-              class="flex items-center"
-              @click.prevent="setView('profile')">
-            <i class="fa-solid fa-user mr-2"></i>我的個人資料
+            href="#"
+            class="flex items-center"
+            @click.prevent="showSubMenu2 = !showSubMenu2"
+            >
+              <i class="fa-solid fa-user mr-2"></i>
+              我的個人資料
             </a>
+            <ul x-show="showSubMenu2" class="pl-6 mt-2 space-y-2">
+              <li>
+                <a
+                href="#"
+                class="flex items-center text-gray-700"
+                @click.prevent="setView('profile')">
+                  基本資料
+                </a>
+              </li>
+                <li>
+                  <a
+                  href="{% url 'users:public_profile' user.id %}"
+                  class="flex items-center text-gray-700">
+                    我公開的個人資料
+                  </a>
+                </li>
+            </ul>
           </li>
           <li>
             <a

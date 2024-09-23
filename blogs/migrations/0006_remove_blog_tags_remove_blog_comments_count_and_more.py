@@ -7,25 +7,33 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blogs', '0005_tag_remove_blog_category_alter_blog_created_at_and_more'),
-        ('taggit', '0006_rename_taggeditem_content_type_object_id_taggit_tagg_content_8fc721_idx'),
+        ("blogs", "0005_tag_remove_blog_category_alter_blog_created_at_and_more"),
+        (
+            "taggit",
+            "0006_rename_taggeditem_content_type_object_id_taggit_tagg_content_8fc721_idx",
+        ),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='blog',
-            name='tags',
+            model_name="blog",
+            name="tags",
         ),
         migrations.RemoveField(
-            model_name='blog',
-            name='comments_count',
+            model_name="blog",
+            name="comments_count",
         ),
         migrations.AddField(
-            model_name='blog',
-            name='labels',
-            field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags'),
+            model_name="blog",
+            name="labels",
+            field=taggit.managers.TaggableManager(
+                help_text="A comma-separated list of tags.",
+                through="taggit.TaggedItem",
+                to="taggit.Tag",
+                verbose_name="Tags",
+            ),
         ),
         migrations.DeleteModel(
-            name='Tag',
+            name="Tag",
         ),
     ]

@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.template.loader import render_to_string
 from django.utils.http import url_has_allowed_host_and_scheme
 
@@ -13,8 +13,8 @@ from answers.models import Answer
 from blogs.models import Blog
 from questions.models import Question
 from reservations.models import StudentReservation, TeacherSchedule
-from users.forms import UserPhotoForm, UserProfileForm, UsersForm
 
+from .forms import UserPhotoForm, UserProfileForm, UserPublicProfileForm, UsersForm
 from .helper import send_forget_password_mail
 from .models import PasswordReset, User
 
@@ -31,13 +31,10 @@ def register(request):
         else:
             if "username" in form.errors:
                 messages.error(request, "帳號錯誤")
-            if "email" in form.errors:
-                messages.error(request, "信箱已註冊過，或格式不正確")
             if "password1" in form.errors:
                 messages.error(request, "密碼錯誤")
             if "password2" in form.errors:
                 messages.error(request, "密碼不一致")
-
     else:
         form = UsersForm()
     return render(request, "users/register.html", {"form": form})
@@ -186,4 +183,40 @@ def profile_edit(request):
 
     return render(
         request, "users/profile_edit.html", {"form": form, "photo_form": photo_form}
+    )
+
+
+@login_required
+def public_profile(request, id):
+    user = get_object_or_404(User, pk=id)
+    schedules = TeacherSchedule.objects.filter(teacher_id=id).order_by("start_time")
+
+    if request.method == "POST":
+        form = UserPublicProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("users:public_profile", id=id)
+    else:
+        form = UserPublicProfileForm(instance=user)
+
+    context = {
+        "form": form,
+        "user": user,
+        "schedules": schedules,
+    }
+    return render(request, "users/public_profile.html", context)
+
+
+def public_profile_edit(request, id):
+    user = get_object_or_404(User, pk=id)
+    if request.method == "POST":
+        form = UserPublicProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("users:public_profile", id=id)
+    else:
+        form = UserPublicProfileForm(instance=user)
+
+    return render(
+        request, "users/public_profile_edit.html", {"form": form, "user": user}
     )

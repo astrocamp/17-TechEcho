@@ -1,1 +1,7 @@
-from .users_form import UserPhotoForm, UserProfileForm, UsersForm
+from .users_form import (
+    ForgotPasswordForm,
+    UserPhotoForm,
+    UserProfileForm,
+    UserPublicProfileForm,
+    UsersForm,
+)

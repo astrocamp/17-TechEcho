@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %} {% block content %}
+<div class="flex-grow flex">
+  <div class="container mx-auto py-8 flex flex-col lg:flex-row gap-6 px-4">
+    <div class="w-full lg:w-1/4">
+      <div class="bg-white shadow rounded-lg p-6">
+        <div class="flex flex-col items-center">
+          {% include "users/partials/_picture.html" with user=user size="32" margin="4" %}
+          <form method="POST" action="{% url 'users:public_profile_edit' user.id %}">
+            <h1 class="text-xl font-bold  text-center">{{user}}</h1>
+          {% csrf_token %}
+          <div class="flex justify-center items-center">
+            <input type="url" id="github_link" name="github_link" value="{{ user.github_link }}" placeholder="請輸入您的gitHub連結" class="border-double border-4 border-indigo-600">
+          </div>
+        </div>
+        <hr class="my-6 border-t border-gray-300" />
+        <div class="flex flex-col">
+    <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">技能</span>
+      <li>
+          <input
+              type="text"
+              name="skill"
+              value="{% if user.skill == 'None'%}{{ '' }}{% else %}{{ user.skill }}{% endif %}"
+              placeholder="請輸入您的技能"
+              class="w-full p-2 border rounded mb-3"
+          />
+      </li>
+
+</div>
+
+      </div>
+    </div>
+
+    <div class="w-full lg:w-3/4">
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">關於我</h2>
+       <input
+        type="text"
+        name="about"
+        value="{{ user.about}}"
+        placeholder="請輸入您的自我介紹"
+        class="w-full p-2 border rounded"
+        />
+            <div class="mb-6">
+    </div>
+    <h2 class="text-xl font-bold mt-6 mb-4">經驗</h2>
+        <div class="mb-6">
+          <div class="flex justify-between">
+            <div>
+                <input
+                    type="text"
+                    name="title"
+                    value="{% if user.title == 'None' %}{{ '' }}{% else %}{{ user.title }}{% endif %}"
+                    placeholder="輸入您的職稱"
+                    class="border solid border-block-500 text-gray-700 font-bold"
+                />
+            </div>
+            <div class="mb-5">
+                <input
+                    type="text"
+                    name="time"
+                    value="{% if user.time == 'None' %}{{ '' }}{% else %}{{ user.time }}{% endif %}"
+                    placeholder="輸入您的在單位的時間"
+                    class="border solid border-block-500 text-gray-700 mr-2"
+                />
+            </div>
+        </div>
+        <input
+            type="textarea"
+            name="introduce"
+            value="{{ user.introduce }}"
+            placeholder="說明"
+            class="border solid border-block-500 w-full"
+        />
+    </div>
+       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">更新</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
