@@ -9,11 +9,7 @@
 <div class="w-full max-w-5xl flex flex-col mb-6 p-6 mx-auto rounded-lg bg-vanilla-5">
     <div class="m-2 p-1 w-full max-w-full flex items-center">
         <div class="max-w-full w-1/3 flex justify-center">
-            {% if teacher.user.profile_picture %}
-                <img src="{{ teacher.user.profile_picture.url }}" alt="Profile Picture" class="rounded-full object-cover">
-            {% else %}
-                <img src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar" alt="User Avatar" class="rounded-full object-cover" />
-            {% endif %}
+            {% include "users/partials/_picture.html" with user=teacher.user size=60 margin=4 only %}
         </div>
         <h2 class="w-2/3 m-2 p-1 text-4xl font-semibold text-center">
             {{ teacher.user.get_display_name }}
@@ -113,6 +109,9 @@
 <div class="w-full max-w-5xl mb-6 p-2 mx-auto rounded-lg bg-vanilla-5">
     <div class="p-2">
         <h3 class="p-1 text-2xl text-center font-semibold">可預約時間</h3>
+        {% if request.user == teacher.user %}
+            <a class="btn btn-techecho2" href="{% url "reservations:teacher_index" %}">管理授課時間</a>
+        {% endif %}
         <ul class="mt-4">
             {% for schedule in schedules %}
                 <li class="flex justify-between p-2 rounded-lg">

@@ -170,10 +170,9 @@ def teacher_available(request):
             .select_related("teacher")
         )
     else:
-        schedules = (
-            TeacherSchedule.objects.filter(studentreservation__isnull=True)
-            .select_related("teacher")
-        )
+        schedules = TeacherSchedule.objects.filter(
+            studentreservation__isnull=True
+        ).select_related("teacher")
 
     return render(
         request, "reservations/teacher/teacher_available.html", {"schedules": schedules}
