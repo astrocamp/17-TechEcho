@@ -163,11 +163,18 @@ def student_delete(request, id):
 
 
 def teacher_available(request):
-    schedules = (
-        TeacherSchedule.objects.exclude(teacher=request.user)
-        .filter(studentreservation__isnull=True)
-        .select_related("teacher")
-    )
+    if request.user.is_authenticated:
+        schedules = (
+            TeacherSchedule.objects.exclude(teacher=request.user)
+            .filter(studentreservation__isnull=True)
+            .select_related("teacher")
+        )
+    else:
+        schedules = (
+            TeacherSchedule.objects.filter(studentreservation__isnull=True)
+            .select_related("teacher")
+        )
+
     return render(
         request, "reservations/teacher/teacher_available.html", {"schedules": schedules}
     )
