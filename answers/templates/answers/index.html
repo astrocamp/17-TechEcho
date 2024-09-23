@@ -22,9 +22,9 @@
     {% if user.is_authenticated %}
         <form method="POST" action="{% url 'answers:index' question.id %}">
             {% csrf_token %}
-            <div class="flex flex-col gap-2 bg-vanilla-7 px-6 py-4 my-4 rounded-lg">
+            <div class="flex flex-col gap-2 px-6 py-4 my-4 rounded-lg border-2 border-blue-2">
                 {% for field in form %}
-                <div class="form-control rounded-lg bg-white">
+                <div class="form-control rounded-lg">
                     {{ field }}
                     <span class="text-red-500">{{ field.errors }}</span>
                 </div>

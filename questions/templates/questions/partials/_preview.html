@@ -1,6 +1,6 @@
 {% load home %}
-<div class="card bg-base-100 w-full border-2 border-blue-2 shadow-xl">
-    <div class="card-body markdown h-[75vh] overflow-auto">
+<div class="card bg-white w-full border-2 border-blue-2 shadow-xl">
+    <div class="card-body markdown h-[75vh] overflow-auto text-black">
         {% if preview_content %}
             {{preview_content|strip_markdown_safe}}
         {% endif %}

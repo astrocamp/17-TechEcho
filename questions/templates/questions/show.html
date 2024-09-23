@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% load questions home users %}
 {% block content %}
-<div class="container border bg-vanilla-5 mt-4 rounded-lg p-6 max-w-4xl mx-auto relative mb-2">
+<div class="container border bg-vanilla-5 mt-4 rounded-lg p-6 max-w-4xl mx-auto relative mb-2 text-black">
     <div class="flex justify-between items-center mb-2">
         <div class="flex gap-4 items-center">
             <h1 class="text-3xl">{{question.title}}</h1>
@@ -9,7 +9,7 @@
                 {% include "questions/partials/_follows.html" with question=question followed=followed only %}
             {% endif %}
         </div>
-        <a href="{% url "questions:index" %}" class="btn">回到問題列表</a>
+        <a href="{% url "questions:index" %}" class="btn btn-techecho2">回到問題列表</a>
     </div>
 
     <div class="p-2 border-2 border-blue-2 bg-white mb-2 rounded-lg">

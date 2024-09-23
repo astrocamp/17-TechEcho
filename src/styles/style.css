@@ -113,7 +113,11 @@
 }
 
 .btn-techecho {
-  @apply bg-vanilla-5 hover:bg-blue-2 hover:text-white;
+  @apply bg-vanilla-5 hover:bg-blue-2 hover:text-white text-black;
+}
+
+.btn-techecho2 {
+  @apply text-green-3 bg-white hover:bg-black hover:text-white;
 }
 
 html {

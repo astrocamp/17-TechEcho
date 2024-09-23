@@ -3,313 +3,321 @@
 <nav
   class="sticky top-0 left-0 z-20 w-full p-6 bg-blue-1"
   x-data="{ open: false, articleOpen: false, submenuOpen: false, expertOpen: false, userMenuOpen: false}"
-  @resize.window="if (window.innerWidth > 768) open = false"
->
-<div class="flex items-center justify-between">
-  <div class="flex items-center text-3xl font-bold text-vanilla-7">
-    {% include 'layouts/tags.html' %}
-      <a href="{% url 'index' %}" class="flex items-center">
+  @resize.window="if (window.innerWidth > 768) open = false">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center text-3xl font-bold text-vanilla-7">
+      {% include 'layouts/tags.html' %}
+        <a href="{% url 'index' %}" class="flex items-center">
 
-          TECHECHO
-          <img src="https://techecho.s3.ap-southeast-1.amazonaws.com/homepage_pictures/techecho_logo.png" alt="logo" class="w-16 ml-1 h-14">
+            TECHECHO
+            <img src="https://techecho.s3.ap-southeast-1.amazonaws.com/homepage_pictures/techecho_logo.png" alt="logo" class="w-16 ml-1 h-14">
 
-      </a>
-  </div>
-  {% if request.path != '/' %}
-  <form
-    method="GET"
-    action="{% url 'search' %}"
-    class="relative items-center hidden lg:flex"
-  >
-    <input
-      type="text"
-      name="q"
-      class="w-full h-12 p-4 bg-white border border-gray-300 rounded-3xl"
-      placeholder="輸入關鍵字..."
-      value="{{ query }}"
-    />
-    <button type="submit" class="absolute text-gray-500 bottom-3 right-3">
-      <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+    </div>
+    {% if request.path != '/' %}
+      <form
+        method="GET"
+        action="{% url 'search' %}"
+        class="relative items-center hidden lg:flex">
+        <input
+          type="text"
+          name="q"
+          class="w-full h-12 p-4 bg-white border border-gray-300 rounded-3xl"
+          placeholder="輸入關鍵字..."
+          value="{{ query }}"
+        />
+        <button type="submit" class="absolute text-gray-500 bottom-3 right-3">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    {% endif %}
+
+    <ul class="hidden space-x-2 text-white md:space-x-4 lg:space-x-6 xl:space-x-10 md:text-lg lg:text-xl xl:text-2xl md:flex whitespace-nowrap">
+      <li class="relative tooltip tooltip-bottom" data-tip="發佈文章">
+        <button
+          type="button"
+          @click="articleOpen = !articleOpen"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+        >
+          部落格
+        </button>
+        <ul
+          x-show="articleOpen"
+          @click.away="articleOpen = false"
+          class="absolute left-0 z-20 mt-9 w-60 text-green-3 bg-vanilla-7"
+          style="display: none"
+        >
+          <li>
+            <a
+              href="{% url 'blogs:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+            >
+              分享
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="relative tooltip tooltip-bottom" data-tip="提出問題">
+
+        <button
+          type="button"
+          @click="submenuOpen = !submenuOpen"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+          >討論區
+        </button>
+        <ul
+          x-show="submenuOpen"
+          @click.away="submenuOpen = false"
+          class="absolute left-0 z-20 mt-9 text-green-3 w-60 bg-vanilla-7"
+          style="display: none"
+        >
+          <li>
+            <a
+              href="{% url 'questions:new' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+              >發問題
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'questions:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+              >看問題
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="relative tooltip tooltip-bottom" data-tip="技術學習">
+        <button
+          type="button"
+          @click="expertOpen = !expertOpen"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+          >學習區
+        </button>
+        <ul
+          x-show="expertOpen"
+          @click.away="expertOpen = false"
+          class="absolute left-0 z-20 mt-9 text-green-3 w-60 bg-vanilla-7"
+          style="display: none">
+          <li>
+            <a
+              href="{% url 'teachers:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+              >專家清單
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'reservations:teacher_available' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white">
+              預約專家
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'teachers:mentor' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+              >成為專家
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'payments:index' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+              >成為學生
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url "editors:index" %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white">
+              模擬教學
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      {% if request.user.is_authenticated %}
+      <div
+        class="relative inline-flex items-center cursor-pointer"
+        @click="userMenuOpen = !userMenuOpen">
+        <div class="flex items-center gap-3 no-underline transition duration-300 ease-in-out hover:text-green-3 hover:underline">
+          {{ request.user }}
+          {{ request.user|teacher_icon }}
+          {{ request.user|student_icon }}
+          {% include "users/partials/_picture.html" with user=user size="7" margin="0" %}
+        </div>
+        <ul
+          x-show="userMenuOpen"
+          @click.away="userMenuOpen = false"
+
+          class="absolute left-0 z-20 top-5 mt-9 text-green-3 w-60 bg-vanilla-7">
+
+          <li>
+            <a
+              href="{% url 'users:profile' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+              >個人簡介
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'users:logout' %}"
+              class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
+              >登出
+            </a>
+          </li>
+        </ul>
+      </div>
+      {% include "layouts/notifications.html" with user=user %} {% else %}
+      <li>
+        <a
+          href="{% url 'users:login'%}?next={{ request.path }}"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+          >登入
+        </a>
+      </li>
+      <li class="relative tooltip tooltip-bottom" data-tip="沒有帳號？">
+        <a
+          href="{% url 'users:register' %}"
+          class="transition duration-300 ease-in-out hover:text-green-3"
+          >註冊
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    <button
+      type="button"
+      @click="open = !open"
+      class="relative text-xl text-white md:hidden whitespace-nowrap">
+      選單
     </button>
-  </form>
-{% endif %}
+  </div>
 
-  <ul class="hidden space-x-2 text-white md:space-x-4 lg:space-x-6 xl:space-x-10 md:text-lg lg:text-xl xl:text-2xl md:flex whitespace-nowrap">
-    <li class="relative tooltip tooltip-bottom" data-tip="發佈文章">
+  <ul
+    class="absolute right-0 z-10 w-full mt-6 text-lg shadow-md bg-vanilla-7"
+    x-show="open"
+    @click.away="open = false"
+    style="display: none">
+
+    <li @click="articleOpen = !articleOpen">
       <button
         type="button"
-        @click="articleOpen = !articleOpen"
-        class="transition duration-300 ease-in-out hover:text-green-3"
-      >
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
         部落格
       </button>
-      <ul
-        x-show="articleOpen"
-        @click.away="articleOpen = false"
-        class="absolute left-0 z-20 mt-9 w-60 text-green-3 bg-vanilla-7"
-        style="display: none"
-      >
+      <ul x-show="articleOpen" class="mt-2 ml-4">
         <li>
           <a
             href="{% url 'blogs:index' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-          >
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
             分享
           </a>
         </li>
       </ul>
     </li>
-    <li class="relative tooltip tooltip-bottom" data-tip="提出問題">
 
+    <li @click="submenuOpen = !submenuOpen">
       <button
         type="button"
-        @click="submenuOpen = !submenuOpen"
-        class="transition duration-300 ease-in-out hover:text-green-3"
-        >討論區
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+        討論區
       </button>
-      <ul
-        x-show="submenuOpen"
-        @click.away="submenuOpen = false"
-        class="absolute left-0 z-20 mt-9 text-green-3 w-60 bg-vanilla-7"
-        style="display: none"
-      >
+      <ul x-show="submenuOpen" class="mt-2 ml-4">
         <li>
           <a
             href="{% url 'questions:new' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >發問題
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+          >
+            發問題
           </a>
         </li>
         <li>
           <a
             href="{% url 'questions:index' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >看問題
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+          >
+            看問題
           </a>
         </li>
       </ul>
     </li>
-    <li class="relative tooltip tooltip-bottom" data-tip="技術學習">
+
+    <li @click="expertOpen = !expertOpen">
       <button
         type="button"
-        @click="expertOpen = !expertOpen"
-        class="transition duration-300 ease-in-out hover:text-green-3"
-        >學習區
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+        學習區
       </button>
-      <ul
-        x-show="expertOpen"
-        @click.away="expertOpen = false"
-        class="absolute left-0 z-20 mt-9 text-green-3 w-60 bg-vanilla-7"
-        style="display: none"
-      >
+      <ul x-show="expertOpen" class="mt-2 ml-4">
         <li>
           <a
             href="{% url 'teachers:index' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-            >專家清單
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+            專家清單
           </a>
         </li>
         <li>
           <a
             href="{% url 'reservations:teacher_available' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >專家時間
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+            預約專家
           </a>
         </li>
         <li>
           <a
-            href="{% url 'teachers:mentor' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >成為專家
+            href="{% url 'teachers:new' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+            成為專家
+          </a>
+        <li>
+          <a
+            href="{% url 'teachers:index' %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+            成為學生
           </a>
         </li>
         <li>
           <a
-            href="{% url 'payments:index' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >成為學生
+            href="{% url "editors:index" %}"
+            class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white">
+            模擬教學
           </a>
         </li>
       </ul>
     </li>
 
-    {% if request.user.is_authenticated %}
-    <div
-      class="relative inline-flex items-center cursor-pointer"
-      @click="userMenuOpen = !userMenuOpen"
-    >
-      <div class="flex items-center gap-3 no-underline transition duration-300 ease-in-out hover:text-green-3 hover:underline">
-        {{ request.user }}
-        {{ request.user|teacher_icon }}
-        {{ request.user|student_icon }}
-        {% include "users/partials/_picture.html" with user=user size="7" margin="0" %}
-      </div>
-      <ul
-        x-show="userMenuOpen"
-        @click.away="userMenuOpen = false"
+    {% if user.is_authenticated %}
+    <li class="flex items-center justify-center mt-1">
+      <a
+        href="{% url 'users:profile' %}"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+      >
+      {{ user }}
+      {{ user|teacher_icon }}
+      {{ user|student_icon }}
+      </a>
+      <a
+        href="{% url 'users:logout' %}"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+      >登出</a>
+    </li>
+    {% else %}
 
-        class="absolute left-0 z-20 top-5 mt-9 text-green-3 w-60 bg-vanilla-7">
-
-        <li>
-          <a
-            href="{% url 'users:profile' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >個人簡介
-          </a>
-        </li>
-        <li>
-          <a
-            href="{% url 'users:logout' %}"
-            class="block px-4 py-2 transition duration-300 ease-in-out hover:bg-green-4 hover:text-white"
-            >登出
-          </a>
-        </li>
-      </ul>
-    </div>
-    {% include "layouts/notifications.html" with user=user %} {% else %}
     <li>
       <a
-        href="{% url 'users:login'%}?next={{ request.path }}"
-        class="transition duration-300 ease-in-out hover:text-green-3"
-        >登入
-      </a>
+        href="{% url 'users:login' %}?next={{ request.path }}"
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+      >登入</a>
     </li>
+
     <li class="relative tooltip tooltip-bottom" data-tip="沒有帳號？">
       <a
         href="{% url 'users:register' %}"
-        class="transition duration-300 ease-in-out hover:text-green-3"
-        >註冊
+        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
+      >註冊
       </a>
     </li>
     {% endif %}
   </ul>
-  <button
-    type="button"
-    @click="open = !open"
-    class="relative text-xl text-white md:hidden whitespace-nowrap"
-  >
-    選單
-  </button>
-</div>
-</div>
-
-<ul
-  class="absolute right-0 z-10 w-full mt-6 text-lg shadow-md bg-vanilla-7"
-  x-show="open"
-  @click.away="open = false"
-  style="display: none"
->
-
-<li @click="articleOpen = !articleOpen">
-  <button
-    type="button"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >部落格
-  </button>
-  <ul x-show="articleOpen" class="mt-2 ml-4">
-    <li>
-      <a
-        href="{% url 'blogs:index' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-      >
-        分享
-      </a>
-    </li>
-  </ul>
-</li>
-
-<li @click="submenuOpen = !submenuOpen">
-  <button
-    type="button"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >討論區
-  </button>
-  <ul x-show="submenuOpen" class="mt-2 ml-4">
-    <li>
-      <a
-        href="{% url 'questions:new' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-      >
-        發問題
-      </a>
-    </li>
-    <li>
-      <a
-        href="{% url 'questions:index' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-      >
-        看問題
-      </a>
-    </li>
-  </ul>
-</li>
-
-<li @click="expertOpen = !expertOpen">
-  <button
-    type="button"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >學習區
-  </button>
-  <ul x-show="expertOpen" class="mt-2 ml-4">
-    <li>
-      <a
-        href="{% url 'teachers:index' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-      >專家清單
-      </a>
-    </li>
-    <li>
-      <a
-        href="{% url 'reservations:teacher_available' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-        >專家時間
-      </a>
-    </li>
-    <li>
-      <a
-        href="{% url 'teachers:new' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-      >成為專家
-    </a>
-  </li>
-    <li>
-      <a
-        href="{% url 'teachers:index' %}"
-        class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-      >成為學生
-      </a>
-    </li>
-  </ul>
-</li>
-
-{% if user.is_authenticated %}
-<li class="flex items-center justify-center mt-1">
-  <a
-    href="{% url 'users:profile' %}"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >
-  {{ user }}
-  {{ user|teacher_icon }}
-  {{ user|student_icon }}
-  </a>
-  <a
-    href="{% url 'users:logout' %}"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >登出</a>
-</li>
-{% else %}
-<li>
-  <a
-    href="{% url 'users:login' %}?next={{ request.path }}"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >登入</a>
-</li>
-<li class="relative tooltip tooltip-bottom" data-tip="沒有帳號？">
-  <a
-    href="{% url 'users:register' %}"
-    class="block px-4 py-2 transition duration-300 ease-in-out text-green-3 hover:bg-green-4 hover:text-white"
-  >註冊</a>
-</li>
-{% endif %}
-</ul>
 </nav>

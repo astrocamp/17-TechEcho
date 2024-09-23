@@ -3,21 +3,21 @@
 <link href="{% static 'editors/editors.css' %}" rel="stylesheet"/>
 <script src="{% static 'editors/editors.js' %}" type="module"></script>
 
-<div class="flex flex-col gap-1 h-full">
+<div class="flex flex-col gap-1 h-full text-black">
     <div>
         <label for="language-select">選擇程式語言：</label>
-        <select id="language-select" class="md:mr-2">
+        <select id="language-select" class="md:mr-2 bg-white">
             <option value="javascript" selected>Javascript</option>
             <option value="python">Python</option>
         </select>
         <label for="theme-select">選擇背景顏色：</label>
-        <select id="theme-select" class="md:mr-2">
+        <select id="theme-select" class="md:mr-2 bg-white">
             <option value="vs-light" selected>亮色系</option>
             <option value="vs-dark">暗色系</option>
             <option value="hc-black">高對比</option>
         </select>
         <label for="font-size-select">選擇字體大小：</label>
-        <select id="font-size-select">
+        <select id="font-size-select" class="bg-white">
             <option value="12" selected>12</option>
             {% for i in '0123456789'|make_list %}
                 <option value="{{ forloop.counter|add:12 }}">{{ forloop.counter|add:12 }}</option>

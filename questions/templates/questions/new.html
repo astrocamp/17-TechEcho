@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-<div class="flex flex-col md:flex-row max-w-6xl mx-auto bg-vanilla-5 p-6 my-4 rounded-md shadow-md">
+<div class="flex flex-col md:flex-row max-w-6xl mx-auto bg-vanilla-5 p-6 my-4 rounded-md shadow-md text-black">
     <div class="w-full md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0">
         <h1 class="text-xl font-bold mb-2 text-gray-800">新增問題</h1>
         <form id="question-form" class="space-y-4" method="POST">
@@ -15,22 +15,22 @@
             </div>
             {% endfor %}
 
-            <button class="btn" formaction="{% url 'questions:index' %}">新增此問題</button>
+            <button class="btn btn-techecho2" formaction="{% url 'questions:index' %}">新增此問題</button>
             <button
-                class="btn"
+                class="btn btn-techecho2"
                 hx-post="{% url 'questions:preview' %}"
                 hx-target="#preview-container"
                 hx-include="#question-form">
                 預覽問題內容
             </button>
-            <a href="{% url 'questions:index' %}" class="btn">回到問題列表</a>
+            <a href="{% url 'questions:index' %}" class="btn btn-techecho2">回到問題列表</a>
         </form>
     </div>
 
     <div class="w-full md:w-1/2 pl-0 md:pl-4">
         <h2 class="text-xl font-bold mb-4 text-gray-800">預覽問題內容</h2>
         <div id="preview-container">
-            <div class="card bg-base-100 w-full border-2 border-blue-2 shadow-xl">
+            <div class="card bg-white w-full border-2 border-blue-2 shadow-xl">
                 <div class="card-body markdown h-[75vh] overflow-auto">
                 </div>
             </div>

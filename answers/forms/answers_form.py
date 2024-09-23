@@ -9,7 +9,9 @@ class AnswerForm(ModelForm):
         model = Answer
         fields = ["content"]
         widgets = {
-            "content": Textarea(attrs={"class": "textarea textarea-bordered"}),
+            "content": Textarea(
+                attrs={"class": "textarea textarea-bordered bg-white text-black"}
+            ),
         }
         labels = {
             "content": "回答",

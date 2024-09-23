@@ -1,10 +1,10 @@
 {% extends 'layouts/base.html' %}
 {% load home %}
 {% block content %}
-<div class="flex flex-col md:flex-row max-w-6xl mx-auto bg-vanilla-5 p-6 my-4 rounded-md shadow-md">
+<div class="flex flex-col md:flex-row max-w-6xl mx-auto bg-vanilla-5 p-6 my-4 rounded-md shadow-md text-black">
     <div class="w-full md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0">
         <h1 class="text-xl font-bold mb-2 text-gray-800">新增問題</h1>
-        <form class="space-y-4" method="POST">
+        <form id="question-form" class="space-y-4" method="POST">
             {% csrf_token %}
 
             {% for field in form %}
@@ -19,22 +19,22 @@
             </div>
             {% endfor %}
 
-            <button class="btn" formaction="{% url "questions:show" question.id %}">完成此編輯</button>
+            <button class="btn btn-techecho2" formaction="{% url "questions:show" question.id %}">完成此編輯</button>
             <button
-                class="btn"
+                class="btn btn-techecho2"
                 hx-post="{% url 'questions:preview' %}"
                 hx-target="#preview-container"
                 hx-include="#question-form">
                 預覽問題內容
             </button>
-            <a href="{% url "questions:show"  question.id%}" class="btn">放棄此編輯</a>
+            <a href="{% url "questions:show"  question.id%}" class="btn btn-techecho2">放棄此編輯</a>
         </form>
     </div>
 
     <div class="w-full md:w-1/2 pl-0 md:pl-4">
         <h2 class="text-xl font-bold mb-4 text-gray-800">預覽問題內容</h2>
         <div id="preview-container">
-            <div class="card bg-base-100 w-full shadow-xl">
+            <div class="card bg-white w-full shadow-xl border-2 border-blue-2">
                 <div class="card-body markdown h-[75vh] overflow-auto">
                 </div>
             </div>

@@ -227,20 +227,20 @@
                   <li class="p-2 rounded-lg flex justify-between">
                       <div class="flex items-center gap-6">
                           <div>
-                              {{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}
+                            {{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}
                           </div>
                           <ul>
                               {% if schedule.studentreservation_set.exists %}
                                   {% for reservation in schedule.studentreservation_set.all %}
                                       <li class="font-bold flex gap-2 items-center w-full">
                                           <div>
-                                              已被<span class="text-green-600 px-2 py-1">{{ reservation.student.get_display_name }}</span>學生預約
+                                            已被<span class="text-green-600 px-2 py-1">{{ reservation.student.get_display_name }}</span>學生預約
                                           </div>
                                           <a href="{% url 'chat:room' reservation.chat_group.id %}" class="btn btn-sm">進入聊天室</a>
                                       </li>
                                   {% endfor %}
                               {% else %}
-                                  <li class="text-gray-500">尚未被學生預約</li>
+                                <li class="text-gray-500">尚未被學生預約</li>
                               {% endif %}
                           </ul>
                       </div>
@@ -267,7 +267,6 @@
       class="bg-white shadow rounded-lg p-6"
       >
       <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
-        <a class="btn bg-vanilla-5 hover:bg-blue-2 hover:text-white" href="{% url "editors:index" %}">上課前練習寫點程式吧</a>
         <ul>
             {% for reservation in reservations %}
                 <li class="p-2 rounded-lg flex justify-between">

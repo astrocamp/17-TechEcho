@@ -10,7 +10,6 @@ from lib.utils.student_required import student_required
 
 
 @login_required
-@student_required
 def index(request):
     if request.POST:
         code = request.POST.get("code")
