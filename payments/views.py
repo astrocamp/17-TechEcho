@@ -143,9 +143,7 @@ def ecpay_after_pay(request):
     print(request.user)
     if request.method == "POST":
         messages.success(request, "付款成功")
-        return redirect("payments:ecpay_after_pay")
-    else:
-        return render(request, "teachers/index.html")
+        return redirect("teachers:index")
 
 
 ###  Line-pay use only
