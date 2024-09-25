@@ -1,6 +1,3 @@
-import base64
-import os
-import tempfile
 import uuid
 
 import markdown2
@@ -9,12 +6,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
-from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.csrf import csrf_exempt
-from storages.backends.s3boto3 import S3Boto3Storage
 
 from lib.utils.labels import parse_form_labels
 
@@ -72,26 +66,6 @@ def index(request):
     blogs = paginator.get_page(page_number)
 
     return render(request, "blogs/index.html", {"blogs": blogs})
-
-
-@login_required
-def like(request, blog_id):
-    blog = get_object_or_404(Blog, id=blog_id)
-    user = request.user
-
-    if user in blog.likes.all():
-        blog.likes.remove(user)
-        liked = False
-    else:
-        blog.likes.add(user)
-        liked = True
-
-    likes_count = blog.likes.count()
-
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
-        return JsonResponse({"liked": liked, "likes_count": likes_count})
-    else:
-        return HttpResponseRedirect(reverse("blogs:show", args=[blog_id]))
 
 
 @login_required
