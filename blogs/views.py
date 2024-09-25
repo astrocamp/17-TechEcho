@@ -1,3 +1,6 @@
+import base64
+import os
+import tempfile
 import uuid
 
 import markdown2
@@ -6,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -113,10 +117,15 @@ def new(request):
                     form.cleaned_data["content"],
                     extras=MARKDOWN2_EXTRAS,
                 )
+
                 return render(
                     request,
                     "blogs/new.html",
-                    {"form": form, "blog": blog, "content_html": content_html},
+                    {
+                        "form": form,
+                        "blog": blog,
+                        "content_html": content_html,
+                    },
                 )
 
             elif action == "publish":
@@ -125,6 +134,7 @@ def new(request):
                 form.save_m2m()
                 return redirect("blogs:index")
 
+            # Handle 'save_draft' action
             blog.is_draft = True
             blog.save()
             form.save_m2m()
@@ -184,10 +194,18 @@ def edit(request, pk):
                     form.cleaned_data["content"],
                     extras=MARKDOWN2_EXTRAS,
                 )
+
+                preview_image = form.cleaned_data.get("image", "???????????")
+
                 return render(
                     request,
                     "blogs/edit.html",
-                    {"form": form, "blog": blog, "content_html": content_html},
+                    {
+                        "form": form,
+                        "blog": blog,
+                        "content_html": content_html,
+                        "preview_image": preview_image,
+                    },
                 )
 
             elif action == "update":

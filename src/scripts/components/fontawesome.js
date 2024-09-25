@@ -1,4 +1,3 @@
-
 import { library, dom } from "@fortawesome/fontawesome-svg-core";
 import Alpine from 'alpinejs';
 
@@ -16,7 +15,8 @@ import {
     faCamera,
     faBars,
     faTimes,
-    faThumbsUp, // Solid heart icon with alias
+    faThumbsUp,
+    faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -40,6 +40,9 @@ library.add(
     faBars,
     faTimes,
     faThumbsUp,
+    faHeart,
+    faSolidHeart,
+    faRegularHeart,
 );
 
 // Initialize Font Awesome
