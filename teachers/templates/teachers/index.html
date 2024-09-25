@@ -23,7 +23,7 @@
                 {% endfor %}
             </select>
         </div>
-        <a href="{% url 'teachers:index' %}" class="btn btn-outline border border-blue-1 m-2 max-w-full sm:w-auto" @click="selectedLabel = ''; localStorage.removeItem('selectedLabel')">清空標籤</a>
+        <a href="{% url 'teachers:index' %}" class="btn btn-outline border border-blue-1 m-2 max-w-full text-xl sm:w-auto" @click="selectedLabel = ''; localStorage.removeItem('selectedLabel')">清空標籤</a>
     </div>
 </section>
 
