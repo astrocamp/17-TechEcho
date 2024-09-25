@@ -17,7 +17,7 @@
     <div class="m-2 flex justify-center max-w-full" x-data="{ selectedLabel: localStorage.getItem('selectedLabel') || '' }">
         <div class="relative m-2">
             <select class="input border border-blue-1 text-xl" @change="selectedLabel = $event.target.value; localStorage.setItem('selectedLabel', $event.target.value); window.location.href = '?label=' + encodeURIComponent($event.target.value)">
-                <option value="" :selected="selectedLabel === ''" selected="selected">選擇標籤</option>
+                <option value="" :selected="selectedLabel === ''" selected="selected">選擇專業標籤</option>
                 {% for label in all_labels %}
                     <option value="{{ label|lower }}" :selected="selectedLabel === '{{ label|lower }}'">{{ label }}</option>
                 {% endfor %}
