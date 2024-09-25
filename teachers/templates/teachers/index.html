@@ -2,63 +2,52 @@
 
 {% block content %}
 
+<div class="max-w-full w-full flex items-center justify-around mb-6">
+    <h1 class="p-6 text-5xl font-bold text-center text-blue-2">專家列表</h1>
+</div>
 
-<div class="flex flex-wrap w-full max-w-full h-full mx-auto">
-    <section class="flex items-center flex-col w-full sm:w-1/5 m-2" x-data="{ selectedLabel: localStorage.getItem('selectedLabel') || '' }">
-        <form method="get" class="flex" action="{% url 'teachers:index' %}">
-            <input id="search-input" type="text" name="search"
-                placeholder="搜尋暱稱或專家名"
-                class="input border border-blue-1"
-            >
-            <button type="submit"
-                    class="ml-2 btn bg-vanilla-5 border border-blue-1"
-                    @click="trimInput()"
-                    >搜尋
+<section class="max-w-full w-full flex flex-col sm:flex-row items-center justify-center mb-6">
+    <div class="flex justify-center items-center w-full max-w-full sm:w-1/5 m-2" x-data="{ selectedLabel: localStorage.getItem('selectedLabel') || '' }">
+        <form method="get" class="flex" action="/teachers/">
+            <input id="search-input" type="text" name="search" placeholder="搜尋暱稱或專家名" class="input border border-blue-1">
+            <button type="submit" class="ml-2 btn bg-vanilla-5 border border-blue-1" @click="trimInput()">搜尋
             </button>
         </form>
-        <div class="m-2 flex flex-wrap justify-center max-w-full">
-            <a href="{% url 'teachers:index' %}"
-            class="btn btn-outline border border-blue-1 m-2 flex items-center justify-center w-full max-w-full sm:w-auto bg-vanilla-5"
-            @click="selectedLabel = ''; localStorage.removeItem('selectedLabel')">尋找所有語言</a>
-            {% for label in all_labels %}
-                <a href="?label={{ label|lower|urlencode }}"
-                    class="btn btn-outline border border-blue-1 m-2 flex items-center justify-center w-full sm:w-1/3 bg-vanilla-5"
-                    :class="{ 'bg-vanilla-7': selectedLabel === '{{ label|lower }}' }"
-                    @click="selectedLabel = '{{ label|lower }}'; localStorage.setItem('selectedLabel', '{{ label|lower }}')">
-                    {{ label }}
-                </a>
-            {% endfor %}
+    </div>
+    <div class="m-2 flex justify-center max-w-full" x-data="{ selectedLabel: localStorage.getItem('selectedLabel') || '' }">
+        <div class="relative m-2">
+            <select class="input border border-blue-1 text-xl" @change="selectedLabel = $event.target.value; localStorage.setItem('selectedLabel', $event.target.value); window.location.href = '?label=' + encodeURIComponent($event.target.value)">
+                <option value="" :selected="selectedLabel === ''" selected="selected">選擇標籤</option>
+                {% for label in all_labels %}
+                    <option value="{{ label|lower }}" :selected="selectedLabel === '{{ label|lower }}'">{{ label }}</option>
+                {% endfor %}
+            </select>
         </div>
-    </section>
+        <a href="{% url 'teachers:index' %}" class="btn btn-outline border border-blue-1 m-2 max-w-full sm:w-auto" @click="selectedLabel = ''; localStorage.removeItem('selectedLabel')">清空標籤</a>
+    </div>
+</section>
 
+<div class="flex flex-wrap w-full max-w-full h-full mx-auto">
     <div class="flex-1 max-w-4xl mx-auto m-3">
-        <div class="flex flex-wrap justify-between w-full m-2">
-            <h2 class="text-3xl sm:text-5xl font-bold text-blue-2 ml-5">專家列表</h2>
-            {% if user.is_authenticated and not user.is_student %}
-                <a href="{% url 'payments:index' %}" class="btn btn-neutral ml-4">
-                升級成為TechEcho Premium用戶以發起線上指導
-                </a>
-            {% endif %}
-        </div>
         <div class="max-w-4xl m-auto p-2">
             <section>
                 {% if no_results %}
-                    <div class="text-xl mt-4">
+                    <div class="text-xl mt-4 text-center">
                         未找到任何結果，目前僅支持暱稱或使用者名稱的搜尋。
                     </div>
                 {% else %}
                     {% for teacher in teachers %}
                     <a href="{% url 'teachers:show' teacher.id %}"
                         class="w-full max-w-full block mb-4 p-4 shadow-md rounded-lg duration-300 hover:bg-gray-300">
-                        <div class="flex justify-around w-full max-w-full">
-                            <div class="flex justify-center items-center max-w-full w-1/3">
+                        <div class="flex flex-col lg:flex-row justify-around w-full max-w-full">
+                            <div class="flex justify-center items-center max-w-full w-full lg:w-1/3">
                                 {% if teacher.user.profile_picture %}
                                     <img src="{{ teacher.user.profile_picture.url }}" alt="Profile Picture" class="w-1/2 h-32 object-center rounded-full">
                                 {% else %}
                                     <img src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar" alt="User Avatar" class="w-1/2 h-32 object-center rounded-full">
                                 {% endif %}
                             </div>
-                            <div class="flex flex-col justify-around ml-4 w-2/3 max-w-full">
+                            <div class="flex flex-col justify-around mt-4 lg:mt-0 w-full lg:w-2/3 max-w-full text-center lg:text-left">
                                 <h3 class="text-2xl text-center font-semibold leading-normal text-blue-2">{{ teacher.user.get_display_name }}</h3>
                                 <p class="m-2 text-xl text-center leading-normal">
                                 專業能力:
@@ -70,10 +59,10 @@
                                 </p>
                             </div>
                         </div>
-                        <div>
-                            <p class="text-gray-600 mt-1 text-xl leading-relaxed"
-                                style="word-break: break-all; overflow-wrap: break-word;">
-                                {{ teacher.introduce|truncatechars:100 }}
+                        <div class="mt-4 lg:mt-0" x-data="{ isMobile: window.innerWidth < 640 }" x-init="$watch('isMobile', value => isMobile = window.innerWidth < 640)">
+                            <p class="text-gray-600 mt-1 text-xl leading-relaxed break-all break-words">
+                                <span x-show="!isMobile">{{ teacher.introduce|truncatechars:100 }}</span>
+                                <span x-show="isMobile">{{ teacher.introduce|truncatechars:20 }}...</span>
                             </p>
                         </div>
                     </a>
