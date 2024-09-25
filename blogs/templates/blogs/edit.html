@@ -1,9 +1,8 @@
-<!-- edit.html -->
-
 {% extends 'layouts/base.html' %}
 
 {% block content %}
 <div class="flex flex-col md:flex-row max-w-6xl mx-auto bg-vanilla-5 p-6 my-4 rounded-md shadow-md text-black">
+    <!-- Left Side: Form -->
     <div class="w-full md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0">
         <h1 class="text-2xl font-bold mb-4 text-gray-800">編輯文章</h1>
         <form method="post" enctype="multipart/form-data" class="space-y-4">
@@ -39,7 +38,7 @@
                 </button>
             {% endif %}
 
-            <button type="submit" name="action" value="preview" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
+            <button type="button" id="preview-button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md">
                 預覽文章
             </button>
 
@@ -50,23 +49,89 @@
         <a href="{% url 'blogs:show' blog.pk %}" class="text-blue-500 hover:underline">取消</a>
     </div>
 
+    <!-- Right Side: Preview Area -->
     <div class="w-full md:w-1/2 pl-0 md:pl-4">
         <h2 class="text-xl font-bold mb-4 text-gray-800">預覽文章內容</h2>
         <div class="card bg-base-100 w-full border-2 border-blue-2 shadow-xl">
             <div class="card-body markdown h-[75vh] overflow-auto">
                 <div class="prose max-w-full break-words">
-                    {{ content_html|safe }}
-
-
-                    {% if preview_image %}
+                    <!-- Image Preview on Top -->
+                    {% if has_image %}
                     <div class="mb-6">
-                        <img src="https://techecho.s3.amazonaws.com/{{ preview_image }}" alt="{{ form.title.value }}" class="rounded-lg shadow">
+                        <img id="preview-image" src="{{ blog.image.url }}" alt="預覽圖片" class="rounded-lg shadow">
+                    </div>
+                    {% else %}
+                    <div class="mb-6">
+                        <img id="preview-image" src="#" alt="預覽圖片" class="rounded-lg shadow" style="display:none;">
                     </div>
                     {% endif %}
+
+                    <!-- Title Preview -->
+                    <h2 id="preview-title" class="text-xl font-bold text-gray-800"></h2>
+
+                    <!-- Content Preview -->
+                    <div id="preview-content" class="mt-4"></div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<!-- JavaScript for text and image preview -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+        const previewImage = document.getElementById('preview-image');
+        const previewTitle = document.getElementById('preview-title');
+        const previewContent = document.getElementById('preview-content');
+        const previewButton = document.getElementById('preview-button');
+
+        // Function to update the markdown preview
+        function updatePreview() {
+            // Update title and content
+            previewTitle.innerText = document.querySelector('[name="title"]').value;
+            const content = document.querySelector('[name="content"]').value;
+            previewContent.innerHTML = marked.parse(content);
+        }
+
+        // Load initial values into the preview
+        function loadInitialPreview() {
+            if (document.querySelector('[name="title"]').value) {
+                previewTitle.innerText = document.querySelector('[name="title"]').value;
+            }
+            if (document.querySelector('[name="content"]').value) {
+                previewContent.innerHTML = marked.parse(document.querySelector('[name="content"]').value);
+            }
+            {% if has_image %}
+                previewImage.src = "{{ blog.image.url }}";
+                previewImage.style.display = 'block';
+            {% else %}
+                previewImage.style.display = 'none'; // Hide the image preview if no image exists
+            {% endif %}
+        }
+
+        // Update image preview when a new image is selected
+        imageInput.addEventListener('change', function() {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block'; // Show the image element when there's a file
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.src = "#";
+                previewImage.style.display = 'none'; // Hide the image element when there's no file
+            }
+        });
+
+        // Update the preview when the Preview button is clicked
+        previewButton.addEventListener('click', updatePreview);
+
+        // Load initial values into the preview when the page is loaded
+        loadInitialPreview();
+    });
+</script>
 {% endblock %}

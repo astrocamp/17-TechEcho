@@ -226,7 +226,17 @@ def edit(request, pk):
     else:
         form = BlogForm(instance=blog)
 
-    return render(request, "blogs/edit.html", {"form": form, "blog": blog})
+    has_image = blog.image and blog.image.name
+
+    return render(
+        request,
+        "blogs/edit.html",
+        {
+            "form": form,
+            "blog": blog,
+            "has_image": has_image,
+        },
+    )
 
 
 @login_required

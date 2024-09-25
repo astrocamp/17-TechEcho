@@ -8,8 +8,14 @@
     </a>
 </div>
 
-
 <div class="max-w-2xl mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-md">
+    <!-- Display the image at the top of the blog post -->
+    {% if blog.image %}
+    <div class="mb-6">
+        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="rounded-lg shadow w-full h-auto">
+    </div>
+    {% endif %}
+
     <div class="mb-6">
         <h1 class="text-2xl font-bold mb-4 break-words">{{ blog.title }}</h1>
 
@@ -23,21 +29,12 @@
                 <p class="inline-block"> 發表時間: {{ blog.created_at|standard_date }} </p>
             </div>
             <i class="fas fa-heart"></i>
-
-
-
         </div>
 
         <div class="markdown-body max-w-full overflow-x-auto break-all p-5">
             {{ content_html|safe }}
         </div>
     </div>
-
-    {% if blog.image %}
-    <div class="mb-6">
-        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="rounded-lg shadow">
-    </div>
-    {% endif %}
 
     {% if user == blog.author %}
     <div class="flex justify-between items-center">
