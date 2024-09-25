@@ -1,4 +1,5 @@
 import markdown
+import markdown2
 from django import template
 from django.template.defaultfilters import date as date_filter
 from django.template.defaultfilters import stringfilter
@@ -19,5 +20,17 @@ def standard_date(value):
 @stringfilter
 def strip_markdown_safe(value):
     value = strip_tags(value)
-    value = markdown.markdown(value, extensions=["markdown.extensions.fenced_code"])
+    value = markdown2.markdown(
+        value,
+        extras=[
+            "fenced-code-blocks",
+            "tables",
+            "footnotes",
+            "toc",
+            "strike",
+            "task_list",
+            "wiki-tables",
+            "header-ids",
+        ],
+    )
     return mark_safe(value)

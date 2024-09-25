@@ -9,7 +9,6 @@
 
 const esbuild = require('esbuild');
 const path = require('path');
-const fs = require('fs');
 
 
 const workerEntryPoints = [
@@ -26,7 +25,17 @@ build({
 });
 
 build({
-	entryPoints: ['./src/scripts/editors.js'],
+	entryPoints: ['./src/scripts/editors/collab.js'],
+	bundle: true,
+	format: 'iife',
+	outdir: path.join(__dirname, 'static/editors'),
+	loader: {
+		'.ttf': 'file'
+	}
+});
+
+build({
+	entryPoints: ['./src/scripts/editors/individual.js'],
 	bundle: true,
 	format: 'iife',
 	outdir: path.join(__dirname, 'static/editors'),

@@ -15,4 +15,3 @@ def create_chat_group(sender, instance, created, **kwargs):
         )
         members = [instance.student, instance.schedule.teacher]
         new_chat_group.members.add(*members)
-        print(new_chat_group)
