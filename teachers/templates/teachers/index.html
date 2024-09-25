@@ -6,7 +6,7 @@
     <h1 class="p-6 text-5xl font-bold text-center text-blue-2">專家列表</h1>
 </div>
 
-<section class="max-w-full w-full flex flex-col sm:flex-row items-center justify-center mb-6">
+<section class="max-w-full w-full flex flex-col lg:flex-row items-center justify-center mb-6">
     <div class="flex justify-center items-center w-full max-w-full sm:w-1/5 m-2" x-data="{ selectedLabel: localStorage.getItem('selectedLabel') || '' }">
         <form method="get" class="flex" action="/teachers/">
             <input id="search-input" type="text" name="search" placeholder="搜尋暱稱或專家名" class="input border border-blue-1">
@@ -23,7 +23,7 @@
                 {% endfor %}
             </select>
         </div>
-        <a href="{% url 'teachers:index' %}" class="btn btn-outline border border-blue-1 m-2 max-w-full text-xl sm:w-auto" @click="selectedLabel = ''; localStorage.removeItem('selectedLabel')">清空標籤</a>
+        <a href="{% url 'teachers:index' %}" class="btn btn-outline border border-blue-1 m-2 max-w-full text-xl sm:w-auto" @click="selectedLabel = ''; localStorage.removeItem('selectedLabel')">重置標籤</a>
     </div>
 </section>
 
