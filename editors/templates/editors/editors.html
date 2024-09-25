@@ -1,7 +1,12 @@
 {% load static %}
 
-<link href="{% static 'editors/editors.css' %}" rel="stylesheet"/>
-<script src="{% static 'editors/editors.js' %}" type="module"></script>
+{% if other_user %}
+    <link href="{% static 'editors/collab.css' %}" rel="stylesheet"/>
+    <script src="{% static 'editors/collab.js' %}" type="module"></script>
+{% else %}
+    <link href="{% static 'editors/individual.css' %}" rel="stylesheet"/>
+    <script src="{% static 'editors/individual.js' %}" type="module"></script>
+{% endif %}
 
 <div class="flex flex-col gap-1 h-full text-black">
     <div>
@@ -36,12 +41,16 @@
     </div>
 </div>
 
+{% if other_user %}
+<input type="hidden" id="editor-id" value="{{id}}">
+<input type="hidden" id="other-user-name" value="{{other_user}}">
+{% endif %}
+
 {% csrf_token %}
 <input type="hidden" id="typescript" value={% static 'editors/vs/language/typescript/ts.worker.js' %}>
 <input type="hidden" id="editor-worker" value="{% static 'editors/vs/editor/editor.worker.js' %}">
-<input type="hidden" id="editor-id" value="{{id}}">
 <input type="hidden" id="eval-url" value="{% url "editors:index" %}">
-<input type="hidden" id="other-user-name" value="{{other_user}}">
+
 
 
 

@@ -11,7 +11,7 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     name = models.CharField(max_length=255, default="default_value")
     slug = models.SlugField(unique=True, blank=True, null=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=False)
     nickname = models.CharField(max_length=30, null=True)
     profile_picture = models.ImageField(
         upload_to="profile_pictures/",
