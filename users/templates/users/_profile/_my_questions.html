@@ -1,0 +1,22 @@
+<div
+  x-show="currentView === '_my_questions'"
+  class="bg-white shadow rounded-lg p-6"
+>
+  <h1 class="text-2xl font-bold mb-2">我的發問</h1>
+  <ul>
+    {% for question in questions %}
+    <div
+      class="p-4 border solid mb-6 border-gray-200 hover:bg-gray-100 transition"
+    >
+      <a
+        href="{% url 'questions:show' question.id %}"
+        class="text-black hover:text-blue-700"
+      >
+        {{ question.title}}
+      </a>
+    </div>
+    {% empty %}
+    <p class="text-black">無提問記錄</p>
+    {% endfor %}
+  </ul>
+</div>

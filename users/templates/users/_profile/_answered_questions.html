@@ -1,0 +1,18 @@
+<div
+  x-show="currentView === '_answered_questions'"
+  class="bg-white shadow rounded-lg p-6"
+>
+  <h1 class="text-2xl font-bold mb-2">我回答過的</h1>
+  {% for answer in answers %}
+  <div class="border-4 mb-2">
+    <a
+      href="{% url 'questions:show' answer.question.id %}"
+      class="text-black hover:text-blue-700"
+    >
+      {{ answer.question.title}}
+    </a>
+  </div>
+  {% empty %}
+  <p class="text-black">無回答記錄</p>
+  {% endfor %}
+</div>

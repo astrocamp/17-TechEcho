@@ -5,15 +5,10 @@
       <div class="col-span-4 sm:col-span-3">
         <div class="p-6 rounded-lg shadow">
           <div class="flex flex-col items-center">
-            {% include "users/partials/_picture.html" with user=user size="32" margin="4" %}
+            {% include "users/partials/_picture.html" with user=user size="32" %}
             <h1 class="text-xl font-bold">{{user}}</h1>
             <div class="flex items-center justify-center">
-              <a
-                class="text-gray-700 hover:text-orange-600"
-                aria-label="Visit LinkedIn"
-                href=""
-                target="_blank"
-              >
+              <a href="{{ user.github_link|default:'#' }}" target="_blank">
                 <img
                   class="w-6 h-6"
                   src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
@@ -21,13 +16,6 @@
                 />
               </a>
             </div>
-            <a
-              class="text-gray-700 hover:text-orange-600"
-              aria-label="Visit TrendyMinds LinkedIn"
-              href=""
-              target="_blank"
-            >
-            </a>
           </div>
           <hr class="my-6 border-t border-gray-300" />
           <div class="flex flex-col">
@@ -76,15 +64,14 @@
           <p>尚未填寫</p>
           {% endif %}
 
-          <h2 class="mt-6 mb-4 text-xl font-bold">經驗</h2>
+          <h2 class="mt-6 mb-4 text-xl font-bold">就職經驗</h2>
           <div class="mb-6">
             <div class="flex flex-wrap justify-between w-full gap-2">
               <span class="font-bold text-gray-700">
                 {{ user.title |default:'尚未填寫'}}
               </span>
               <span class="mr-2 text-gray-700">
-               {{ user.time |default:'尚未填寫' }}
-
+              {{ user.time |default:'尚未填寫' }}
               </span>
             </div>
             <p class="mt-2">{{ user.introduce|default:"尚未填寫" }}</p>
@@ -92,10 +79,15 @@
           </div>
           {% if request.user == user %}
           <a
-            href="{% url 'users:public_profile_edit' user.id %}"
-            class="px-4 py-2 pt-3 text-white bg-blue-500 rounded"
-            >編輯</a
-          >
+          href="{% url 'users:public_profile_edit' user.id %}"
+          class="px-4 py-2 pt-3 text-white bg-blue-500 rounded"
+          >編輯
+          </a>
+          <a
+          href="{% url 'users:profile' %}"
+          class="ml-4 px-4 py-2 pt-3  text-white bg-blue-500 rounded"
+          >回到個人頁面
+          </a>
           {% endif %}
         </div>
       </div>

@@ -1,0 +1,30 @@
+<div
+  x-show="currentView === '_my_blogs'"
+  class="bg-white shadow rounded-lg p-6"
+>
+  <h1 class="text-2xl font-bold mb-2">我發過的文章</h1>
+  <div class="p-6 max-w-4xl mx-auto">
+    <ul>
+      {% for blog in blogs %}
+      <li
+        class="p-4 border solid mb-6 border-gray-200 hover:bg-gray-100 transition"
+      >
+        <div class="flex justify-between items-center">
+          <div>
+            <a
+              href="{% url 'blogs:show' blog.pk %}"
+              class="text-2xl font-bold underline"
+              >{{ blog.title }}</a
+            >
+            <p class="text-sm text-gray-600">
+              發佈時間: {{ blog.created_at|date:"Y-m-d H:i" }}
+            </p>
+          </div>
+        </div>
+      </li>
+      {% empty %}
+      <p>無文章</p>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

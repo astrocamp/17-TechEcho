@@ -4,9 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.template.loader import render_to_string
 from django.utils.http import url_has_allowed_host_and_scheme
 
 from answers.models import Answer
@@ -128,7 +126,6 @@ def profile(request):
     blogs = Blog.objects.filter(author=request.user, is_draft=False).order_by(
         "-created_at"
     )
-
     questions = Question.objects.filter(user=request.user).order_by("-created_at")[:]
     answers = (
         Answer.objects.filter(user=request.user)
@@ -161,22 +158,9 @@ def profile_edit(request):
         if form.is_valid() and photo_form.is_valid():
             form.save()
             photo_form.save()
-            if "HX-Request" in request.headers:
-                response = HttpResponse()
-                response["HX-Redirect"] = reverse("users:profile")
-                return response
-            else:
-                return redirect("users:profile")
+            return redirect("users:profile")
         else:
-            if "HX-Request" in request.headers:
-                html = render_to_string(
-                    "users/profile_edit.html",
-                    {"form": form, "photo_form": photo_form},
-                    request,
-                )
-                return HttpResponse(html)
-            else:
-                messages.error(request, "請更正以下錯誤。")
+            messages.error(request, "請更正以下錯誤。")
     else:
         form = UserProfileForm(instance=request.user)
         photo_form = UserPhotoForm(instance=request.user)
@@ -207,6 +191,7 @@ def public_profile(request, id):
     return render(request, "users/public_profile.html", context)
 
 
+@login_required
 def public_profile_edit(request, id):
     user = get_object_or_404(User, pk=id)
     if request.method == "POST":

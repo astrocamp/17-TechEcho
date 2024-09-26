@@ -1,24 +1,27 @@
-{% extends "layouts/base.html" %} {% block content %}
+{% extends "layouts/base.html" %} {% block content %}{% load home %}
 <div
-    class="container mx-auto px-4"
-    x-data="{
-    currentView: localStorage.getItem('currentView') || 'profile',
-    showSubMenu: false,
-    showSubMenu1: false,
-    showSubMenu2: false,
-    setView(view) {
+  class="container mx-auto px-4"
+  x-data="{
+  currentView: 'profile',
+  showSubMenu: false,
+  showSubMenu1: false,
+  showSubMenu2: false,
+  setView(view) {
     this.currentView = view;
     localStorage.setItem('currentView', view);
-}
-    }"
+  }
+}"
+
 >
-<div class="flex items-start gap-8">
+  <div class="flex items-start">
     <aside class="w-64 flex-shrink-0">
       <div class="mb-6">
-        <div class="relative w-32 h-32 mb-4">
-        {% include "users/partials/_picture.html" with user=user size="32" margin="4" %}
+        <div class="relative w-32 h-32 mt-4 mb-4">
+          {% include "users/partials/_picture.html" with user=user size="32" margin="4" %}
           <a href="{% url 'users:profile_edit' %}">
-            <i class="fa-solid fa-camera absolute bottom-0 right-0 bg-gray-100 rounded-full p-1 text-gray-700"></i>
+            <i
+              class="fa-solid fa-camera absolute bottom-0 right-0 bg-gray-100 rounded-full p-1 text-gray-700"
+            ></i>
           </a>
         </div>
         <h2 class="text-lg font-semibold pl-8">{{ user }}</h2>
@@ -27,9 +30,9 @@
         <ul class="space-y-2">
           <li>
             <a
-            href="#"
-            class="flex items-center"
-            @click.prevent="showSubMenu2 = !showSubMenu2"
+              href="#"
+              class="flex items-center"
+              @click.prevent="showSubMenu2 = !showSubMenu2"
             >
               <i class="fa-solid fa-user mr-2"></i>
               我的個人資料
@@ -37,73 +40,79 @@
             <ul x-show="showSubMenu2" class="pl-6 mt-2 space-y-2">
               <li>
                 <a
-                href="#"
-                class="flex items-center text-gray-700"
-                @click.prevent="setView('profile')">
+                  href="#"
+                  class="flex items-center text-gray-700"
+                  @click.prevent="setView('profile')"
+                >
                   基本資料
                 </a>
               </li>
-                <li>
-                  <a
+              <li>
+                <a
                   href="{% url 'users:public_profile' user.id %}"
-                  class="flex items-center text-gray-700">
-                    我公開的個人資料
-                  </a>
-                </li>
+                  class="flex items-center text-gray-700"
+                >
+                  我公開的個人資料
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center md:max-w-2xl"
+              @click.prevent="setView('notifications')"
+            >
+              <i class="fa-solid fa-bell mr-2"></i>通知總覽
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex items-center"
+              @click.prevent="showSubMenu1 = !showSubMenu1"
+            >
+              <i class="fa-solid fa-calendar-check mr-2"></i>
+              我的預約
+            </a>
+            <ul x-show="showSubMenu1" class="pl-6 mt-2 space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-gray-700"
+                  @click.prevent="setView('reservations_student')"
+                >
+                  <i class="fa-regular fa-calendar"></i>
+                  我的課程
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-gray-700"
+                  @click.prevent="setView('reservations_teacher')"
+                >
+                  <i class="fa-regular fa-calendar"></i>
+                  我的授課時間
+                </a>
+              </li>
             </ul>
           </li>
           <li>
             <a
               href="#"
               class="flex items-center"
-              @click.prevent="setView('notifications')">
-              <i class="fa-solid fa-bell mr-2"></i>通知總覽
-            </a>
-          </li>
-          <li>
-            <a
-            href="#"
-            class="flex items-center"
-            @click.prevent="showSubMenu1 = !showSubMenu1"
+              @click.prevent="showSubMenu = !showSubMenu"
             >
-              <i class="fa-solid fa-calendar-check mr-2"></i>
-              我的預約
-            </a>
-            <ul x-show="showSubMenu1" class="pl-6 mt-2 space-y-2">
-                <li>
-                  <a
-                  href="#"
-                  class="flex items-center text-gray-700"
-                  @click.prevent="setView('reservations_student')">
-                    <i class="fa-regular fa-calendar"></i>
-                    我的課程
-                  </a>
-                </li>
-                <li>
-                  <a
-                  href="#"
-                  class="flex items-center text-gray-700"
-                  @click.prevent="setView('reservations_teacher')">
-                    <i class="fa-regular fa-calendar"></i>
-                    我的授課時間
-                  </a>
-                </li>
-            </ul>
-          </li>
-          <li>
-            <a
-            href="#"
-            class="flex items-center"
-            @click.prevent="showSubMenu = !showSubMenu">
-            <i class="fa-solid fa-clock-rotate-left mr-2"></i>
-            我的足跡
+              <i class="fa-solid fa-clock-rotate-left mr-2"></i>
+              我的足跡
             </a>
             <ul x-show="showSubMenu" class="pl-6 mt-2 space-y-2">
               <li>
                 <a
                   href="#"
                   class="flex items-center text-gray-700"
-                  @click.prevent="setView('myQuestions')"
+                  @click.prevent="setView('_my_questions')"
                 >
                   我的發問
                 </a>
@@ -112,7 +121,7 @@
                 <a
                   href="#"
                   class="flex items-center text-gray-700"
-                  @click.prevent="setView('answeredQuestions')"
+                  @click.prevent="setView('_answered_questions')"
                 >
                   我回答過的
                 </a>
@@ -121,7 +130,7 @@
                 <a
                   href="#"
                   class="flex items-center text-gray-700"
-                  @click.prevent="setView('Myblogs')"
+                  @click.prevent="setView('_my_blogs')"
                 >
                   我發過的文章
                 </a>
@@ -132,7 +141,7 @@
             <a
               href="#"
               class="flex items-center"
-              @click.prevent="setView('drafts')"
+              @click.prevent="setView('_my_drafts')"
               ><i class="fa-solid fa-pen mr-2"></i>
               我的草稿
             </a>
@@ -141,7 +150,7 @@
       </nav>
     </aside>
 
-    <div class="flex-grow mt-8">
+    <div class="flex-grow mt-8 w-full">
       <form
         x-show="currentView === 'profile'"
         class="bg-white shadow rounded-lg p-6 w-3/5 ml-4"
@@ -155,22 +164,21 @@
           <div class="flex-grow pr-0 md:pr-8">
             <div class="mb-4">
               <label class="block text-gray-700 mb-2">使用者帳號</label>
-              <div class="w-full p-2 border rounded bg-gray-100" >
+              <div class="w-full p-2 border rounded bg-gray-100">
                 {{user.username}}
               </div>
             </div>
             <div class="mb-4">
               <label class="block text-gray-700 mb-2">Email</label>
               <div class="flex items-center">
-                <div class="w-full p-2 border rounded bg-gray-100" >
+                <div class="w-full p-2 border rounded bg-gray-100">
                   {{user.email}}
                 </div>
-
               </div>
             </div>
             <div class="mb-4">
               <label class="block w-16 text-gray-700 mb-2">暱稱</label>
-              <div class="w-full p-2 border rounded bg-gray-100" >
+              <div class="w-full p-2 border rounded bg-gray-100">
                 {{ user.get_display_name|default:'' }}
               </div>
             </div>
@@ -185,180 +193,18 @@
           </div>
         </div>
       </form>
-
-      <div
-        x-show="currentView === 'notifications'"
-        class="bg-white shadow rounded-lg p-6"
-        >
-        <h1 class="text-2xl font-bold mb-2">通知總覽</h1>
-        <div
-          class="mt-4"
-          >
-          <ul id="notification_list" class="space-y-2">
-            {% for notification in user_with_notifications.notification_set.all%}
-            <li
-              class="flex justify-between items-center bg-blue-100 border border-blue-500 text-blue-700 px-4 py-3 rounded"
-              role="alert"
-              >
-              <a
-                class="truncate text-wrap"
-                href="{% url notification.url_name notification.question_id %}"
-                @click.stop
-              >
-                <p class="text-sm">{{notification.message}}</p>
-                <p class="text-xs">{{notification.created_at}}</p>
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-
-      <div
-        x-show="currentView === 'reservations_teacher'"
-        class="bg-white shadow rounded-lg p-6"
-        >
-        <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
-          <div class="flex justify-between items-center p-1">
-            <a href="{% url 'reservations:teacher_new' %}" class="btn btn-techecho">新增時間</a>
-          </div>
-          <ul>
-              {% for schedule in schedules %}
-                  <li class="p-2 rounded-lg flex justify-between">
-                      <div class="flex items-center gap-6">
-                          <div>
-                            {{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}
-                          </div>
-                          <ul>
-                              {% if schedule.studentreservation_set.exists %}
-                                  {% for reservation in schedule.studentreservation_set.all %}
-                                      <li class="font-bold flex gap-2 items-center w-full">
-                                          <div>
-                                            已被<span class="text-green-600 px-2 py-1">{{ reservation.student.get_display_name }}</span>學生預約
-                                          </div>
-                                          <a href="{% url 'chat:room' reservation.chat_group.id %}" class="btn btn-sm">進入聊天室</a>
-                                      </li>
-                                  {% endfor %}
-                              {% else %}
-                                <li class="text-gray-500">尚未被學生預約</li>
-                              {% endif %}
-                          </ul>
-                      </div>
-                      {% if not schedule.studentreservation_set.exists %}
-                          <div class="flex items-center gap-1">
-                              <a href="{% url 'reservations:teacher_edit' schedule.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
-                              <form method="POST" action="{% url 'reservations:teacher_delete' schedule.id %}" onsubmit="return confirm('確定要刪除嗎？')">
-                                  {% csrf_token %}
-                                  <button class="btn btn-sm bg-red-600 text-white">刪除</button>
-                              </form>
-                          </div>
-                      {% endif %}
-                  </li>
-              {% empty %}
-                  <li class="text-center text-xl text-gray-500 py-4">您目前尚未開放授課時間</li>
-              {% endfor %}
-          </ul>
-        </section>
-      </div>
-
-
-      <div
-      x-show="currentView === 'reservations_student'"
-      class="bg-white shadow rounded-lg p-6"
-      >
-      <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
-        <ul>
-            {% for reservation in reservations %}
-                <li class="p-2 rounded-lg flex justify-between">
-                    <div class="flex items-center gap-1">
-                        <p class="font-bold">已預約<span class="text-blue-600 px-2 py-1">{{ reservation.schedule.teacher.get_display_name }}</span>專家時間：</p>
-                        <p>{{ reservation.schedule.start_time|date:'Y/m/d H:i' }} - {{ reservation.schedule.end_time|date:'Y/m/d H:i' }}</p>
-                    </div>
-                    <a href="{% url 'chat:room' reservation.chat_group.id %}" class="btn btn-sm">進入聊天室</a>
-                    <div class="flex items-center gap-1">
-                        <a href="{% url 'reservations:student_edit' reservation.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
-                        <form method="POST" action="{% url 'reservations:student_delete' reservation.id %}" onsubmit="return confirm('確定要刪除嗎？')">
-                          {% csrf_token %}
-                            <button class="btn btn-sm bg-red-600 text-white">刪除</button>
-                        </form>
-                    </div>
-                </li>
-            {% empty %}
-                <li class="text-center text-xl text-gray-500 py-4">您尚未預約任何專家～</li>
-            {% endfor %}
-        </ul>
-      </section>
-      </div>
-
-      <div
-      x-show="currentView === 'myQuestions'"
-      class="bg-white shadow rounded-lg p-6"
-    >
-      <h1 class="text-2xl font-bold mb-2">我的發問</h1>
-            <ul class="mt-4">
-              {% for question in questions %}
-              <div class="border-4 mb-2">
-                  <a href="{% url 'questions:show' question.id %}" class="text-black hover:text-blue-700">
-                      {{ question.title}}
-                  </a>
-              </div>
-              {% empty %}
-              <p class="text-black">無提問記錄</p>
-              {% endfor %}
+        {% include 'users/_profile/_notifications.html' %}
+        {% include 'users/_profile/_reservations_teacher.html' %}
+        {% include 'users/_profile/_reservations_student.html' %}
+        {% include 'users/_profile/_my_questions.html' %}
+        {% include 'users/_profile/_answered_questions.html' %}
+        {% include 'users/_profile/_my_blogs.html' %}
+        {% include 'users/_profile/_my_drafts.html' %}
     </div>
+    <div class="flex-grow mt-8">
 
-      <div
-        x-show="currentView === 'answeredQuestions'"
-        class="bg-white shadow rounded-lg p-6"
-        >
-        <h1 class="text-2xl font-bold mb-2">我回答過的</h1>
-          {% for answer in answers %}
-            <div class=" border-4 mb-2">
-              <a href="{% url 'questions:show' answer.question.id %}" class="text-black  hover:text-blue-700">
-                  {{ answer.content}}
-              </a>
-            </div>
-          {% empty %}
-            <li class="text-black">無回答記錄</li>
-          {% endfor %}
-      </div>
-
-      <div
-        x-show="currentView === 'Myblogs'"
-        class="bg-white shadow rounded-lg p-6"
-      >
-        <h1 class="text-2xl font-bold mb-2">我發過的文章</h1>
-      </div>
-
-      <div
-        x-show="currentView === 'drafts'"
-        class="bg-white shadow rounded-lg p-6"
-        >
-        <h1 class="text-2xl font-bold mb-2">我的草稿</h1>
-        <ul>
-          {% for draft in drafts %}
-            <li class="p-4 border-b border-gray-200">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <a href="{% url 'blogs:edit' draft.pk %}" class="text-xl font-bold">{{ draft.title }}</a>
-                        <p>Category: {{ draft.category.name }}</p>
-                        <p>Last updated on: {{ draft.updated_at|date:"Y-m-d H:i" }}</p>
-                    </div>
-                    <div>
-                        <a href="{% url 'blogs:edit' draft.pk %}" class="text-blue-500">編輯</a>
-                        <form method="post" action="{% url 'blogs:delete' draft.pk %}" class="inline">
-                            {% csrf_token %}
-                            <button type="submit" class="text-red-500">刪除</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-              {% empty %}
-            <li>目前沒有草稿。</li>
-          {% endfor %}
-        </ul>
-      </div>
     </div>
   </div>
 </div>
+
 {% endblock %}

@@ -1,0 +1,35 @@
+<div
+  x-show="currentView === '_my_drafts'"
+  class="bg-white shadow rounded-lg p-6"
+>
+  <h1 class="text-2xl font-bold mb-2">我的草稿</h1>
+  <ul>
+    {% for draft in drafts %}
+    <li class="p-4 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div>
+          <a href="{% url 'blogs:edit' draft.pk %}" class="text-xl font-bold"
+            >{{ draft.title }}</a
+          >
+          <p>最後更新時間: {{ draft.updated_at|date:"Y-m-d H:i" }}</p>
+        </div>
+        <div>
+          <a href="{% url 'blogs:edit' draft.pk %}" class="text-blue-500"
+            >編輯</a
+          >
+          <form
+            method="post"
+            action="{% url 'blogs:delete' draft.pk %}"
+            class="inline"
+          >
+            {% csrf_token %}
+            <button type="submit" class="text-red-500">刪除</button>
+          </form>
+        </div>
+      </div>
+    </li>
+    {% empty %}
+    <p>無草稿</p>
+    {% endfor %}
+  </ul>
+</div>

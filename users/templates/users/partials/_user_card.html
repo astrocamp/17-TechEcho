@@ -13,13 +13,13 @@
   <img
     src="{{ user.profile_picture.url }}"
     alt="Profile Picture"
-    class="w-24 h-24 mx-auto mb-4 transition-transform border-4 rounded-full shadow-lg hover:scale-125"
+    class="w-24 h-24 mx-auto mb-4 transition-transform border-2 border-gray-200 object-cover rounded-full shadow-lg hover:scale-125"
   />
   {% else %}
   <img
-    src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar"
+    src="https://techecho.s3.ap-southeast-1.amazonaws.com/homepage_pictures/techecho_logo.png"
     alt="User Avatar"
-    class="w-24 h-24 mx-auto mb-4 transition-transform border-4 border-gray-300 rounded-full shadow-lg hover:scale-125"
+    class="w-24 h-24 mx-auto mb-4 transition-transform border-2 border-gray-200 rounded-full object-cover shadow-lg hover:scale-125"
   />
   {% endif %}
 

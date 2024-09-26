@@ -12,7 +12,7 @@
 >
   <div class="flex items-start gap-8">
     <aside class="w-64 flex-shrink-0">
-      <div class="mb-6">
+      <div class="mb-6 mt-4">
         {% include "users/partials/_picture.html" with user=user size="32" margin="4" %}
         <h2 class="text-lg font-semibold pl-8">{{ user}}</h2>
       </div>
@@ -28,19 +28,19 @@
           </li>
           <li>
             <a
-              href="#"
+              href=""
               class="flex items-center"
               @click.prevent="setView('notifications')"
-              ><i class="fas fa-bell mr-2"></i>通知總覽</a
-            >
+              ><i class="fas fa-bell mr-2"></i>通知總覽
+            </a>
           </li>
           <li>
             <a
-              href="#"
+              href="/profile#notifications"
               class="flex items-center"
               @click.prevent="setView('appointments')"
-              ><i class="fa-solid fa-calendar-check mr-2"></i>我的預約</a
-            >
+              ><i class="fa-solid fa-calendar-check mr-2"></i>我的預約
+            </a>
           </li>
           <li>
             <a
@@ -82,11 +82,11 @@
           </li>
           <li>
             <a
-              href="#"
+              href=""
               class="flex items-center"
-              @click.prevent="setView('drafts')"
-              ><i class="fa-solid fa-pen mr-2"></i>我的草稿</a
-            >
+              @click.prevent="setView('mydrafts')"
+              ><i class="fa-solid fa-pen mr-2"></i>我的草稿
+            </a>
           </li>
         </ul>
       </nav>
@@ -99,7 +99,7 @@
       enctype="multipart/form-data"
     >
       {% csrf_token %}
-      <div class="bg-white shadow rounded-lg p-6">
+      <div class="bg-white shadow rounded-lg p-6 mt-4">
         <h1 class="text-2xl font-bold mb-2">我的個人資料</h1>
         <div class="flex flex-col md:flex-row">
           <div class="flex-grow pr-0 md:pr-8">
@@ -136,14 +136,14 @@
               id="previewImage"
               src="{{ user.profile_picture.url }}"
               alt="Profile Picture"
-              class="w-32 h-32 rounded-full mb-4"
+              class="w-32 h-32 rounded-full mb-4 border-2 border-gray-300 object-cover"
             />
             {% else %}
             <img
               id="previewImage"
-              src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar"
+              src="https://techecho.s3.ap-southeast-1.amazonaws.com/homepage_pictures/techecho_logo.png"
               alt="User Avatar"
-              class="w-32 h-32 rounded-full mb-4"
+              class="w-32 h-32 rounded-full mb-4 border-2 border-gray-300 object-cover"
             />
             {% endif %}
             <label
@@ -166,9 +166,10 @@
             </button>
           </div>
         </div>
+        </form>
       </div>
-    </form>
   </div>
+
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {

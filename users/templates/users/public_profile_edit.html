@@ -4,13 +4,13 @@
     <div class="w-full lg:w-1/4">
       <div class="p-6 bg-white rounded-lg shadow">
         <div class="flex flex-col items-center">
-          {% include "users/partials/_picture.html" with user=user size="32" margin="4" %}
+          {% include "users/partials/_picture.html" with user=user size="32"  %}
           <form method="POST" action="{% url 'users:public_profile_edit' user.id %}">
             <h1 class="text-xl font-bold text-center">{{user}}</h1>
           {% csrf_token %}
           <div class="flex items-center justify-center">
-            <input type="url" id="github_link" name="github_link" value="{{ user.github_link|default:'' }}" placeholder="請輸入GitHub連結" class="border-4 border-double" target="_blank">
-
+            🔗
+            <input type="url" id="github_link" name="github_link" value="{{ user.github_link|default:'' }}" placeholder="請輸入您的gitHub連結" class="border rounded ml-1">
           </div>
         </div>
         <hr class="my-6 border-t border-gray-300" />
@@ -20,7 +20,7 @@
           <input
               type="text"
               name="skill"
-              value"{{ users.skill|default:'' }}"
+              value="{{ user.skill|default:'' }}"
               placeholder="請輸入您的技能"
               class="w-full p-2 mb-3 list-none border rounded"
           />
@@ -34,23 +34,23 @@
     <div class="w-full lg:w-3/4">
       <div class="p-6 bg-white rounded-lg shadow">
         <h2 class="mb-4 text-xl font-bold">關於{{user}}</h2>
-       <input
+      <input
         type="text"
         name="about"
         value="{{ user.about|default:''}}"
         placeholder="請輸入您的自我介紹"
         class="w-full p-2 border rounded"
         />
-            <div class="mb-6">
+    <div class="mb-6">
     </div>
-    <h2 class="mt-6 mb-4 text-xl font-bold">經驗</h2>
+    <h2 class="mt-6 mb-4 text-xl font-bold">就職經驗</h2>
         <div class="mb-6">
           <div class="flex justify-between">
             <div>
                 <input
                     type="text"
                     name="title"
-                    value="{{ users.title |default:''}}"
+                    value="{{ user.title |default:''}}"
                     placeholder="輸入您的職稱"
                     class="font-bold text-gray-700 border solid border-block-500"
                 />
@@ -59,7 +59,7 @@
                 <input
                     type="text"
                     name="time"
-                    value="{{ users.time |default:''}}"
+                    value="{{ user.time |default:''}}"
                     placeholder="輸入您的在單位的時間"
                     class="mr-2 text-gray-700 border solid border-block-500"
                 />
