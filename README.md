@@ -6,7 +6,7 @@
 2. `poetry install` 下載 python 相應套件
 3. `npm install` 下載 html/css/js 相應套件
 4. 使用`.env.example` 建立`.env`檔
-5. `docker compose up` 建立編輯器所需的 docker image
+5. `docker compose up -d` 建立編輯器所需的 docker image 和相應的 docker container
 
 ## 執行檔案
 
