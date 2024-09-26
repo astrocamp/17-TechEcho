@@ -3,20 +3,18 @@ from channels.layers import get_channel_layer
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_GET, require_POST
 
 from answers.forms import AnswerForm
-from answers.utils.answers_sort import get_ordered_answers
-from lib.utils.labels import parse_form_labels, parse_labels
+from answers.utils.answers import parse_answers
+from lib.utils.labels import parse_form_labels
 from lib.utils.pagination import paginate
 
 from .forms import QuestionForm
-from .models import Question, QuestionUserVotes
-from .utils.question_user_votes import (
-    upvoted_or_downvoted_or_neither,
-    validate_votes_input,
-)
+from .models import Question, Votes
+from .utils.question_user_votes import question_vote, validate_votes_input
 from .utils.sort import order_is_valid
 
 
@@ -77,13 +75,9 @@ def show(request, id):
 
         question = get_object_or_404(Question, pk=id, user=request.user)
         form = QuestionForm(request.POST, instance=question)
-        labels = parse_labels(request.POST)
 
         if form.is_valid() and parse_form_labels(form):
-            instance = form.save(commit=False)
-            instance.labels.set(labels)
-            instance.save()
-            form.save_m2m()
+            form.save()
 
             messages.success(request, "編輯成功")
             return redirect("questions:show", id=id)
@@ -93,21 +87,26 @@ def show(request, id):
             request, "questions/edit.html", {"form": form, "question": question}
         )
 
-    question = get_object_or_404(Question, pk=id)
-    vote = upvoted_or_downvoted_or_neither(request, question)
-    order_type = request.GET.get("order")
-    answers, _ = get_ordered_answers(question, order_type)
+    if not Question.all_objects.filter(pk=id).exists():
+        raise Http404("沒有這個問題")
+
+    question = Question.all_objects.get(pk=id)
+    question_deleted = question.is_soft_deleted()
+
+    answers = parse_answers(request, question, request.GET.get("order"))
     answers = paginate(request, answers, items_count=6)
-    form = AnswerForm()
     return render(
         request,
         "questions/show.html",
         {
             "question": question,
+            "question_deleted": question_deleted,
             "answers": answers,
-            "vote": vote,
-            "form": form,
-            "followed": question.followed_by(request.user),
+            "vote": None if question_deleted else question_vote(request, question),
+            "form": None if question_deleted else AnswerForm(),
+            "followed": (
+                None if question_deleted else question.followed_by(request.user)
+            ),
         },
     )
 
@@ -140,9 +139,9 @@ def votes(request, id):
     question = get_object_or_404(Question, pk=id)
 
     if not question.voted_by(request.user):
-        record = QuestionUserVotes.objects.create(question=question, user=request.user)
+        record = Votes.objects.create(question=question, user=request.user)
     else:
-        record = question.questionuservotes_set.get(user=request.user)
+        record = question.votes_set.get(user=request.user)
 
     vote_change = request.POST.get("vote_change")
     vote_status, actual_change = validate_votes_input(record.vote_status, vote_change)
@@ -214,8 +213,11 @@ def preview(request):
             {"preview_content": preview_content},
         )
 
+    warning = "請依以下規定改正後再預覽：" + " / ".join(
+        map(lambda x: " / ".join(x), form.errors.values())
+    )
     return render(
         request,
         "questions/partials/_preview.html",
-        {"preview_content": "請先依照規定填好標題、內容、標籤，才能預覽。"},
+        {"warning": warning},
     )

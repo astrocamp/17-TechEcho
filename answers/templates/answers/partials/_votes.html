@@ -1,0 +1,32 @@
+{% if user.is_authenticated %}
+{% load questions %}
+<div id="answer-vote-{{ answer.id }}" class="p-2 flex gap-2" x-data="convert_to_svg">
+    <form
+        hx-post="{% url 'answers:vote' answer.id 'upvote' %}"
+        hx-target="#answer-vote-{{ answer.id }}"
+        hx-swap="outerHTML"
+    >
+        {% csrf_token %}
+        <button type="submit">
+            <i class="fa-{{voted|check_vote:"upvote"}} fa-thumbs-up text-lg font-bold"></i>
+        </button>
+    </form>
+
+    <span>{{ answer.votes_count }}</span>
+
+    <form
+        hx-post="{% url 'answers:vote' answer.id 'downvote' %}"
+        hx-target="#answer-vote-{{ answer.id }}"
+        hx-swap="outerHTML"
+    >
+        {% csrf_token %}
+        <button>
+            <i class="fa-{{voted|check_vote:"downvote"}} fa-thumbs-down text-lg font-bold"></i>
+        </button>
+    </form>
+</div>
+{% else %}
+<i class="fa-solid fa-thums-up text-gray-500 text-lg font-bold"></i>
+<span class="text-gray-500">{{ answer.votes_count }}</span>
+<i class="fa-solid fa-thumbs-down text-gray-500 text-lg font-bold"></i>
+{% endif %}

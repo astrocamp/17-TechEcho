@@ -12,7 +12,10 @@ self.MonacoEnvironment = {
 	}
 };
 
-const editor = monaco.editor.create(document.getElementById('editor'), {
+let editor = document.getElementById('editor');
+editor.innerHTML = "";
+
+editor = monaco.editor.create(editor, {
 	value: getDefaultSnippets("javascript"),
 	language: "javascript",
 	theme: "vs-light",

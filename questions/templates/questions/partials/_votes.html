@@ -9,18 +9,18 @@
         class="flex gap-2 mb-2 items-center"
         x-data="convert_to_svg">
         <button name="vote_change" value="upvoted">
-            <i class="fa-solid fa-arrow-up text-lg font-bold text-red-{{vote|questions_votes:"upvoted"}}"></i>
+            <i class="fa-{{vote|check_vote:"upvoted"}} fa-thumbs-up text-lg font-bold"></i>
         </button>
 
         <p>{{question.votes_count}}</p>
 
         <button name="vote_change" value="downvoted">
-            <i class="fa-solid fa-arrow-down text-lg font-bold text-red-{{vote|questions_votes:"downvoted"}}"></i>
+            <i class="fa-{{vote|check_vote:"downvoted"}} fa-thumbs-down text-lg font-bold"></i>
         </button>
     </form>
 {% else %}
-    <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
+    <i class="fa-solid fa-thumbs-up text-gray-500 text-lg font-bold"></i>
     <span class="text-gray-500">{{ question.votes_count }}</span>
-    <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
+    <i class="fa-solid fa-thumbs-down text-gray-500 text-lg font-bold"></i>
 {% endif %}
 

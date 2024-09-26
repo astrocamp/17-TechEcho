@@ -1,7 +1,9 @@
 <div x-data="scroll" class="border-4 border-vanilla-5 rounded-lg bg-white">
     <div class="relative bg-vanilla-5 py-2">
-        <span id="online-dot"></span>
-        <div id="banner"></div>
+        <span id="online-dot" class="dot absolute top-1 left-1 gray-dot"></span>
+        <div id="banner" class="animate-fadeIn flex text-green-3 justify-center items-center text-xl">
+            {{ other_user|yesno:"無人在線,0人在線"}}
+        </div>
     </div>
 
     <ul x-ref="list" id="message_list" class="w-11/12 mx-auto mb-2 h-[60vh] overflow-auto">

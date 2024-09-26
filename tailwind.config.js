@@ -31,23 +31,17 @@ module.exports = {
   ],
   theme: {
     extend: {
-      keyframes: {
-        'fade-in-and-grow': {
-          '0%': { opacity: 0, transform: 'scale(0.9)' },
-          '100%': { opacity: 1, transform: 'scale(1)' },
-        },
-      },
-      animation: {
-        'fade-in-and-grow': 'fade-in-and-grow 1s ease-out forwards',
-      },
       colors: {
         'blue-1': '#04ADBF',
         'blue-2': '#04BFBF',
         'green-3': '#025959',
         'green-4': '#A0A603',
         'vanilla-5': '#F2E0C9',
-        'vanilla-7': '#F2B680',
         'red-6': '#F23030',
+        'vanilla-7': '#F2B680',
+        'orange-8': '#E86C0C',
+        'orange-9': '#F2C10C',
+
       },
       keyframes: {
         fadeUp: {

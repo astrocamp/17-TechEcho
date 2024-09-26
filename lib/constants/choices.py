@@ -1,4 +1,5 @@
 label_tuple = (
+    "others",
     "vue",
     "react",
     "css",

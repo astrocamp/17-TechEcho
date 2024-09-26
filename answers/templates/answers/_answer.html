@@ -67,35 +67,7 @@
     </form>
   </div>
 
-  <div class="p-2 flex gap-2">
-    {% if user.is_authenticated %}
-    <form
-      hx-post="{% url 'answers:vote' answer.id 'upvote' %}"
-      hx-target="#votes-count-{{ answer.id }}"
-      hx-swap="innerHTML"
-    >
-      {% csrf_token %}
-      <button type="submit">
-        <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
-      </button>
-    </form>
-
-    <span id="votes-count-{{ answer.id }}">{{ answer.votes_count }}</span>
-
-    <form
-      hx-post="{% url 'answers:vote' answer.id 'downvote' %}"
-      hx-target="#votes-count-{{ answer.id }}"
-      hx-swap="innerHTML"
-    >
-      {% csrf_token %}
-      <button>
-        <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
-      </button>
-    </form>
-    {% else %}
-    <i class="fa-solid fa-arrow-up text-gray-500 text-lg font-bold"></i>
-    <span class="text-gray-500">{{ answer.votes_count }}</span>
-    <i class="fa-solid fa-arrow-down text-gray-500 text-lg font-bold"></i>
-    {% endif %}
+  <div>
+  {% include "answers/partials/_votes.html" with user=user answer=answer voted=answer.voted only %}
   </div>
 </section>

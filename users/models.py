@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.crypto import get_random_string
-from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from storages.backends.s3boto3 import S3Boto3Storage
 

@@ -1,11 +1,11 @@
-import programmingLanguages from "../../constants/choices.js"
+import tagChoices from "../../constants/choices.js"
 import Alpine from "alpinejs"
 import Tagify from "@yaireo/tagify"
 
 Alpine.data("tags_input", () => ({
     init() {
         new Tagify(this.$el, {
-            whitelist: programmingLanguages,
+            whitelist: tagChoices,
             enforceWhitelist: true,
             dropdown: {
                 maxItems: 30,

@@ -31,7 +31,11 @@
     </div>
 
     <div class="border-2">
-        <div id="editor" class="w-full h-[40vh] md:h-[55vh]"></div>
+        <div id="editor" class="w-full h-[40vh] md:h-[55vh]">
+            <h2 class="text-4xl text-center text-green-3">
+                編輯器載入中，請稍候
+            </h2>
+        </div>
     </div>
 
 
@@ -42,8 +46,8 @@
 </div>
 
 {% if other_user %}
-<input type="hidden" id="editor-id" value="{{id}}">
-<input type="hidden" id="other-user-name" value="{{other_user}}">
+    <input type="hidden" id="editor-id" value="{{id}}">
+    <input type="hidden" id="other-user-name" value="{{other_user}}">
 {% endif %}
 
 {% csrf_token %}

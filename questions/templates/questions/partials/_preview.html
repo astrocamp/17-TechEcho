@@ -3,6 +3,8 @@
     <div class="card-body markdown h-[75vh] overflow-auto text-black">
         {% if preview_content %}
             {{preview_content|strip_markdown_safe}}
+        {% elif warning %}
+            <span class="text-red-500">{{ warning }}</span>
         {% endif %}
     </div>
 </div>

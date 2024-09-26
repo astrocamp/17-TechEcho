@@ -1,43 +1,47 @@
-<section class="container max-w-4xl mx-auto px-6 py-4 my-4 rounded-lg">
-    <div class="text-xl bold my-4">
+<section class="container max-w-4xl px-6 py-4 mx-auto my-4 rounded-lg">
+    <div class="my-4 text-xl bold">
         <h2><span id="total-answers">{{ answers.paginator.count }}</span> 個答案</h2>
     </div>
 
-    <div class="flex justify-between items-center">
+    <div class="flex items-center justify-between">
         <div class="flex gap-2 p-1">
             <p>排序依據：</p>
             <a class="link" href="{% url 'questions:show' question.id %}?order=id">最新</a>
             <a class="link" href="{% url 'questions:show' question.id %}?order=votes_count">讚數</a>
         </div>
 
-        <a href="#add-answer" class="btn btn-techecho">新增答案</a>
+        {% if not question_deleted %}
+        <a href="#add-answer" class="btn btn-techecho">前往回答</a>
+        {% endif %}
     </div>
 
     {% for answer in answers %}
         {% include "answers/_answer.html" with answer=answer user=user %}
     {% empty %}
-        <div class="text-xl bold my-4">目前無答案</div>
+        <div class="my-4 text-xl bold">目前無答案</div>
     {% endfor %}
 
-    {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'answers:index' question.id %}">
-            {% csrf_token %}
-            <div class="flex flex-col gap-2 px-6 py-4 my-4 rounded-lg border-2 border-blue-2">
-                {% for field in form %}
-                <div class="form-control rounded-lg">
-                    {{ field }}
-                    <span class="text-red-500">{{ field.errors }}</span>
+    {% if not question_deleted %}
+        {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'answers:index' question.id %}">
+                {% csrf_token %}
+                <div class="flex flex-col gap-2 px-6 py-4 my-4 rounded-lg border-2 border-blue-2">
+                    {% for field in form %}
+                    <div class="form-control rounded-lg">
+                        {{ field }}
+                        <span class="text-red-500">{{ field.errors }}</span>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
-            <div class="flex justify-end">
-                <button id="add-answer" class="btn btn-sm btn-techecho">新增答案</button>
-            </div>
-        </form>
-    {% else %}
-        <a href="{% url 'users:login' %}" class="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-            請先登入才能回答
-        </a>
+                <div class="flex justify-end">
+                    <button id="add-answer" class="btn btn-techecho">送出答案</button>
+                </div>
+            </form>
+        {% else %}
+            <a href="{% url 'users:login' %}" class="inline-block px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+                請先登入才能回答
+            </a>
+        {% endif %}
     {% endif %}
 
     {% include "shared/pagination.html" with pages=answers default_message='期待你的回答～' only %}

@@ -41,7 +41,6 @@ def index(request):
             messages.success(request, "Premium用戶歡迎回來")
             return redirect("teachers:index")
         else:
-            messages.warning(request, "您尚未升級Premium")
             return render(request, "payments/index.html")
 
     return render(request, "payments/index.html")

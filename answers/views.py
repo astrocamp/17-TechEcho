@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -46,18 +45,26 @@ def vote(request, id, vote_type):
             else:
                 answer.votes_count += 1
             vote.delete()
+            voted = "neither"
         else:
             if vote_type == "upvote":
                 answer.votes_count += 2
+                voted = "upvote"
             else:
                 answer.votes_count -= 2
+                voted = "downvote"
             vote.vote_type = vote_type
             vote.save()
     else:
         Vote.objects.create(user=request.user, answer=answer, vote_type=vote_type)
         if vote_type == "upvote":
             answer.votes_count += 1
+            voted = "upvote"
         else:
             answer.votes_count -= 1
+            voted = "downvote"
     answer.save()
-    return JsonResponse(answer.votes_count, safe=False)
+
+    return render(
+        request, "answers/partials/_votes.html", {"answer": answer, "voted": voted}
+    )

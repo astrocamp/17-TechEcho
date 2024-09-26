@@ -33,3 +33,13 @@ class QuestionForm(forms.ModelForm):
             ),
         }
         labels = {"title": "問題", "labels": "標籤", "details": "問題內容"}
+        error_messages = {
+            "title": {
+                "required": "請輸入問題標題",
+                "max_length": "問題標題最多只能五十個字",
+            },
+            "labels": {"required": "請輸入至少一個標籤"},
+            "details": {
+                "required": "請輸入問題內容",
+            },
+        }

@@ -7,7 +7,7 @@
             <div class="relative" x-data="{show: false}" @mouseover="show=true" @mouseleave="show=false">
                 <a href="#" class="flex items-center gap-1">
                     {% include "users/partials/_picture.html" with user=question.user size="7" margin="0" only %}
-                    <div>{{question.user}} {{question.user|teacher_icon}} {{question.user|student_icon}}</div>
+                    <div x-data="convert_to_svg">{{question.user}} {{question.user|teacher_icon}} {{question.user|student_icon}}</div>
                 </a>
                 {% include "users/partials/_user_card.html" with user=question.user %}
             </div>

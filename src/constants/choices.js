@@ -1,4 +1,5 @@
-export default programmingLanguages = [
+export default tagChoices = [
+    "others",
     "vue",
     "react",
     "css",

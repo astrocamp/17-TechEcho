@@ -21,7 +21,9 @@
     alt="User Avatar"
     class="w-24 h-24 mx-auto mb-4 transition-transform border-4 border-gray-300 rounded-full shadow-lg hover:scale-125"
   />
-  {% endif %} {% if user.is_teacher %}
+  {% endif %}
+
+  {% if user.is_teacher %}
   <p class="mb-2 text-lg font-bold">{{ user }} 老師 {{ user|teacher_icon }}</p>
   <button
     class="px-4 py-2 mb-2 text-white transition rounded-full bg-green-4 hover:bg-green-3"
@@ -29,7 +31,9 @@
   >
     前往 {{ user }} 預約時間
   </button>
-  {% endif %} {% if user.is_student %}
+  {% endif %}
+
+  {% if user.is_student %}
   <p class="mb-2 text-lg font-bold">{{ user }} 學生 {{ user|student_icon }}</p>
   {% endif %}
 

@@ -10,7 +10,7 @@
         </span>
     </button>
     <form x-show="notificationOpen" @click.away="closeDropdown()"
-        class="border-2 border-blue-1 absolute right-0 z-20 mt-8 text-green-3 w-60 bg-vanilla-5"
+        class="absolute right-0 z-20 mt-8 border-2 border-blue-1 text-green-3 w-60 bg-vanilla-5"
         style="display: none"
         hx-ext="ws"
         ws-connect="ws/notifications/">
@@ -18,7 +18,7 @@
             id="notification_list"
             class="w-full">
             {% for notification in user_with_notifications.notification_set.all %}
-                <li class="flex justify-between gap-1 items-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                <li class="flex items-center justify-between gap-1 px-4 py-3 text-blue-700 bg-blue-100 border-t border-b border-blue-500" role="alert">
                     <a class="truncate text-wrap" href="{% url notification.url_name notification.question_id %}#{{notification.answer_id}}">
                         <p class="text-sm">{{notification.message}}</p>
                         <p class="text-xs">{{notification.created_at}}</p>
@@ -35,7 +35,7 @@
         </ul>
         <button name="answer_id" value="-1"
             ws-send
-            class="text-sm py-1"
+            class="py-1 text-sm"
             @click="clearAll()"
             x-show="notificationNumber > 0">
             清除所有通知

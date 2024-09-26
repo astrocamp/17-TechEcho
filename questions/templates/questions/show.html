@@ -1,60 +1,70 @@
 {% extends 'layouts/base.html' %}
 {% load questions home users %}
 {% block content %}
+
 <div class="container border bg-vanilla-5 mt-4 rounded-lg p-6 max-w-4xl mx-auto relative mb-2 text-black">
-    <div class="flex justify-between items-center mb-2">
-        <div class="flex gap-4 items-center">
-            <h1 class="text-3xl">{{question.title}}</h1>
-            {% if user.is_authenticated and user != question.user %}
-                {% include "questions/partials/_follows.html" with question=question followed=followed only %}
+    {% if not question_deleted %}
+        <div class="flex justify-between items-center mb-2">
+            <div class="flex gap-4 items-center">
+                <h1 class="text-3xl">{{question.title}}</h1>
+                {% if user.is_authenticated and user != question.user %}
+                    {% include "questions/partials/_follows.html" with question=question followed=followed only %}
+                {% endif %}
+            </div>
+            <a href="{% url "questions:index" %}" class="btn btn-techecho2">回到問題列表</a>
+        </div>
+
+        <div class="p-2 border-2 border-blue-2 bg-white mb-2 rounded-lg">
+            <p> 標籤：
+                {% for label in question.labels.all %}
+                    <span>{{label}} </span>
+                {% endfor %}
+            </p>
+        </div>
+
+        <div class="flex gap-2 mb-2 text-gray-500">
+            <a href="#" class="relative" x-data="{show: false}" @mouseover="show=true" @mouseleave="show=false">
+                提問者： {{question.user}} {{question.user|teacher_icon}} {{question.user|student_icon}}
+                {% include "users/partials/_user_card.html" with user=question.user %}
+            </a>
+            <span>｜建立時間：{{question.created_at|standard_date }}</span>
+            <span>｜更新時間：
+                {% if question.updated_at %}
+                    {{question.updated_at|standard_date }}
+                {% else %}
+                    {{question.created_at|standard_date }}
+                {% endif %}
+            </span>
+        </div>
+
+        <article  class="w-full p-2 border-2 border-blue-2 bg-white mb-2 rounded-lg">
+            <div class="markdown">
+                {{ question.details|strip_markdown_safe}}
+            </div>
+        </article>
+
+        <div class="flex gap-2 justify-between items-center">
+            {% include "questions/partials/_votes.html" with question=question vote=vote user=user only %}
+
+            {% if user.is_authenticated and user == question.user %}
+            <div class="flex gap-2">
+                <a href="{% url "questions:edit" question.id%}" class="btn btn-sm bg-blue-600 text-white">編輯此問題</a>
+                <form action="{% url "questions:delete"  question.id%}" method="POST" onSubmit="return confirm('確定要刪除此問題嗎？')">
+                    {% csrf_token %}
+                    <button class="btn btn-sm bg-red-600 text-white">刪除此問題</button>
+                </form>
+            </div>
             {% endif %}
         </div>
-        <a href="{% url "questions:index" %}" class="btn btn-techecho2">回到問題列表</a>
-    </div>
-
-    <div class="p-2 border-2 border-blue-2 bg-white mb-2 rounded-lg">
-        <p> 標籤：
-            {% for label in question.labels.all %}
-                <span>{{label}} </span>
-            {% endfor %}
-        </p>
-    </div>
-
-    <div class="flex gap-2 mb-2 text-gray-500">
-        <a href="#" class="relative" x-data="{show: false}" @mouseover="show=true" @mouseleave="show=false">
-            提問者： {{question.user}} {{question.user|teacher_icon}} {{question.user|student_icon}}
-            {% include "users/partials/_user_card.html" with user=question.user %}
-        </a>
-        <span>｜建立時間：{{question.created_at|standard_date }}</span>
-        <span>｜更新時間：
-            {% if question.updated_at %}
-                {{question.updated_at|standard_date }}
-            {% else %}
-                {{question.created_at|standard_date }}
-            {% endif %}
-        </span>
-    </div>
-
-    <article  class="w-full p-2 border-2 border-blue-2 bg-white mb-2 rounded-lg">
-        <div class="markdown">
-            {{ question.details|strip_markdown_safe}}
+    {% else %}
+        <div class="flex justify-end">
+            <a href="{% url "questions:index" %}" class="btn btn-techecho2">回到問題列表</a>
         </div>
-    </article>
-
-    <div class="flex gap-2 justify-between items-center">
-        {% include "questions/partials/_votes.html" with question=question vote=vote user=user only %}
-
-        {% if user.is_authenticated and user == question.user %}
-        <div class="flex gap-2">
-            <a href="{% url "questions:edit" question.id%}" class="btn btn-sm bg-blue-600 text-white">編輯此問題</a>
-            <form action="{% url "questions:delete"  question.id%}" method="POST" onSubmit="return confirm('確定要刪除此問題嗎？')">
-                {% csrf_token %}
-                <button class="btn btn-sm bg-red-600 text-white">刪除此問題</button>
-            </form>
-        </div>
-        {% endif %}
-    </div>
-
+        <h2 class="text-5xl text-green-4 text-center">
+            [此問題已被提問者刪除]
+        </h2>
+    {% endif %}
 </div>
-{% include "answers/index.html" with answers=answers form=form %}
+
+{% include "answers/index.html" with question_deleted=question_deleted answers=answers form=form %}
 {% endblock %}
