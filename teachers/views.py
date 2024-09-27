@@ -120,9 +120,10 @@ def show(request, id):
         .select_related("question", "user")
         .order_by("-created_at")[:8]
     )
-    schedules = TeacherSchedule.objects.filter(teacher=teacher.user).order_by(
-        "start_time"
-    )
+    schedules = TeacherSchedule.objects.filter(
+        studentreservation__isnull=True, teacher=teacher.user
+    ).exclude(studentreservation__id=id)
+
     context = {
         "teacher": teacher,
         "questions": questions,

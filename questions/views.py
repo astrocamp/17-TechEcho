@@ -68,6 +68,7 @@ def new(request):
 
 
 def show(request, id):
+
     if request.method == "POST":
         if not request.user.is_authenticated:
             messages.error(request, "請登入後再嘗試")

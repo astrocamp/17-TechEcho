@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="w-full lg:w-1/2">
-            <p class="p-2 m-2 text-2xl font-semibold text-center text-white rounded-lg bg-orange-8 ">自我介紹</p>
+            <p class="p-2 m-2 text-2xl font-semibold text-center text-white rounded-lg bg-orange-8">自我介紹</p>
             <article class="p-4 text-xl leading-relaxed tracking-wide text-black break-words bg-white rounded-lg shadow-lg">
                 {{ teacher.introduce }}
             </article>
@@ -97,28 +97,99 @@
 </div>
 
 <div class="w-full max-w-5xl p-2 mx-auto mb-6 rounded-lg shadow-lg bg-gray-50">
+
     <div class="p-2">
         <h3 class="p-2 m-2 text-2xl font-semibold text-center text-white rounded-lg bg-orange-8">可預約時間</h3>
+        <div id='calendar' class="max-w-screen-xl my-6 mx-auto"></div>
         {% if request.user == teacher.user %}
-            <a class="p-2 m-2 text-base text-white transition-all duration-150 rounded-md shadow-md bg-orange-9 hover:bg-orange-8 focus:outline-none" href="{% url "reservations:teacher_index" %}">管理授課時間</a>
+            <a class="p-2 m-2 my-6 text-base text-white transition-all duration-150 rounded-md shadow-md bg-orange-9 hover:bg-orange-8 focus:outline-none" href="{% url "reservations:teacher_index" %}">管理授課時間</a>
+        {% else %}
+            <ul class="mt-4">
+                {% for schedule in schedules %}
+                        <li class="flex justify-between p-2 m-2 bg-white border rounded-lg">
+                            <div class="flex items-center">
+                                <p class="text-lg">{{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}</p>
+                            </div>
+                            {% if request.user != teacher.user %}
+                                <div class="flex items-center">
+                                    <a href="{% url 'reservations:student_new' schedule.id %}" class="px-4 py-2 text-white rounded-md shadow bg-blue-2 hover:bg-blue-1">預約</a>
+                                </div>
+                            {% endif %}
+                        </li>
+                {% empty %}
+                    <li class="text-center text-gray-500">目前沒有可預約的時段</li>
+                {% endfor %}
+            </ul>
         {% endif %}
-        <ul class="mt-4">
-            {% for schedule in schedules %}
-                <li class="flex justify-between p-2 m-2 bg-white border rounded-lg">
-                    <div class="flex items-center">
-                        <p class="text-lg">{{ schedule.start_time|date:'Y/m/d H:i' }} - {{ schedule.end_time|date:'Y/m/d H:i' }}</p>
-                    </div>
-                    {% if request.user != teacher.user %}
-                        <div class="flex items-center">
-                            <a href="{% url 'reservations:student_new' schedule.id %}" class="px-4 py-2 text-white rounded-md shadow bg-blue-2 hover:bg-blue-1">預約</a>
-                        </div>
-                    {% endif %}
-                </li>
-            {% empty %}
-                <li class="text-center text-gray-500">目前沒有可預約的時段</li>
-            {% endfor %}
-        </ul>
+
     </div>
 </div>
+
+
+<style>
+    @media (max-width: 768px) {
+        .fc-list-week .fc-list-day-cushion {
+            font-size: 0.8em;
+        }
+        .fc-toolbar {
+            font-size: 0.8em;
+        }
+        .fc-toolbar-title {
+            font-size: 0.6em;
+        }
+    }
+</style>
+
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar/main.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar/main.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar/locales/zh-tw.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js'></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar');
+        const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+        const initialView = isSmallScreen ? 'listWeek' : 'dayGridMonth';
+        const headerToolbar = isSmallScreen
+            ? { left: 'prev,next', center: 'title', right: 'today' }
+            : { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' };
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: initialView,
+            locale: 'zh-tw',
+            editable: false,
+            dayMaxEvents: true,
+            headerToolbar: headerToolbar,
+            events: '{% url "reservations:calendar_events" teacher.id %}',
+            eventClick: function(info) {
+                info.jsEvent.preventDefault();
+            },
+            eventDidMount: function(info) {
+                info.el.style.pointerEvents = 'none';
+                info.el.style.cursor = 'default';
+            },
+            windowResize: function(view) {
+                adjustTitleFontSize();
+            },
+        });
+        calendar.render();
+        adjustTitleFontSize();
+
+        function adjustTitleFontSize() {
+            const titleEl = document.querySelector('.fc-toolbar-title');
+            if (window.matchMedia("(max-width: 768px)").matches) {
+                titleEl.style.fontSize = '1.2em';
+            } else {
+                titleEl.style.fontSize = '2em';
+            }
+        }
+    });
+
+    function getCookie(name) {
+        const cookie = document.cookie.split('; ').find(row => row.startsWith(name + '='));
+        return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
+    }
+</script>
+
 
 {% endblock %}

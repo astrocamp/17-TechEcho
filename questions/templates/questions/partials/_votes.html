@@ -19,8 +19,10 @@
         </button>
     </form>
 {% else %}
-    <i class="fa-solid fa-thumbs-up text-gray-500 text-lg font-bold"></i>
-    <span class="text-gray-500">{{ question.votes_count }}</span>
-    <i class="fa-solid fa-thumbs-down text-gray-500 text-lg font-bold"></i>
+    <div class="flex gap-2 mb-2 items-center">
+        <i class="fa-solid fa-thumbs-up text-gray-500 text-lg font-bold"></i>
+        <span class="text-gray-500">{{ question.votes_count }}</span>
+        <i class="fa-solid fa-thumbs-down text-gray-500 text-lg font-bold"></i>
+    </div>
 {% endif %}
 

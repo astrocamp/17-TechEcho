@@ -1,67 +1,73 @@
 {% extends "layouts/base.html" %}
 {% load home %}
 {% block content %}
-    <h1 class="text-4xl font-bold mt-6 mb-6 text-gray-900 text-center">我的授課時間</h1>
+    <h1 class="text-2xl md:text-4xl font-bold mt-6 mb-6 text-gray-900 text-center">我的授課時間</h1>
+    <h2 class="text-md md:text-xl mt-6 mb-6 text-gray-500 text-center">您也可以透過下方日曆，拖動更新授課時間，或是點擊刪除</h2>
     <section class="container mx-auto border px-6 py-4 my-4 rounded-lg">
         <div class="flex justify-between items-center p-1">
             <a href="{% url 'reservations:teacher_new' %}" class="btn">新增時間</a>
         </div>
+        <div id='calendar' class="max-w-screen-xl my-2 mx-auto"></div>
+        <h3 class="text-md md:text-xl font-bold mt-6 mb-4">已被預約的授課時間</h3>
         <ul>
             {% for schedule in schedules %}
-                <li class="p-2 rounded-lg flex justify-between">
-                    <div class="flex items-center gap-6">
-                        <div>
-                            {{ schedule.start_time|standard_date }} - {{ schedule.end_time|standard_date }}
-                        </div>
-                        <ul>
-                            {% if schedule.studentreservation_set.exists %}
+                {% if schedule.studentreservation_set.exists %}
+                    <li class="p-2 rounded-lg flex justify-between flex-wrap">
+                        <div class="flex items-center gap-6 flex-wrap">
+                            <div>
+                                {{ schedule.start_time|standard_date }} - {{ schedule.end_time|standard_date }}
+                            </div>
+                            <ul>
                                 {% for reservation in schedule.studentreservation_set.all %}
-                                    <li class="font-bold flex gap-2 items-center w-full">
+                                    <li class="font-bold flex gap-2 items-center w-full flex-wrap">
                                         <div>
-                                            已被<span class="text-green-600 px-2 py-1">{{ reservation.student.get_display_name }}</span>學生預約
+                                            已被<span class="text-blue-1 px-2 py-1">{{ reservation.student.get_display_name }}</span>學生預約
                                         </div>
                                         <a href="{% url 'chat:room' reservation.chat_group.id %}" class="btn btn-sm">進入聊天室</a>
                                     </li>
                                 {% endfor %}
-                            {% else %}
-                                <li class="text-gray-500">尚未被學生預約</li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    {% if not schedule.studentreservation_set.exists %}
-                        <div class="flex items-center gap-1">
-                            <a href="{% url 'reservations:teacher_edit' schedule.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
-                            <form method="POST" action="{% url 'reservations:teacher_delete' schedule.id %}" onsubmit="return confirm('確定要刪除嗎？')">
-                                {% csrf_token %}
-                                <button class="btn btn-sm bg-red-600 text-white">刪除</button>
-                            </form>
+                            </ul>
                         </div>
-                    {% endif %}
-                </li>
-            {% empty %}
-                <li class="text-center text-xl text-gray-500 py-4">您目前尚未開放授課時間</li>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
 
-        <div id='calendar'></div>
+        <h3 class="text-md md:text-xl font-bold mt-6 mb-4">尚未被預約的授課時間</h3>
+        <ul>
+            {% for schedule in schedules %}
+                {% if not schedule.studentreservation_set.exists %}
+                    <li class="p-2 rounded-lg flex justify-between flex-wrap">
+                        <div class="flex items-center gap-6 flex-wrap">
+                            <div>
+                                {{ schedule.start_time|standard_date }} - {{ schedule.end_time|standard_date }}
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <a href="{% url 'reservations:teacher_edit' schedule.id %}" class="btn btn-sm bg-blue-600 text-white">編輯</a>
+                                <form method="POST" action="{% url 'reservations:teacher_delete' schedule.id %}" onsubmit="return confirm('確定要刪除嗎？')">
+                                    {% csrf_token %}
+                                    <button class="btn btn-sm bg-red-600 text-white">刪除</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </section>
 
     <style>
-        #calendar {
-            max-width: 1500px;
-            margin: 0 auto;
+        @media (max-width: 768px) {
+            .fc-list-week .fc-list-day-cushion {
+                font-size: 0.8em;
+            }
+            .fc-toolbar {
+                font-size: 0.8em;
+            }
+            .fc-toolbar-title {
+                font-size: 0.6em;
+            }
         }
-
-        .event-disabled {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .reserved-event {
-            opacity: 1;
-            background-color: #ccfbf1;
-        }
-
     </style>
 
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar/main.css' rel='stylesheet' />
@@ -72,18 +78,24 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const calendarEl = document.getElementById('calendar');
+            const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+            const initialView = isSmallScreen ? 'listWeek' : 'dayGridMonth';
+            const headerToolbar = isSmallScreen
+                ? { left: 'prev,next', center: 'title', right: 'today' }
+                : { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' };
+
             const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
+                initialView: initialView,
                 locale: 'zh-tw',
                 selectable: true,
                 editable: true,
                 dayMaxEvents: true,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                headerToolbar: headerToolbar,
+                events: '{% url "reservations:calendar_events" teacher.id %}',
+
+                windowResize: function(view) {
+                    adjustTitleFontSize();
                 },
-                events: '{% url "reservations:calendar_events" %}',
 
                 // 是否刪除事件
                 eventClick: async function(info) {
@@ -96,6 +108,7 @@
                             method: 'POST',
                             headers: {
                                 'X-CSRFToken': getCookie('csrftoken'),
+                                'X-Requested-With': 'XMLHttpRequest',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
                             body: 'id=' + info.event.id
@@ -180,15 +193,25 @@
                     const eventStart = info.event.start;
                     // 已經過去的時間，禁止拖動
                     if (eventStart < today) {
-                        info.el.classList.add('event-disabled');
+                        info.el.classList.add('opacity-50', 'pointer-events-none');
                     }
                     // 已經被預約的時間，禁止拖動
                     if (info.event.extendedProps.reserved) {
-                        info.el.classList.add('reserved-event');
+                        info.el.classList.add('opacity-100', 'bg-orange-9');
                     }
                 },
             });
             calendar.render();
+            adjustTitleFontSize();
+
+            function adjustTitleFontSize() {
+                const titleEl = document.querySelector('.fc-toolbar-title');
+                if (window.matchMedia("(max-width: 768px)").matches) {
+                    titleEl.style.fontSize = '1.2em';
+                } else {
+                    titleEl.style.fontSize = '2em';
+                }
+            }
         });
 
         function getCookie(name) {
