@@ -107,7 +107,6 @@ def show(request, id):
             teacher_info.labels.set(labels)
             teacher_info.save()
             form.save_m2m()
-
             teacher.user.nickname = unquote(nickname)
             teacher.user.save()
             messages.success(request, "更新成功")

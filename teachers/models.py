@@ -21,7 +21,7 @@ class Teacher(models.Model):
         if is_new:
             self.user.is_teacher = True
             self.user.save()
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.get_display_name()}"

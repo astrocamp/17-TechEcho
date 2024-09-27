@@ -10,12 +10,12 @@ autobahn==24.4.2 ; python_version >= "3.12" and python_version < "4.0" \
 automat==24.8.1 ; python_version >= "3.12" and python_version < "4.0" \
     --hash=sha256:b34227cf63f6325b8ad2399ede780675083e439b20c323d376373d8ee6306d88 \
     --hash=sha256:bf029a7bc3da1e2c24da2343e7598affaa9f10bf0ab63ff808566ce90551e02a
-boto3==1.35.26 ; python_version >= "3.12" and python_version < "4.0" \
-    --hash=sha256:b04087afd3570ba540fd293823c77270ec675672af23da9396bd5988a3f8128b \
-    --hash=sha256:c31db992655db233d98762612690cfe60723c9e1503b5709aad92c1c564877bb
-botocore==1.35.26 ; python_version >= "3.12" and python_version < "4.0" \
-    --hash=sha256:0b9dee5e4a3314e251e103585837506b17fcc7485c3c8adb61a9a913f46da1e7 \
-    --hash=sha256:19efc3a22c9df77960712b4e203f912486f8bcd3794bff0fd7b2a0f5f1d5712d
+boto3==1.35.28 ; python_version >= "3.12" and python_version < "4.0" \
+    --hash=sha256:8960fc458b9ba3c8a9890a607c31cee375db821f39aefaec9ff638248e81644a \
+    --hash=sha256:dc088b86a14f17d3cd2e96915c6ccfd31bce640dfe9180df579ed311bc6bf0fc
+botocore==1.35.28 ; python_version >= "3.12" and python_version < "4.0" \
+    --hash=sha256:115d13f2172d8e9fa92e8d913f0e80092b97624d190f46772ed2930d4a355d55 \
+    --hash=sha256:b66c78f3d6379bd16f0362f07168fa7699cdda3921fc880047192d96f2c8c527
 certifi==2024.8.30 ; python_version >= "3.12" and python_version < "4.0" \
     --hash=sha256:922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8 \
     --hash=sha256:bec941d2aa8195e248a60b31ff9f0558284cf01a52591ceda73ea9afffd69fd9

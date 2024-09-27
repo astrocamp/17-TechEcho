@@ -10,8 +10,7 @@
         <div class="grid gap-4">
             <p class="text-lg">使用者：</p>
             <p class="text-lg">{{ request.user.username }}</p>
-            <label for="nickname" class="font-bold text-red-6">可以自訂暱稱：
-            </label>
+            <label for="nickname" class="font-bold text-red-6">可以自訂暱稱：</label>
             <input class="w-full p-2 border rounded-lg border-blue-2 input-bordered indent-2" required type="text" name="nickname" value="{{ user.get_display_name }}">
             {{ form.user.errors }}
             {% include "teachers/partials/_labels.html" with teacher=teacher only %}

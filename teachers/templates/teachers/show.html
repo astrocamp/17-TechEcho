@@ -9,11 +9,7 @@
 <div class="relative flex flex-col w-full max-w-5xl p-6 mx-auto mb-6 space-y-4 border rounded-lg shadow-lg bg-gray-50">
     <div class="flex items-center w-full p-2 m-2">
         <div class="flex justify-center w-1/3">
-            {% if teacher.user.profile_picture %}
-                <img src="{{ teacher.user.profile_picture.url }}" alt="Profile Picture" class="object-cover w-40 h-40 rounded-full shadow-md">
-            {% else %}
-                <img src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar" alt="User Avatar" class="object-cover w-40 h-40 rounded-full shadow-md" />
-            {% endif %}
+            {% include "teachers/partials/_picture.html" with user=teacher.user size="32" margin="4" %}
         </div>
 
         <div class="flex flex-col w-1/2 h-40">

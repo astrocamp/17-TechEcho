@@ -34,13 +34,7 @@
                     class="block w-full max-w-full p-4 mb-4 duration-300 border-2 rounded-lg shadow-md border-orange-8 hover:bg-gray-200">
                     <div class="flex justify-around w-full max-w-full p-4 mb-4 border-2 rounded-lg shadow-md border-orange-9">
                         <div class="flex items-center justify-center w-1/3 max-w-full">
-                            {% if teacher.user.profile_picture %}
-                                <img src="{{ teacher.user.profile_picture.url }}" alt="Profile Picture"
-                                     class="object-cover w-32 h-32 rounded-full aspect-square">
-                            {% else %}
-                                <img src="https://fakeimg.pl/240x240/282828/eae0d0/?text=User+Avatar" alt="User Avatar"
-                                     class="object-cover w-32 h-32 rounded-full aspect-square">
-                            {% endif %}
+                            {% include "teachers/partials/_picture.html" with user=teacher.user size="32" margin="4" %}
                         </div>
                         <div class="flex flex-col justify-around w-2/3 max-w-full ml-4">
                             <h3 class="text-2xl font-semibold leading-normal text-center text-orange-8">{{ teacher.user.get_display_name }}</h3>
