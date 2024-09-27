@@ -18,7 +18,7 @@ class BlogForm(forms.ModelForm):
             "content": "內容",
             "labels": "標籤",
             "is_draft": "儲存為草稿",
-            "image": "圖片",
+            "image": "封面圖片",
         }
         widgets = {
             "title": forms.TextInput(
