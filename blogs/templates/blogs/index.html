@@ -2,22 +2,22 @@
 {% load home static %}
 {% block content %}
 <div class="max-w-4xl p-6 mx-auto">
-    <div class="flex items-center justify-between p-1">
-        <h1 class="text-3xl font-bold sm:text-5xl text-blue-2">文章列表</h1>
+    <div class="flex flex-col sm:flex-row items-center justify-between p-1"> <!-- Adjusted for responsive layout -->
+        <h1 class="text-3xl font-bold sm:text-5xl text-blue-2 mb-4 sm:mb-0">文章列表</h1> <!-- Added margin for spacing on small screens -->
         <a href="{% url 'blogs:new' %}" class="px-4 py-2 text-white bg-blue-500 rounded">新增文章</a>
     </div>
 
     <ul class="space-y-4">
         {% for blog in blogs %}
-            <li class="p-4 mb-4 border-2 rounded-lg shadow-md border-blue-2 flex items-center bg-white">
+            <li class="p-4 mb-4 border-2 rounded-lg shadow-md border-blue-2 flex flex-col sm:flex-row items-center bg-white"> <!-- Adjusted for responsive layout -->
                 {% if blog.image and blog.image.name %}
-                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-32 h-32 object-cover rounded-lg mr-4">
+                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full sm:w-32 h-32 object-cover rounded-lg mb-4 sm:mb-0 mr-0 sm:mr-4"> <!-- Adjusted width for mobile -->
                 {% else %}
-                    <img src="{% static 'images/techecho.png' %}" alt="techecho-logo" class="w-32 h-32 object-cover rounded-lg mr-4">
+                    <img src="{% static 'images/techecho.png' %}" alt="techecho-logo" class="w-full sm:w-32 h-32 object-cover rounded-lg mb-4 sm:mb-0 mr-0 sm:mr-4"> <!-- Adjusted width for mobile -->
                 {% endif %}
-                <div class="flex-1 overflow-hidden"> <!-- Added overflow-hidden class -->
-                    <div class="flex items-center justify-between">
-                        <div class="max-w-full"> <!-- Added max-w-full class -->
+                <div class="flex-1 overflow-hidden w-full"> <!-- Ensured full width on small screens -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                        <div class="max-w-full mb-4 sm:mb-0"> <!-- Added margin for small screens -->
                             <a href="{% url 'blogs:show' blog.pk %}" class="text-xl sm:text-2xl font-bold underline truncate block">{{ blog.title|striptags|truncatechars:20 }}</a>
                             <p class="text-sm text-gray-600">標籤:
                                 {% for label in blog.labels.all %}
@@ -27,7 +27,7 @@
                             <p class="text-sm text-gray-600">發佈時間: {{ blog.created_at|date:"Y-m-d H:i" }}</p>
                             <p class="text-sm text-gray-600">作者: {{ blog.author.get_display_name }}</p>
                         </div>
-                        <div class="text-right">
+                        <div class="text-right w-full sm:w-auto"> <!-- Adjusted text alignment for mobile -->
                             <p class="text-sm text-gray-600">瀏覽: {{ blog.views }}</p>
                         </div>
                     </div>
