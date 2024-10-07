@@ -1,32 +1,134 @@
 # TechEcho
 
+<img src="./static/images/首頁.png" alt="TechEcho Upload" width="100%"/>
+<br>
 TechoEcho 是專為軟體開發者設計的技術交流平台，除了提供問答與知識分享，還能預約專家進行深入諮詢，並鼓勵專家與學習者發表技術文章，促進社群成長與技術交流
 
-找飯店？ Trivago <br>
-找答案？ TechEcho <br>
-專案網址：https://www.tech-echo.dev <br>
-介紹影片：https://www.youtube.com/watch?v=NSOQoZuHBFk
+<h4 align="center">
+<p>找飯店？ Trivago </p>
+<p> 找答案？ TechEcho</p>
+</h4>
+<p align="center">
+  <a href="https://www.tech-echo.dev/" target="_blank">專案網址</a>
+  <a href="https://www.youtube.com/watch?v=NSOQoZuHBFk" target="_blank">介紹影片</a>
+  <a href="" target="_blank">介紹簡報</a>
+</p>
 
 ## 功能說明
 
-**1. 註冊登入：** 進入 TechEcho ，若要發問、留言、發表技術文章請點擊註冊按鈕並登入。
-![home](./static/images/首頁.png)
+### 1. 註冊登入：
+
+進入 TechEcho ，若要發問、留言、發表技術文章請點擊註冊按鈕並登入。 <br>
+<img src="./static/images/登入頁面.png" alt="TechEcho Upload" width="50%" />
 <br>
-**2. 搜尋功能：** 搜尋關鍵字，可找出想要的問題、專家、部落格文章。
-![search](./static/images/搜尋.png)
+
+#### 註冊與登入功能
+
+- 第三方平台登入 (GitHub, Google)
+- 註冊後自動登入
+- 登入後跳轉到原來畫面
+
+#### 2. 搜尋疑問：
+
+搜尋關鍵字，可找出想要的問題、專家、部落格文章。 <br>
+<img src="./static/images/搜尋.png" alt="TechEcho Upload" width="50%"/>
 <br>
-**3. 問題列表：** 可以看到使用者在網站上提出的所有問題。
-![問題列表](./static/images/問題列表.png)
+
+##### 搜尋功能
+
+- 搜尋關鍵字
+- 標籤篩選
+- 即時結果顯示
+
+#### 3. 提問互動：
+
+可以看到所有提出的問題，與提出個人疑問
 <br>
-**4. 成為專家：** 成為專家可以與學生一對一的教學互動，有自己的聊天室以及共編。
-以及可以排定自己的上課行程。
-![專家日曆](./static/images/專家日曆.png)
+<img src="./static/images/問題列表.png" alt="TechEcho Upload" width="50%"/>
 <br>
-**5. 成為 Premium 用戶：** 升級成 Premium 用戶可以預約專家，進行更深入的討論。
-![chat](./static/images/聊天室.png)
+
+##### 問題及留言功能：
+
+- 支援 Markdown 語法
+- 可預覽畫面
+- 一鍵導引至作者個人頁面
+
+#### 4. 成為專家：
+
+成為專家可以與學生一對一的教學互動，以及可以排定自己的上課行程。
 <br>
-**6. 部落格：** 發表技術文章。
-![Blog](./static/images/文章列表.png)
+<img src="./static/images/專家日曆.png" alt="TechEcho Upload" width="50%"/>
+<br>
+
+##### 預約功能：
+
+- 利用月曆工具拖拉更改上課的時段
+- 刪除上課的時間
+- 已被預約會顯示聊天室
+
+##### 專家功能：
+
+- 顯示專家提過的問題與解答過的問題
+- 可根據專業篩選專家
+- 編輯專家檔案
+
+#### 5. 成為 Premium 用戶：
+
+升級成 Premium 用戶可以預約專家，利用聊天室以及共編與專家進行更深入的討論。
+
+<br>
+<img src="./static/images/聊天室.png" alt="TechEcho Upload" width="50%"/>
+<br>
+
+##### 聊天室功能：
+
+- 即時溝通
+- 上線提醒
+- 延遲載入
+- 限制人數
+
+##### 共同編輯器：
+
+- 即時共同編輯
+- 支援 Javascript 與 Python 直譯
+- 自定義背景與文字大小
+
+##### 金流功能：
+
+- 支援綠界支付與 LINE pay
+- 安全的支付系統
+
+#### 6. 技術分享：
+
+可至部落格頁面發表技術文章。
+<br>
+<img src="./static/images/文章列表.png" alt="TechEcho Upload" width="50%"/>
+<br>
+
+##### 部落格功能
+
+- 支援 Markdown 語法
+- 可放封面照片
+- 儲存草稿
+
+#### 7. 檢視個人足跡
+
+登入的使用者可點選大頭貼至個人簡介，檢視個人通知、預約、提問過和回答過的問題、發過的技術文章與儲存的文章草稿。
+<br>
+<img src="./static/images/會員頁面.png" alt="TechEcho Upload" width="50%"/>
+<br>
+
+##### 會員功能
+
+- 編輯暱稱及個人頭像
+- 顯示過往的所有紀錄
+- 顯示個人的預約時間
+- 公開的個人頁面
+
+##### 通知功能
+
+- 即時通知
+- 直接導引至相關問題
 
 ## 使用技術
 
