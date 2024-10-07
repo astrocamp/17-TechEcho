@@ -11,7 +11,7 @@ TechoEcho 是專為軟體開發者設計的技術交流平台，除了提供問�
 <p align="center">
   <a href="https://www.tech-echo.dev/" target="_blank">專案網址</a>
   <a href="https://www.youtube.com/watch?v=NSOQoZuHBFk" target="_blank">介紹影片</a>
-  <a href="" target="_blank">介紹簡報</a>
+  <a href="https://drive.google.com/file/d/1QIZvKJ1NbB0K-bkc4kffivPBkprE70hH/view" target="_blank">介紹簡報</a>
 </p>
 
 ## 功能說明
