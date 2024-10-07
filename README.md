@@ -65,7 +65,7 @@ TechoEcho 是專為軟體開發者設計的技術交流平台，除了提供問�
 - 利用月曆工具拖拉更改上課的時段
 - 刪除上課的時間
 - 已被預約會顯示聊天室
-
+![image](https://github.com/sabina726/17th-TechEcho/blob/dev/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88%20(4).gif)
 ##### 專家功能：
 
 - 顯示專家提過的問題與解答過的問題
@@ -92,6 +92,8 @@ TechoEcho 是專為軟體開發者設計的技術交流平台，除了提供問�
 - 即時共同編輯
 - 支援 Javascript 與 Python 直譯
 - 自定義背景與文字大小
+
+![image](https://github.com/sabina726/17th-TechEcho/blob/dev/%E6%9C%AA%E5%91%BD%E5%90%8D%E8%A8%AD%E8%A8%88%20(5).gif)
 
 ##### 金流功能：
 
